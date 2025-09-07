@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useState } from 'react';
+import Link from 'next/link';
 import { 
   Star, 
   Trophy, 
@@ -176,14 +177,17 @@ export default function Chapters() {
 
         {/* Active Worlds */}
         <div className="space-y-6 mb-8">
-          {activeWorlds.map((world, index) => (
-            <motion.div
-              key={world.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
-            >
-              <Card className={`${world.bgColor} border-0 shadow-xl overflow-hidden`}>
+          {activeWorlds.map((world, index) => {
+            // Determine the link for each world
+            let worldLink = '';
+            if (world.title === 'Science World') {
+              worldLink = '/chapters/science-world';
+            } else if (world.title === 'Math World') {
+              worldLink = '/chapters/math-world';
+            }
+
+            const cardContent = (
+              <Card className={`${world.bgColor} border-0 shadow-xl overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-300`}>
                 <CardContent className="p-6 relative">
                   {/* Background Gradient */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${world.bgGradient} opacity-90`} />
@@ -257,8 +261,25 @@ export default function Chapters() {
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
-          ))}
+            );
+
+            return (
+              <motion.div
+                key={world.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
+              >
+                {worldLink ? (
+                  <Link href={worldLink} className="block">
+                    {cardContent}
+                  </Link>
+                ) : (
+                  cardContent
+                )}
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* Continue Journey Button */}

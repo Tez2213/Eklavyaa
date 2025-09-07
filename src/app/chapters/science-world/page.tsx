@@ -120,48 +120,29 @@ export default function ScienceWorld() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-900 via-purple-900 to-indigo-800 relative overflow-hidden">
-      {/* Animated Stars Background */}
+      {/* Static Stars Background */}
       <div className="absolute inset-0">
-        {[...Array(50)].map((_, i) => (
-          <motion.div
+        {[...Array(30)].map((_, i) => (
+          <div
             key={i}
-            className="absolute w-1 h-1 bg-white rounded-full"
+            className="absolute w-1 h-1 bg-white rounded-full opacity-70"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              opacity: [0.2, 1, 0.2],
-              scale: [0.5, 1.2, 0.5],
-            }}
-            transition={{
-              duration: 2 + Math.random() * 3,
-              repeat: Infinity,
-              delay: Math.random() * 2,
             }}
           />
         ))}
       </div>
 
-      {/* Floating Asteroids */}
+      {/* Static Asteroids */}
       <div className="absolute inset-0 pointer-events-none">
-        {[...Array(8)].map((_, i) => (
-          <motion.div
+        {[...Array(5)].map((_, i) => (
+          <div
             key={i}
             className="absolute w-2 h-2 bg-gray-500 rounded-full opacity-30"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              x: [0, 30, -20, 0],
-              y: [0, -40, 20, 0],
-              rotate: 360,
-            }}
-            transition={{
-              duration: 15 + Math.random() * 10,
-              repeat: Infinity,
-              ease: "linear",
             }}
           />
         ))}
@@ -186,12 +167,9 @@ export default function ScienceWorld() {
                 <ArrowLeft className="w-5 h-5" />
               </Button>
               <div className="flex items-center space-x-2">
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                >
+                <div>
                   <Rocket className="w-6 h-6 text-[#ffce3b]" />
-                </motion.div>
+                </div>
                 <div>
                   <h1 className="text-xl font-bold text-white">SCIENCE WORLD</h1>
                   <p className="text-sm text-white/70">COSMIC ADVENTURE</p>
@@ -213,7 +191,7 @@ export default function ScienceWorld() {
       {/* Scrollable Content */}
       <div className="pt-20 pb-24 relative">
         <div className="relative h-[120vh] w-full px-4 sm:px-6">
-          {/* Dotted Path connecting chapters */}
+          {/* Static Path connecting chapters */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-30">
             <defs>
               <linearGradient id="pathGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -233,7 +211,7 @@ export default function ScienceWorld() {
               const endY = parseFloat(nextChapter.position.top);
               
               return (
-                <motion.path
+                <path
                   key={index}
                   d={`M ${startX}% ${startY}% Q ${(startX + endX) / 2 + (index % 2 === 0 ? 15 : -15)}% ${(startY + endY) / 2}% ${endX}% ${endY}%`}
                   stroke="url(#pathGradient)"
@@ -241,9 +219,6 @@ export default function ScienceWorld() {
                   fill="none"
                   strokeDasharray="8,8"
                   className="drop-shadow-lg"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 1 }}
-                  transition={{ duration: 2, delay: index * 0.3 }}
                 />
               );
             })}
@@ -315,43 +290,17 @@ export default function ScienceWorld() {
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ 
-                duration: 0.8, 
-                delay: index * 0.15,
-                type: "spring",
-                stiffness: 100
+                duration: 0.5, 
+                delay: index * 0.1
               }}
             >
-              <motion.div
-                className="relative cursor-pointer"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
+              <div
+                className="relative cursor-pointer hover:scale-110 transition-transform duration-200"
                 onClick={() => handleChapterClick(chapter)}
-                animate={
-                  chapter.isUnlocked 
-                    ? { 
-                        y: [0, -8, 0],
-                        rotate: [0, 2, -2, 0]
-                      } 
-                    : {}
-                }
-                transition={{ 
-                  duration: 3 + index * 0.2, 
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
               >
-                {/* Planet Glow Effect */}
-                <motion.div
-                  className={`absolute inset-0 ${chapter.planetColor} rounded-full blur-xl opacity-40 scale-150`}
-                  animate={{ 
-                    opacity: chapter.isUnlocked ? [0.2, 0.6, 0.2] : [0.1, 0.2, 0.1],
-                    scale: [1.3, 1.6, 1.3]
-                  }}
-                  transition={{ 
-                    duration: 2, 
-                    repeat: Infinity,
-                    delay: index * 0.3
-                  }}
+                {/* Planet Glow Effect - Static */}
+                <div
+                  className={`absolute inset-0 ${chapter.planetColor} rounded-full blur-xl opacity-30 scale-150`}
                 />
 
                 {/* Planet Body */}
@@ -393,7 +342,7 @@ export default function ScienceWorld() {
                         strokeWidth="3"
                         fill="none"
                       />
-                      <motion.circle
+                      <circle
                         cx="50%"
                         cy="50%"
                         r="38"
@@ -403,21 +352,14 @@ export default function ScienceWorld() {
                         strokeLinecap="round"
                         strokeDasharray={`${2 * Math.PI * 38}`}
                         strokeDashoffset={`${2 * Math.PI * 38 * (1 - chapter.progress / 100)}`}
-                        initial={{ strokeDashoffset: 2 * Math.PI * 38 }}
-                        animate={{ strokeDashoffset: 2 * Math.PI * 38 * (1 - chapter.progress / 100) }}
-                        transition={{ duration: 1.5, delay: index * 0.2 }}
+                        style={{ transition: 'stroke-dashoffset 0.5s ease-in-out' }}
                       />
                     </svg>
                   )}
                 </div>
 
                 {/* Chapter Info Card */}
-                <motion.div
-                  className="absolute top-24 sm:top-28 left-1/2 transform -translate-x-1/2 z-10"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 + 0.5 }}
-                >
+                <div className="absolute top-24 sm:top-28 left-1/2 transform -translate-x-1/2 z-10">
                   <Card className="bg-black/90 backdrop-blur-md border-white/30 shadow-2xl">
                     <CardContent className="p-4 text-center min-w-[140px] sm:min-w-[160px]">
                       <h3 className="text-white font-bold text-sm sm:text-base">{chapter.title}</h3>
@@ -444,11 +386,9 @@ export default function ScienceWorld() {
                       {chapter.isUnlocked && chapter.progress > 0 && (
                         <div className="mt-3">
                           <div className="w-full bg-gray-700 rounded-full h-2">
-                            <motion.div 
-                              className="bg-[#ffce3b] h-2 rounded-full" 
-                              initial={{ width: 0 }}
-                              animate={{ width: `${chapter.progress}%` }}
-                              transition={{ duration: 1, delay: index * 0.2 }}
+                            <div 
+                              className="bg-[#ffce3b] h-2 rounded-full transition-all duration-500" 
+                              style={{ width: `${chapter.progress}%` }}
                             />
                           </div>
                           <p className="text-white/70 text-xs mt-1">{chapter.progress}% Complete</p>
@@ -457,11 +397,7 @@ export default function ScienceWorld() {
 
                       {/* Play Button for unlocked chapters */}
                       {chapter.isUnlocked && chapter.gameUrl && (
-                        <motion.div
-                          className="mt-3"
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                        >
+                        <div className="mt-3">
                           <Button 
                             size="sm" 
                             className="bg-[#ffce3b] text-black hover:bg-[#ffd700] text-xs sm:text-sm font-bold px-4 py-2 w-full"
@@ -473,7 +409,7 @@ export default function ScienceWorld() {
                             <Play className="w-3 h-3 mr-2" />
                             Play Game
                           </Button>
-                        </motion.div>
+                        </div>
                       )}
 
                       {/* Coming Soon for locked chapters */}
@@ -486,83 +422,22 @@ export default function ScienceWorld() {
                       )}
                     </CardContent>
                   </Card>
-                </motion.div>
+                </div>
 
                 {/* Special Effects for unlocked chapters */}
                 {chapter.isUnlocked && (
                   <>
-                    {/* Orbiting particles */}
-                    {[...Array(4)].map((_, particleIndex) => (
-                      <motion.div
-                        key={particleIndex}
-                        className="absolute w-1.5 h-1.5 bg-[#ffce3b] rounded-full"
-                        style={{
-                          top: "50%",
-                          left: "50%",
-                        }}
-                        animate={{
-                          x: [0, 50 * Math.cos(particleIndex * 1.57)],
-                          y: [0, 50 * Math.sin(particleIndex * 1.57)],
-                          rotate: 360,
-                          opacity: [0.3, 1, 0.3],
-                        }}
-                        transition={{
-                          duration: 5 + particleIndex * 0.5,
-                          repeat: Infinity,
-                          ease: "linear",
-                        }}
-                      />
-                    ))}
-
                     {/* Crown for completed chapters */}
                     {chapter.progress === 100 && (
-                      <motion.div
+                      <div
                         className="absolute -top-3 -right-3 z-20"
-                        animate={{ 
-                          rotate: [0, 15, -15, 0],
-                          scale: [1, 1.2, 1]
-                        }}
-                        transition={{ 
-                          duration: 3, 
-                          repeat: Infinity 
-                        }}
                       >
                         <Crown className="w-8 h-8 text-[#ffce3b] drop-shadow-xl" />
-                      </motion.div>
+                      </div>
                     )}
-
-                    {/* Pulsing ring effect */}
-                    <motion.div
-                      className="absolute inset-0 rounded-full border-2 border-[#ffce3b]/30"
-                      animate={{
-                        scale: [1, 1.8, 1],
-                        opacity: [0.5, 0, 0.5],
-                      }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        delay: index * 0.3,
-                      }}
-                    />
                   </>
                 )}
-
-                {/* Locked planet effects */}
-                {!chapter.isUnlocked && (
-                  <motion.div
-                    className="absolute inset-0 rounded-full border-2 border-gray-500/20"
-                    animate={{
-                      scale: [1, 1.1, 1],
-                      opacity: [0.2, 0.5, 0.2],
-                    }}
-                    transition={{
-                      duration: 4,
-                      repeat: Infinity,
-                      delay: index * 0.5,
-                    }}
-                  />
-                )}
-              </motion.div>
+              </div>
             </motion.div>
           ))}
         </div>
