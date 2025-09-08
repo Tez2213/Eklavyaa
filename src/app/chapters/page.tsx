@@ -183,7 +183,7 @@ export default function Chapters() {
             if (world.title === 'Science World') {
               worldLink = '/chapters/science-world';
             } else if (world.title === 'Math World') {
-              worldLink = '/chapters/math-world';
+              worldLink = '/chapters/maths-world';
             }
 
             const cardContent = (
