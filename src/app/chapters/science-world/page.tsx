@@ -284,16 +284,6 @@ export default function ScienceWorld() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <div className="bg-white/90 backdrop-blur-md rounded-2xl p-6 border border-yellow-200 shadow-lg">
-              <div className="text-4xl mb-2">🔬</div>
-              <h2 className="text-xl font-bold text-yellow-800 mb-2">Amazing Science Explorer!</h2>
-              <p className="text-yellow-700">Keep playing to unlock new scientific adventures and explore the wonders of our universe!</p>
-              <div className="mt-4">
-                <Badge className="bg-yellow-300 text-white px-4 py-2 rounded-full shadow-md">
-                  🧪 Science Wizard!
-                </Badge>
-              </div>
-            </div>
           </motion.div>
         </div>
       </div>

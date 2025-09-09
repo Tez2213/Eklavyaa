@@ -82,7 +82,7 @@ export default function Dashboard() {
                 className="bg-yellow-100 text-yellow-800 border-yellow-200 px-3 py-1 cursor-pointer"
                 onClick={() => setShowStarPopup(true)}
               >
-                3 🔥
+                🔥 3
               </Badge>
             </motion.div>
               

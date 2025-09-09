@@ -278,25 +278,6 @@ export default function MathWorld() {
               </motion.div>
             ))}
           </div>
-
-          {/* Encouragement Message */}
-          <motion.div
-            className="mt-8 text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <div className="bg-white/90 backdrop-blur-md rounded-2xl p-6 border border-yellow-200 shadow-lg">
-              <div className="text-4xl mb-2">📚</div>
-              <h2 className="text-xl font-bold text-yellow-800 mb-2">Amazing Math Explorer!</h2>
-              <p className="text-yellow-700">Keep solving puzzles to unlock new mathematical adventures and discover the beauty of numbers!</p>
-              <div className="mt-4">
-                <Badge className="bg-yellow-300 hover:cursor-pointer text-white px-4 py-2 rounded-full shadow-md">
-                  🧮 Math Wizard!
-                </Badge>
-              </div>
-            </div>
-          </motion.div>
         </div>
       </div>
     </div>
