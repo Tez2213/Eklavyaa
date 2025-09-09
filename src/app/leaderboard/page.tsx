@@ -1,5 +1,5 @@
 'use client';
-
+import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -37,29 +37,29 @@ export default function Leaderboard() {
   const topThree = [
     {
       id: 1,
-      name: "Alex Chen",
-      username: "alexc2024",
+      name: "sara",
+      username: "sara324",
       position: 1,
-      points: 3000,
-      avatar: getRandomAvatar("alex"),
+      points: 5000,
+      avatar: getRandomAvatar("sara"),
       badge: "diamond"
     },
     {
       id: 2,
-      name: "Sarah Kim",
-      username: "sarahk_smart",
+      name: "Ananaya",
+      username: "Ananya_457",
       position: 2,
-      points: 1847,
-      avatar: getRandomAvatar("sarah"),
+      points: 4847,
+      avatar: getRandomAvatar("Ananya"),
       badge: "diamond"
     },
     {
       id: 3,
-      name: "Mike Johnson",
-      username: "mike_genius",
+      name: "Dhruv",
+      username: "dhruv_genius",
       position: 3,
-      points: 1147,
-      avatar: getRandomAvatar("mike"),
+      points: 4147,
+      avatar: getRandomAvatar("dhruv"),
       badge: "diamond"
     }
   ];
@@ -67,47 +67,65 @@ export default function Leaderboard() {
   const otherPlayers = [
     {
       id: 4,
-      name: "Emma Wilson",
-      username: "emma_w_2024",
+      name: "Ishan",
+      username: "Ishan_w_2024",
       position: 4,
-      points: 500,
-      avatar: getRandomAvatar("emma"),
+      points: 3900,
+      avatar: getRandomAvatar("Ishan"),
       badge: "ruby"
     },
     {
       id: 5,
-      name: "David Brown",
-      username: "david_scholar",
+      name: "Aditi",
+      username: "Aditi_333",
       position: 5,
-      points: 300,
-      avatar: getRandomAvatar("david"),
+      points: 3850,
+      avatar: getRandomAvatar("Aditi"),
       badge: "ruby"
     },
     {
       id: 6,
-      name: "Lisa Garcia",
-      username: "lisa_learns",
+      name: "Sumit",
+      username: "sumit_900",
       position: 6,
-      points: 120,
-      avatar: getRandomAvatar("lisa"),
+      points: 3720,
+      avatar: getRandomAvatar("Sumit"),
       badge: "sapphire"
     },
     {
       id: 7,
-      name: "Tom Miller",
-      username: "tom_studies",
+      name: "Devojit",
+      username: "Dev_ojit",
       position: 7,
-      points: 110,
-      avatar: getRandomAvatar("tom"),
+      points: 3610,
+      avatar: getRandomAvatar("Devojit"),
       badge: "sapphire"
     },
     {
       id: 8,
-      name: "Amy Davis",
-      username: "amy_bright",
+      name: "Yash",
+      username: "Yash_2323",
       position: 8,
-      points: 105,
-      avatar: getRandomAvatar("amy"),
+      points: 3605,
+      avatar: getRandomAvatar("Yash"),
+      badge: "sapphire"
+    },
+    {
+      id: 9,
+      name: "Rohan",
+      username: "Rohan302",
+      position: 9,
+      points: 3555,
+      avatar: getRandomAvatar("Rohan"),
+      badge: "sapphire"
+    },
+    {
+      id: 10,
+      name: "Abhi",
+      username: "Abhi223",
+      position: 10,
+      points: 3500,
+      avatar: getRandomAvatar("Abhi"),
       badge: "sapphire"
     }
   ];
@@ -161,7 +179,7 @@ export default function Leaderboard() {
             <div className="flex items-center space-x-3">
               <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 px-3 py-1">
                 <Star className="w-3 h-3 mr-1 fill-yellow-500 text-yellow-500" />
-                7
+                3
               </Badge>
               <Badge className="bg-[#ffce3b] text-white px-3 py-1">
                 <Trophy className="w-3 h-3 mr-1" />
@@ -169,7 +187,7 @@ export default function Leaderboard() {
               </Badge>
               <Avatar className="w-8 h-8 bg-[#ffce3b]">
                 <AvatarFallback className="bg-[#ffce3b] text-white font-semibold text-sm">
-                  A
+                    <img src={'https://avatar.iran.liara.run/public/8'} />
                 </AvatarFallback>
               </Avatar>
             </div>
@@ -243,10 +261,10 @@ export default function Leaderboard() {
       </div>
 
       {/* Scrollable Rankings */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-2">
+      <div className="flex-1 overflow-y-auto px-4 py-4 pb-[100px] space-y-2">
         {otherPlayers.map((player, index) => (
-          <Card key={player.id} className="bg-[#ffce3b] border-0 shadow-lg">
-            <CardContent className="p-4">
+          <Card key={player.id} className="bg-gradient-to-r from-yellow-200 to-yellow-300 border-0 shadow-lg">
+            <CardContent className="p-0">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <div className="text-black font-bold text-lg w-6">
@@ -274,9 +292,14 @@ export default function Leaderboard() {
       </div>
 
       {/* Current User Position - Fixed at Bottom */}
-      <div className="sticky bottom-[73px] bg-gray-50/95 backdrop-blur-md border-t border-gray-200/50 z-40 p-4">
+      <motion.div
+       className="fixed bottom-18 left-0 right-0  bg-gray-50/95 backdrop-blur-md border-t border-gray-200/50 z-40 p-4"
+       initial={{ opacity: 0, y: 100 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.8 }}
+      >
         <Card className="bg-white border border-[#ffce3b] shadow-xl">
-          <CardContent className="p-4">
+          <CardContent className="p-1">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <div className="text-[#ffce3b] font-bold text-lg">
@@ -289,18 +312,18 @@ export default function Leaderboard() {
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="text-gray-900 font-semibold text-sm">Tôi</p>
+                  <p className="text-gray-900 font-semibold text-sm">Arjun</p>
                   <p className="text-gray-500 text-xs">That's you!</p>
                 </div>
               </div>
               <div className="flex items-center space-x-2">
-                <span className="text-[#ffce3b] font-bold">50</span>
+                <span className="text-[#ffce3b] font-bold">2450</span>
                 <Coins className="w-4 h-4 text-[#ffce3b]" />
               </div>
             </div>
           </CardContent>
         </Card>
-      </div>
+      </motion.div>
 
       {/* Class Selection Modal */}
       {showClassSelector && (
@@ -351,45 +374,68 @@ export default function Leaderboard() {
       )}
 
       {/* Fixed Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-md px-4 py-3 border-t border-gray-800 z-50">
+      <motion.div
+        className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-md px-4 py-3 border-t border-gray-800 z-50"
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.8 }}
+      >
         <div className="flex items-center justify-around max-w-md mx-auto">
-          <div className="flex flex-col items-center space-y-1">
+          <motion.div
+            className="flex flex-col items-center space-y-1"
+            whileTap={{ scale: 0.95 }}
+          >
             <Home className="w-5 h-5 text-gray-400" />
             <a href="/dashboard" className="text-gray-400 text-xs hover:text-[#ffce3b] transition-colors">
               Dashboard
             </a>
-          </div>
+          </motion.div>
           
-          <div className="flex flex-col items-center space-y-1">
-            <BookOpen className="w-5 h-5 text-gray-400" />
-            <a href="/chapters" className="text-gray-400 text-xs hover:text-[#ffce3b] transition-colors">
-              Chapters
-            </a>
-          </div>
+          <motion.div
+            className="flex flex-col items-center space-y-1"
+            whileTap={{ scale: 0.95 }}
+          >
+            <BookOpen className="w-5 h-5 text-[#ffce3b]" />
+            <span className="text-[#ffce3b] text-xs font-medium">Chapters</span>
+          </motion.div>
           
-          <button
+          <motion.button
             className="w-12 h-12 bg-[#ffce3b] rounded-full flex items-center justify-center relative"
+            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.1 }}
             onClick={() => setShowClassSelector(true)}
           >
             <span className="text-white font-bold text-lg">{selectedClass}</span>
-            <div className="absolute -top-1 -right-1 w-4 h-4 bg-white rounded-full flex items-center justify-center">
+            <motion.div
+              className="absolute -top-1 -right-1 w-4 h-4 bg-white rounded-full flex items-center justify-center"
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
               <span className="text-[#ffce3b] text-xs font-bold">•</span>
-            </div>
-          </button>
+            </motion.div>
+          </motion.button>
           
-          <div className="flex flex-col items-center space-y-1">
-            <Award className="w-5 h-5 text-[#ffce3b]" />
-            <span className="text-[#ffce3b] text-xs font-medium">Leaderboard</span>
-          </div>
-          
-          <div className="flex flex-col items-center space-y-1">
-            <User className="w-5 h-5 text-gray-400" />
-            <a href="/profile" className="text-gray-400 text-xs hover:text-[#ffce3b] transition-colors">
-              Profile
+          <motion.div
+            className="flex flex-col items-center space-y-1"
+            whileTap={{ scale: 0.95 }}
+          >
+            <a href="/leaderboard">
+              <Award className="w-5 h-5 text-gray-400" />
+              <span className="text-gray-400 text-xs">Leaderboard</span>
             </a>
-          </div>
+          </motion.div>
+          
+          <motion.div
+            className="flex flex-col items-center space-y-1"
+            whileTap={{ scale: 0.95 }}
+          >
+            <a href='/profile'>
+              <User className="w-5 h-5 text-gray-400" />
+              <span className="text-gray-400 text-xs">Profile</span>
+            </a>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

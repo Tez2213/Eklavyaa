@@ -1,5 +1,5 @@
 'use client';
-
+import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -48,13 +48,13 @@ export default function Profile() {
 
   // User data
   const userData = {
-    name: "Tejas Kumar",
-    username: "tejas_learner",
-    email: "tejas@eklavyaa.com",
+    name: "Abhay Kumar",
+    username: "Abhay_learner",
+    email: "abhay@eklavyaa.com",
     phone: "+91 98765 43210",
     location: "Mumbai, India",
     joinedDate: "March 2024",
-    avatar: getRandomAvatar(),
+    avatar: "https://avatar.iran.liara.run/public/8",
     level: 15,
     totalPoints: 2450,
     streak: 7,
@@ -170,7 +170,7 @@ export default function Profile() {
             <div className="flex items-center space-x-3">
               <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 px-3 py-1">
                 <Star className="w-3 h-3 mr-1 fill-yellow-500 text-yellow-500" />
-                7
+                3
               </Badge>
               <Badge className="bg-[#ffce3b] text-white px-3 py-1">
                 <Trophy className="w-3 h-3 mr-1" />
@@ -178,7 +178,7 @@ export default function Profile() {
               </Badge>
               <Avatar className="w-8 h-8 bg-[#ffce3b]">
                 <AvatarFallback className="bg-[#ffce3b] text-white font-semibold text-sm">
-                  A
+                  <img src={'https://avatar.iran.liara.run/public/8'} />
                 </AvatarFallback>
               </Avatar>
             </div>
@@ -401,22 +401,6 @@ export default function Profile() {
             ))}
           </div>
         )}
-
-        {/* Action Buttons */}
-        <div className="space-y-3">
-          <Button className="w-full bg-[#ffce3b] hover:bg-[#ffde00] text-white py-3 rounded-xl font-bold">
-            <Edit className="w-4 h-4 mr-2" />
-            Edit Profile
-          </Button>
-          
-          <Button 
-            variant="outline" 
-            className="w-full py-3 rounded-xl border-red-300 text-red-600 hover:bg-red-50"
-          >
-            <LogOut className="w-4 h-4 mr-2" />
-            Sign Out
-          </Button>
-        </div>
       </div>
 
       {/* Class Selection Modal */}
@@ -468,45 +452,68 @@ export default function Profile() {
       )}
 
       {/* Fixed Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-md px-4 py-3 border-t border-gray-800 z-50">
+      <motion.div
+        className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-md px-4 py-3 border-t border-gray-800 z-50"
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.8 }}
+      >
         <div className="flex items-center justify-around max-w-md mx-auto">
-          <div className="flex flex-col items-center space-y-1">
+          <motion.div
+            className="flex flex-col items-center space-y-1"
+            whileTap={{ scale: 0.95 }}
+          >
             <Home className="w-5 h-5 text-gray-400" />
             <a href="/dashboard" className="text-gray-400 text-xs hover:text-[#ffce3b] transition-colors">
               Dashboard
             </a>
-          </div>
+          </motion.div>
           
-          <div className="flex flex-col items-center space-y-1">
-            <BookOpen className="w-5 h-5 text-gray-400" />
-            <a href="/chapters" className="text-gray-400 text-xs hover:text-[#ffce3b] transition-colors">
-              Chapters
-            </a>
-          </div>
+          <motion.div
+            className="flex flex-col items-center space-y-1"
+            whileTap={{ scale: 0.95 }}
+          >
+            <BookOpen className="w-5 h-5 text-[#ffce3b]" />
+            <span className="text-[#ffce3b] text-xs font-medium">Chapters</span>
+          </motion.div>
           
-          <button
+          <motion.button
             className="w-12 h-12 bg-[#ffce3b] rounded-full flex items-center justify-center relative"
+            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.1 }}
             onClick={() => setShowClassSelector(true)}
           >
             <span className="text-white font-bold text-lg">{selectedClass}</span>
-            <div className="absolute -top-1 -right-1 w-4 h-4 bg-white rounded-full flex items-center justify-center">
+            <motion.div
+              className="absolute -top-1 -right-1 w-4 h-4 bg-white rounded-full flex items-center justify-center"
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
               <span className="text-[#ffce3b] text-xs font-bold">•</span>
-            </div>
-          </button>
+            </motion.div>
+          </motion.button>
           
-          <div className="flex flex-col items-center space-y-1">
-            <Award className="w-5 h-5 text-gray-400" />
-            <a href="/leaderboard" className="text-gray-400 text-xs hover:text-[#ffce3b] transition-colors">
-              Leaderboard
+          <motion.div
+            className="flex flex-col items-center space-y-1"
+            whileTap={{ scale: 0.95 }}
+          >
+            <a href="/leaderboard">
+              <Award className="w-5 h-5 text-gray-400" />
+              <span className="text-gray-400 text-xs">Leaderboard</span>
             </a>
-          </div>
+          </motion.div>
           
-          <div className="flex flex-col items-center space-y-1">
-            <User className="w-5 h-5 text-[#ffce3b]" />
-            <span className="text-[#ffce3b] text-xs font-medium">Profile</span>
-          </div>
+          <motion.div
+            className="flex flex-col items-center space-y-1"
+            whileTap={{ scale: 0.95 }}
+          >
+            <a href='/profile'>
+              <User className="w-5 h-5 text-gray-400" />
+              <span className="text-gray-400 text-xs">Profile</span>
+            </a>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
