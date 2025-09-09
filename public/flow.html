@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eklavyaa - User Workflow</title>
+    <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .workflow-section {
+            margin-bottom: 50px;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: #374151;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #fbbf24;
+            display: inline-block;
+        }
+        
+        .mermaid {
+            text-align: center;
+            margin: 30px 0;
+            background: #fefefe;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .feature-card {
+            background: #f9fafb;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #fbbf24;
+        }
+        
+        .feature-card h3 {
+            color: #1f2937;
+            margin: 0 0 15px 0;
+            font-size: 1.3rem;
+        }
+        
+        .feature-card ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #4b5563;
+        }
+        
+        .feature-card li {
+            margin-bottom: 8px;
+        }
+        
+        .stats-container {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .stat-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #f59e0b;
+        }
+        
+        .stat-label {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        .reference-section {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 40px;
+            border: 2px solid #10b981;
+        }
+        
+        .reference-title {
+            font-size: 2rem;
+            color: #065f46;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+        
+        .ncert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .ncert-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.1);
+            border-left: 5px solid #10b981;
+        }
+        
+        .ncert-card h4 {
+            color: #065f46;
+            margin: 0 0 15px 0;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+        
+        .ncert-card p {
+            color: #374151;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .curriculum-list {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+        
+        .curriculum-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e5e7eb;
+            color: #4b5563;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .curriculum-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+        
+        .curriculum-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .ncert-highlight {
+            background: #f0fdf4;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #bbf7d0;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .ncert-highlight h3 {
+            color: #065f46;
+            margin: 0 0 10px 0;
+            font-size: 1.5rem;
+        }
+        
+        .ncert-highlight p {
+            color: #374151;
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Eklavyaa Platform</h1>
+            <p>Complete User Workflow & Learning Journey</p>
+        </div>
+
+        <div class="content">
+            <!-- Main User Flow -->
+            <div class="workflow-section">
+                <h2 class="section-title">Complete User Journey</h2>
+                <div class="mermaid">
+                    flowchart TD
+                        A["Homepage<br/>Multilingual Welcome"] --> B{"Authentication"}
+                        B --> C["Sign Up<br/>Student/Tutor Selection"]
+                        B --> D["Login<br/>Existing User"]
+                        C --> E["Dashboard<br/>Progress Overview"]
+                        D --> E
+                        E --> F["Chapters Page<br/>Subject Selection"]
+                        F --> G["Science World<br/>Space Theme"]
+                        F --> H["Math World<br/>Map Theme"]
+                        G --> I["Planet Selection<br/>8 Chapters"]
+                        H --> J["Landmark Selection<br/>6 Chapters"]
+                        I --> K["Interactive Games"]
+                        J --> K
+                        K --> L["Progress Tracking"]
+                        L --> M["Achievements & Rewards"]
+                        M --> N["Leaderboard"]
+                        N --> O["Profile Management"]
+                        O --> P["Continue Learning"]
+                        P --> F
+                        
+                        style A fill:#fef3c7,stroke:#f59e0b,stroke-width:3px
+                        style E fill:#dbeafe,stroke:#3b82f6,stroke-width:3px
+                        style K fill:#dcfce7,stroke:#10b981,stroke-width:3px
+                        style N fill:#fce7f3,stroke:#ec4899,stroke-width:3px
+                </div>
+            </div>
+
+            <!-- Authentication Flow -->
+            <div class="workflow-section">
+                <h2 class="section-title">Authentication & Onboarding</h2>
+                <div class="mermaid">
+                    flowchart LR
+                        A1["Landing Page<br/>5 Language Support"] --> B1{"New User?"}
+                        B1 -->|Yes| C1["Sign Up Form"]
+                        B1 -->|No| D1["Login Form"]
+                        C1 --> E1["User Type Selection<br/>Student/Tutor"]
+                        E1 --> F1["Profile Setup<br/>Class Selection"]
+                        F1 --> G1["Dashboard Entry"]
+                        D1 --> G1
+                        G1 --> H1["Welcome Tutorial"]
+                        
+                        style A1 fill:#fef3c7,stroke:#f59e0b,stroke-width:2px
+                        style G1 fill:#dbeafe,stroke:#3b82f6,stroke-width:2px
+                </div>
+            </div>
+
+            <!-- Learning Experience Flow -->
+            <div class="workflow-section">
+                <h2 class="section-title">Learning Experience Flow</h2>
+                <div class="mermaid">
+                    flowchart TD
+                        L1["Subject Selection"] --> L2{"Choose Subject"}
+                        L2 --> L3["Science World<br/>Space Theme"]
+                        L2 --> L4["Math World<br/>Map Theme"]
+                        L3 --> L5["Chapter 1: Mechanics<br/>Chapter 2: Thermodynamics<br/>Chapter 3: Optics<br/>Chapter 4: Electricity<br/>Chapter 5: Magnetism<br/>Chapter 6: Waves<br/>Chapter 7: Modern Physics<br/>Chapter 8: Atomic Structure"]
+                        L4 --> L6["Algebra Mountain<br/>Geometry Valley<br/>Trigonometry Peak<br/>Calculus Canyon<br/>Statistics Shore<br/>Probability Peninsula"]
+                        L5 --> L7["Interactive Games"]
+                        L6 --> L7
+                        L7 --> L8["Real-time Progress"]
+                        L8 --> L9["Stars & Badges"]
+                        L9 --> L10["Unlock Next Level"]
+                        
+                        style L3 fill:#e0e7ff,stroke:#6366f1,stroke-width:2px
+                        style L4 fill:#ecfdf5,stroke:#10b981,stroke-width:2px
+                        style L7 fill:#fef3c7,stroke:#f59e0b,stroke-width:2px
+                </div>
+            </div>
+
+            <!-- Gamification & Social Features -->
+            <div class="workflow-section">
+                <h2 class="section-title">Gamification & Social Features</h2>
+                <div class="mermaid">
+                    flowchart LR
+                        G1["Complete Chapter"] --> G2["Earn Points & Stars"]
+                        G2 --> G3["Unlock Achievements"]
+                        G3 --> G4["Update Leaderboard"]
+                        G4 --> G5["Maintain Streak"]
+                        G5 --> G6["Earn Badges"]
+                        G6 --> G7["Level Progression"]
+                        G7 --> G8["New Challenges"]
+                        G8 --> G9["Compare with Friends"]
+                        G9 --> G10["Climb Global Rankings"]
+                        G10 --> G1
+                        
+                        style G2 fill:#fef3c7,stroke:#f59e0b,stroke-width:2px
+                        style G4 fill:#fce7f3,stroke:#ec4899,stroke-width:2px
+                        style G10 fill:#dcfce7,stroke:#10b981,stroke-width:2px
+                </div>
+            </div>
+
+            <!-- Platform Features -->
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Multilingual Support</h3>
+                    <ul>
+                        <li>English (Primary)</li>
+                        <li>Hindi (हिंदी)</li>
+                        <li>Odia (ଓଡ଼ିଆ)</li>
+                        <li>Arabic (العربية)</li>
+                        <li>Marathi (मराठी)</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Learning Worlds</h3>
+                    <ul>
+                        <li>Science World (Space Theme)</li>
+                        <li>Math World (World Map Theme)</li>
+                        <li>8 Science Chapters (Planets)</li>
+                        <li>6 Math Chapters (Landmarks)</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Gamification</h3>
+                    <ul>
+                        <li>Point-based Scoring System</li>
+                        <li>Achievement Badges</li>
+                        <li>Global Leaderboards</li>
+                        <li>Daily Streak Rewards</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>User Experience</h3>
+                    <ul>
+                        <li>Mobile-First Responsive Design</li>
+                        <li>Smooth Animations</li>
+                        <li>Interactive Learning Games</li>
+                        <li>Real-time Progress Tracking</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Platform Statistics -->
+            <div class="stats-container">
+                <h2 class="section-title">Platform Overview</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Languages Supported</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">14</div>
+                        <div class="stat-label">Total Chapters</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">2</div>
+                        <div class="stat-label">Learning Worlds</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">∞</div>
+                        <div class="stat-label">Learning Possibilities</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NCERT Reference Section -->
+            <div class="reference-section">
+                <h2 class="reference-title">NCERT-Based Curriculum Foundation</h2>
+                
+                <div class="ncert-highlight">
+                    <h3>Educational Excellence Through NCERT Standards</h3>
+                    <p>All games and learning modules are meticulously designed following NCERT curriculum guidelines for Classes 6-12</p>
+                </div>
+
+                <div class="ncert-grid">
+                    <div class="ncert-card">
+                        <h4>Science Curriculum Alignment</h4>
+                        <p>Our Science World chapters are directly mapped to NCERT Physics, Chemistry, and Biology textbooks, ensuring comprehensive coverage of all fundamental concepts.</p>
+                        <ul class="curriculum-list">
+                            <li>Class 6-8: Basic Science Concepts</li>
+                            <li>Class 9-10: Physics, Chemistry, Biology</li>
+                            <li>Class 11-12: Advanced Physics Topics</li>
+                            <li>Practical Applications & Experiments</li>
+                            <li>Real-world Problem Solving</li>
+                        </ul>
+                    </div>
+
+                    <div class="ncert-card">
+                        <h4>Mathematics Curriculum Integration</h4>
+                        <p>Math World landmarks correspond to NCERT Mathematics textbook chapters, providing structured learning paths from basic arithmetic to advanced calculus.</p>
+                        <ul class="curriculum-list">
+                            <li>Class 6-8: Fundamental Math Operations</li>
+                            <li>Class 9-10: Algebra & Geometry</li>
+                            <li>Class 11-12: Calculus & Trigonometry</li>
+                            <li>Statistics & Probability</li>
+                            <li>Mathematical Reasoning</li>
+                        </ul>
+                    </div>
+
+                    <div class="ncert-card">
+                        <h4>Interactive Game Development</h4>
+                        <p>Each game is crafted to reinforce NCERT learning objectives while maintaining engagement through gamification and interactive storytelling.</p>
+                        <ul class="curriculum-list">
+                            <li>Concept-based Game Mechanics</li>
+                            <li>NCERT Exercise Integration</li>
+                            <li>Progressive Difficulty Levels</li>
+                            <li>Assessment & Evaluation Tools</li>
+                            <li>Immediate Feedback Systems</li>
+                        </ul>
+                    </div>
+
+                    <div class="ncert-card">
+                        <h4>Quality Assurance & Standards</h4>
+                        <p>Our content development team ensures strict adherence to NCERT pedagogy, learning outcomes, and assessment criteria for academic excellence.</p>
+                        <ul class="curriculum-list">
+                            <li>NCERT Textbook Synchronization</li>
+                            <li>Learning Outcome Mapping</li>
+                            <li>Expert Educational Review</li>
+                            <li>Continuous Content Updates</li>
+                            <li>Academic Standard Compliance</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="stats-container" style="margin-top: 30px; background: white;">
+                    <h2 class="section-title">NCERT Coverage Statistics</h2>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">NCERT Curriculum Coverage</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">7</div>
+                            <div class="stat-label">Grade Levels (6-12)</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Interactive Exercises</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">Learning Accessibility</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#fbbf24',
+                primaryTextColor: '#1f2937',
+                primaryBorderColor: '#f59e0b',
+                lineColor: '#6b7280',
+                secondaryColor: '#dbeafe',
+                tertiaryColor: '#fef3c7',
+                background: '#ffffff',
+                mainBkg: '#ffffff',
+                secondBkg: '#f9fafb',
+                tertiaryBkg: '#fef3c7'
+            },
+            flowchart: {
+                nodeSpacing: 50,
+                rankSpacing: 60,
+                curve: 'basis'
+            }
+        });
+    </script>
+</body>
+
+</html>
