@@ -403,9 +403,9 @@ export default function Chapters() {
             className="flex flex-col items-center space-y-1"
             whileTap={{ scale: 0.95 }}
           >
-            <Home className="w-5 h-5 text-gray-400" />
-            <a href="/dashboard" className="text-gray-400 text-xs hover:text-[#ffce3b] transition-colors">
-              Dashboard
+            <a href="/dashboard" className="flex flex-col items-center space-y-1">
+              <Home className="w-5 h-5 text-gray-400" />
+              <span className="text-gray-400 text-xs">Dashboard</span>
             </a>
           </motion.div>
           
@@ -413,10 +413,12 @@ export default function Chapters() {
             className="flex flex-col items-center space-y-1"
             whileTap={{ scale: 0.95 }}
           >
-            <BookOpen className="w-5 h-5 text-[#ffce3b]" />
-            <span className="text-[#ffce3b] text-xs font-medium">Chapters</span>
+            <a href="/chapters" className="flex flex-col items-center space-y-1">
+              <BookOpen className="w-5 h-5 text-[#ffce3b]" />
+              <span className="text-[#ffce3b] text-xs font-medium">Chapters</span>
+            </a>
           </motion.div>
-          
+           
           <motion.button
             className="w-12 h-12 bg-[#ffce3b] rounded-full flex items-center justify-center relative"
             whileTap={{ scale: 0.95 }}
@@ -437,7 +439,7 @@ export default function Chapters() {
             className="flex flex-col items-center space-y-1"
             whileTap={{ scale: 0.95 }}
           >
-            <a href="/leaderboard">
+            <a href="/leaderboard" className="flex flex-col items-center space-y-1">
               <Award className="w-5 h-5 text-gray-400" />
               <span className="text-gray-400 text-xs">Leaderboard</span>
             </a>
@@ -447,7 +449,7 @@ export default function Chapters() {
             className="flex flex-col items-center space-y-1"
             whileTap={{ scale: 0.95 }}
           >
-            <a href='/profile'>
+            <a href="/profile" className="flex flex-col items-center space-y-1">
               <User className="w-5 h-5 text-gray-400" />
               <span className="text-gray-400 text-xs">Profile</span>
             </a>

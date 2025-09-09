@@ -56,14 +56,14 @@ export default function Profile() {
     joinedDate: "March 2024",
     avatar: "https://avatar.iran.liara.run/public/8",
     level: 15,
-    totalPoints: 2450,
-    streak: 7,
+    totalPoints: 450,
+    streak: 3,
     completedCourses: 12,
     totalLessons: 145,
     studyTime: 89, // hours
     rank: 148,
-    nextLevelPoints: 2600,
-    progressToNext: 94 // percentage
+    nextLevelPoints: 500,
+    progressToNext: 95 // percentage
   };
 
   // Achievements data
@@ -160,35 +160,77 @@ export default function Profile() {
       />
 
       {/* Header */}
-      <div className="sticky top-0 bg-gray-50/95 backdrop-blur-md border-b border-gray-200/50 z-50">
+      <motion.div
+        className="fixed top-0 left-0 right-0 bg-gray-50/95 backdrop-blur-md border-b border-gray-200/50 z-50"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         <div className="px-4 py-4">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Profile</h1>
-              <p className="text-gray-600 text-sm">Manage your account</p>
-            </div>
-            <div className="flex items-center space-x-3">
-              <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 px-3 py-1">
-                <Star className="w-3 h-3 mr-1 fill-yellow-500 text-yellow-500" />
-                3
-              </Badge>
-              <Badge className="bg-[#ffce3b] text-white px-3 py-1">
-                <Trophy className="w-3 h-3 mr-1" />
-                450
-              </Badge>
-              <Avatar className="w-8 h-8 bg-[#ffce3b]">
-                <AvatarFallback className="bg-[#ffce3b] text-white font-semibold text-sm">
-                  <img src={'https://avatar.iran.liara.run/public/8'} />
-                </AvatarFallback>
-              </Avatar>
-            </div>
+        <div>
+          <motion.h1 
+            className="text-2xl font-bold text-gray-900"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
+            Profile
+          </motion.h1>
+          <motion.p 
+            className="text-gray-600 text-sm"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            Manage your account
+          </motion.p>
+        </div>
+        <div className="flex items-center space-x-3">
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 px-3 py-1">
+              <Star className="w-3 h-3 mr-1 fill-yellow-500 text-yellow-500" />
+              3
+            </Badge>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <Badge className="bg-[#ffce3b] text-white px-3 py-1">
+              <Trophy className="w-3 h-3 mr-1" />
+              450
+            </Badge>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
+            <Avatar className="w-8 h-8 bg-[#ffce3b]">
+              <AvatarFallback className="bg-[#ffce3b] text-white font-semibold text-sm">
+            <img src={'https://avatar.iran.liara.run/public/8'} />
+              </AvatarFallback>
+            </Avatar>
+          </motion.div>
+        </div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       <div className="px-4 py-6 space-y-6 pb-24 pt-24">{/* Added pt-24 for header space and pb-24 for navbar space */}
         {/* Profile Header */}
-        <Card className="bg-white/90 backdrop-blur-sm border border-yellow-200 shadow-lg">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
+          <Card className="bg-white/90 backdrop-blur-sm border border-yellow-200 shadow-lg">
           <CardContent className="p-6">
             <div className="flex flex-col items-center text-center space-y-4">
               {/* Avatar and Edit */}
@@ -228,7 +270,7 @@ export default function Profile() {
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-[#ffce3b]">{userData.streak}</div>
-                  <div className="text-xs text-gray-500">Streak</div>
+                  <div className="text-xs text-gray-500">🔥Streak</div>
                 </div>
               </div>
 
@@ -251,15 +293,21 @@ export default function Profile() {
             </div>
           </CardContent>
         </Card>
+        </motion.div>
 
         {/* Tab Navigation */}
-        <div className="flex space-x-2 bg-white/90 backdrop-blur-sm rounded-xl p-2 border border-yellow-200">
+        <motion.div
+          className="flex space-x-2 bg-white/90 backdrop-blur-sm rounded-xl p-2 border border-yellow-200"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
           {[
             { id: 'overview', label: 'Overview', icon: User },
             { id: 'achievements', label: 'Badges', icon: Award },
             { id: 'activity', label: 'Activity', icon: Clock }
           ].map((tab) => (
-            <button
+            <motion.button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-lg font-medium transition-all ${
@@ -267,16 +315,23 @@ export default function Profile() {
                   ? 'bg-[#ffce3b] text-white shadow-md'
                   : 'text-gray-600 hover:bg-yellow-50'
               }`}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               <tab.icon className="w-4 h-4" />
               <span className="text-sm">{tab.label}</span>
-            </button>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
 
         {/* Tab Content */}
         {activeTab === 'overview' && (
-          <div className="space-y-4">
+          <motion.div
+            className="space-y-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
             {/* Contact Info */}
             <Card className="bg-white/90 backdrop-blur-sm border border-yellow-200">
               <CardContent className="p-4">
@@ -336,20 +391,31 @@ export default function Profile() {
                 </div>
               </CardContent>
             </Card>
-          </div>
+          </motion.div>
         )}
 
         {activeTab === 'achievements' && (
-          <div className="space-y-3">
-            {achievements.map((achievement) => (
-              <Card 
-                key={achievement.id} 
-                className={`border ${
-                  achievement.earned 
-                    ? 'bg-white/90 border-yellow-200' 
-                    : 'bg-gray-50/90 border-gray-200'
-                }`}
+          <motion.div
+            className="space-y-3"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
+            {achievements.map((achievement, index) => (
+              <motion.div
+                key={achievement.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 + (index * 0.1) }}
+                whileHover={{ scale: 1.01 }}
               >
+                <Card 
+                  className={`border ${
+                    achievement.earned 
+                      ? 'bg-white/90 border-yellow-200' 
+                      : 'bg-gray-50/90 border-gray-200'
+                  }`}
+                >
                 <CardContent className="p-4">
                   <div className="flex items-center space-x-4">
                     <div className={`text-2xl ${achievement.earned ? '' : 'grayscale opacity-50'}`}>
@@ -376,37 +442,64 @@ export default function Profile() {
                   </div>
                 </CardContent>
               </Card>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
 
         {activeTab === 'activity' && (
-          <div className="space-y-3">
-            {recentActivity.map((activity) => (
-              <Card key={activity.id} className="bg-white/90 backdrop-blur-sm border border-yellow-200">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-gray-900">{activity.title}</h4>
-                      <p className="text-sm text-gray-600">{activity.subject}</p>
-                      <p className="text-xs text-gray-500">{activity.time}</p>
+          <motion.div
+            className="space-y-3"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
+            {recentActivity.map((activity, index) => (
+              <motion.div
+                key={activity.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 + (index * 0.1) }}
+                whileHover={{ scale: 1.01 }}
+              >
+                <Card className="bg-white/90 backdrop-blur-sm border border-yellow-200">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-gray-900">{activity.title}</h4>
+                        <p className="text-sm text-gray-600">{activity.subject}</p>
+                        <p className="text-xs text-gray-500">{activity.time}</p>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-[#ffce3b] font-bold">+{activity.points}</span>
+                        <Coins className="w-4 h-4 text-[#ffce3b]" />
+                      </div>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <span className="text-[#ffce3b] font-bold">+{activity.points}</span>
-                      <Coins className="w-4 h-4 text-[#ffce3b]" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
       </div>
 
       {/* Class Selection Modal */}
-      {showClassSelector && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-60 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-sm relative">
+      <AnimatePresence>
+        {showClassSelector && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-60 flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowClassSelector(false)}
+          >
+            <motion.div
+              className="bg-white rounded-2xl p-6 w-full max-w-sm relative"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-xl font-bold text-gray-900">Select Your Class</h3>
               <Button
@@ -421,7 +514,7 @@ export default function Profile() {
             
             <div className="grid grid-cols-4 gap-3">
               {classes.map((classNum) => (
-                <button
+                <motion.button
                   key={classNum}
                   onClick={() => {
                     setSelectedClass(classNum);
@@ -435,9 +528,11 @@ export default function Profile() {
                     }
                     transition-all duration-200
                   `}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   {classNum}
-                </button>
+                </motion.button>
               ))}
             </div>
             
@@ -447,9 +542,10 @@ export default function Profile() {
                 Currently: Class {selectedClass}
               </Badge>
             </div>
-          </div>
-        </div>
-      )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Fixed Bottom Navigation */}
       <motion.div
@@ -463,9 +559,9 @@ export default function Profile() {
             className="flex flex-col items-center space-y-1"
             whileTap={{ scale: 0.95 }}
           >
-            <Home className="w-5 h-5 text-gray-400" />
-            <a href="/dashboard" className="text-gray-400 text-xs hover:text-[#ffce3b] transition-colors">
-              Dashboard
+            <a href="/dashboard" className="flex flex-col items-center space-y-1">
+              <Home className="w-5 h-5 text-gray-400" />
+              <span className="text-gray-400 text-xs">Dashboard</span>
             </a>
           </motion.div>
           
@@ -473,8 +569,10 @@ export default function Profile() {
             className="flex flex-col items-center space-y-1"
             whileTap={{ scale: 0.95 }}
           >
-            <BookOpen className="w-5 h-5 text-[#ffce3b]" />
-            <span className="text-[#ffce3b] text-xs font-medium">Chapters</span>
+            <a href="/chapters" className="flex flex-col items-center space-y-1">
+              <BookOpen className="w-5 h-5 text-gray-400" />
+              <span className="text-gray-400 text-xs">Chapters</span>
+            </a>
           </motion.div>
           
           <motion.button
@@ -497,7 +595,7 @@ export default function Profile() {
             className="flex flex-col items-center space-y-1"
             whileTap={{ scale: 0.95 }}
           >
-            <a href="/leaderboard">
+            <a href="/leaderboard" className="flex flex-col items-center space-y-1">
               <Award className="w-5 h-5 text-gray-400" />
               <span className="text-gray-400 text-xs">Leaderboard</span>
             </a>
@@ -507,9 +605,9 @@ export default function Profile() {
             className="flex flex-col items-center space-y-1"
             whileTap={{ scale: 0.95 }}
           >
-            <a href='/profile'>
-              <User className="w-5 h-5 text-gray-400" />
-              <span className="text-gray-400 text-xs">Profile</span>
+            <a href="/profile" className="flex flex-col items-center space-y-1">
+              <User className="w-5 h-5 text-[#ffce3b]" />
+              <span className="text-[#ffce3b] text-xs font-medium">Profile</span>
             </a>
           </motion.div>
         </div>
