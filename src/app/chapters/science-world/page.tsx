@@ -26,7 +26,7 @@ export default function ScienceWorld() {
   const planets = [
     {
       id: 1,
-      name: "Mercury",
+      name: "Chapter 1",
       title: "Solar System",
       description: "Explore the mysteries of our solar system and learn about planets, stars, and cosmic phenomena",
       level: 5,
@@ -41,7 +41,7 @@ export default function ScienceWorld() {
     },
     {
       id: 2,
-      name: "Venus",
+      name: "Chapter 2",
       title: "Temperature",
       description: "Understand heat, cold, and temperature changes in our environment and daily life",
       level: 3,
@@ -56,7 +56,7 @@ export default function ScienceWorld() {
     },
     {
       id: 3,
-      name: "Earth",
+      name: "Chapter 3",
       title: "Ingredients",
       description: "Discover the building blocks of matter and learn about different materials around us",
       level: 7,
@@ -71,7 +71,7 @@ export default function ScienceWorld() {
     },
     {
       id: 4,
-      name: "Mars",
+      name: "Chapter 4",
       title: "Materials",
       description: "Explore different types of materials, their properties, and how they're used in our world",
       level: 2,
@@ -86,7 +86,7 @@ export default function ScienceWorld() {
     },
     {
       id: 5,
-      name: "Jupiter",
+      name: "Chapter 5",
       title: "Water Cycle",
       description: "Learn about the amazing journey of water through evaporation, condensation, and precipitation",
       level: 1,
@@ -101,7 +101,7 @@ export default function ScienceWorld() {
     },
     {
       id: 6,
-      name: "Saturn",
+      name: "Chapter 6",
       title: "Future World",
       description: "Discover amazing future technologies and innovations in science",
       level: 0,
@@ -116,7 +116,7 @@ export default function ScienceWorld() {
     },
     {
       id: 7,
-      name: "Uranus",
+      name: "Chapter 7",
       title: "Advanced Physics",
       description: "Dive into the world of advanced physics and scientific principles",
       level: 0,
@@ -131,7 +131,7 @@ export default function ScienceWorld() {
     },
     {
       id: 8,
-      name: "Neptune",
+      name: "Chapter 8",
       title: "Chemistry Lab",
       description: "Explore chemical reactions and the fascinating world of chemistry",
       level: 0,
