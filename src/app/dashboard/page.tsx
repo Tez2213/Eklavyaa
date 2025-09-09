@@ -415,16 +415,20 @@ export default function Dashboard() {
             className="flex flex-col items-center space-y-1"
             whileTap={{ scale: 0.95 }}
           >
-            <Award className="w-5 h-5 text-gray-400" />
-            <span className="text-gray-400 text-xs">Leaderboard</span>
+            <a href="/leaderboard">
+              <Award className="w-5 h-5 text-gray-400" />
+              <span className="text-gray-400 text-xs">Leaderboard</span>
+            </a>
           </motion.div>
           
           <motion.div
             className="flex flex-col items-center space-y-1"
             whileTap={{ scale: 0.95 }}
           >
-            <User className="w-5 h-5 text-gray-400" />
-            <span className="text-gray-400 text-xs">Profile</span>
+            <a href="/profile">
+              <User className="w-5 h-5 text-gray-400" />
+              <span className="text-gray-400 text-xs">Profile</span>
+            </a>
           </motion.div>
         </div>
       </motion.div>
