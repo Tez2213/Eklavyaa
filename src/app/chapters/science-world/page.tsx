@@ -31,7 +31,7 @@ export default function ScienceWorld() {
       isUnlocked: true,
       stars: 3,
       progress: 100,
-      gameUrl: "https://game-ashen-eight.vercel.app/science/chef-game"
+      gameUrl: "https://game-ashen-eight.vercel.app/science/solar-game"
     },
     {
       id: 2,
