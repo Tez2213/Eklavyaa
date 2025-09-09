@@ -418,9 +418,9 @@ export default function Dashboard() {
             className="flex flex-col items-center space-y-1"
             whileTap={{ scale: 0.95 }}
           >
-            <Home className="w-5 h-5 text-[#ffce3b]" />
-            <a href="/dashboard" className="text-[#ffce3b] text-xs font-medium">
-              Dashboard
+            <a href="/dashboard" className="flex flex-col items-center space-y-1">
+              <Home className="w-5 h-5 text-[#ffce3b]" />
+              <span className="text-[#ffce3b] text-xs font-medium">Dashboard</span>
             </a>
           </motion.div>
           
@@ -428,8 +428,10 @@ export default function Dashboard() {
             className="flex flex-col items-center space-y-1"
             whileTap={{ scale: 0.95 }}
           >
-            <BookOpen className="w-5 h-5 text-gray-400" />
-            <a href="/chapters" className="text-gray-400 text-xs">Chapters</a>
+            <a href="/chapters" className="flex flex-col items-center space-y-1">
+              <BookOpen className="w-5 h-5 text-gray-400" />
+              <span className="text-gray-400 text-xs">Chapters</span>
+            </a>
           </motion.div>
           
           <motion.button
@@ -452,7 +454,7 @@ export default function Dashboard() {
             className="flex flex-col items-center space-y-1"
             whileTap={{ scale: 0.95 }}
           >
-            <a href="/leaderboard">
+            <a href="/leaderboard" className="flex flex-col items-center space-y-1">
               <Award className="w-5 h-5 text-gray-400" />
               <span className="text-gray-400 text-xs">Leaderboard</span>
             </a>
@@ -462,9 +464,9 @@ export default function Dashboard() {
             className="flex flex-col items-center space-y-1"
             whileTap={{ scale: 0.95 }}
           >
-            <a href='/profile'>
-            <User className="w-5 h-5 text-gray-400" />
-            <span className="text-gray-400 text-xs">Profile</span>
+            <a href="/profile" className="flex flex-col items-center space-y-1">
+              <User className="w-5 h-5 text-gray-400" />
+              <span className="text-gray-400 text-xs">Profile</span>
             </a>
           </motion.div>
         </div>

@@ -157,7 +157,7 @@ export default function Leaderboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col relative overflow-hidden">
+    <div className="min-h-screen bg-gray-50 text-gray-900 relative">
       {/* Background Pattern */}
       <div 
         className="absolute inset-0 opacity-5"
@@ -168,39 +168,87 @@ export default function Leaderboard() {
           backgroundRepeat: 'no-repeat'
         }}
       />
-      {/* Header */}
-      <div className="sticky top-0 bg-gray-50/95 backdrop-blur-md border-b border-gray-200/50 z-50">
+      
+      {/* Header - Fixed at top */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 bg-gray-50/95 backdrop-blur-md border-b border-gray-200/50 z-50"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         <div className="px-4 py-4">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Leaderboard</h1>
-              <p className="text-gray-600 text-sm">See who's leading the way!</p>
-            </div>
-            <div className="flex items-center space-x-3">
-              <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 px-3 py-1">
-                <Star className="w-3 h-3 mr-1 fill-yellow-500 text-yellow-500" />
-                3
-              </Badge>
-              <Badge className="bg-[#ffce3b] text-white px-3 py-1">
-                <Trophy className="w-3 h-3 mr-1" />
-                450
-              </Badge>
-              <Avatar className="w-8 h-8 bg-[#ffce3b]">
-                <AvatarFallback className="bg-[#ffce3b] text-white font-semibold text-sm">
-                    <img src={'https://avatar.iran.liara.run/public/8'} />
-                </AvatarFallback>
-              </Avatar>
-            </div>
+        <div>
+          <motion.h1 
+            className="text-2xl font-bold text-gray-900"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
+            Leaderboard
+          </motion.h1>
+          <motion.p 
+            className="text-gray-600 text-sm"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            See who's leading the way!
+          </motion.p>
+        </div>
+        <div className="flex items-center space-x-3">
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 px-3 py-1">
+              <Star className="w-3 h-3 mr-1 fill-yellow-500 text-yellow-500" />
+              3
+            </Badge>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <Badge className="bg-[#ffce3b] text-white px-3 py-1">
+              <Trophy className="w-3 h-3 mr-1" />
+              450
+            </Badge>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
+            <Avatar className="w-8 h-8 bg-[#ffce3b]">
+              <AvatarFallback className="bg-[#ffce3b] text-white font-semibold text-sm">
+              <img src={'https://avatar.iran.liara.run/public/8'} />
+              </AvatarFallback>
+            </Avatar>
+          </motion.div>
+        </div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Top 3 Podium - Sticky */}
-      <div className="sticky top-[89px] bg-gray-50/95 backdrop-blur-md z-40 border-b border-gray-200/50">
+      {/* Top 3 Podium - Fixed under header */}
+      <motion.div
+        className="fixed top-[89px] left-0 right-0 bg-gray-50/95 backdrop-blur-md z-40 border-b border-gray-200/50"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+      >
         <div className="px-4 py-6">
           <div className="flex items-end justify-center space-x-4">
             {/* 2nd Place */}
-            <div className="flex flex-col items-center">
+            <motion.div
+              className="flex flex-col items-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
               <div className="relative mb-3">
                 <Avatar className="w-16 h-16 border-4 border-gray-400">
                   <AvatarImage src={topThree[1].avatar} alt={topThree[1].name} />
@@ -216,10 +264,15 @@ export default function Leaderboard() {
                 <p className="text-sm font-semibold text-gray-900">{topThree[1].points}</p>
                 <p className="text-xs text-gray-500">ID: {topThree[1].username}</p>
               </div>
-            </div>
+            </motion.div>
 
             {/* 1st Place */}
-            <div className="flex flex-col items-center">
+            <motion.div
+              className="flex flex-col items-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
               <div className="relative mb-3">
                 <Crown className="w-6 h-6 text-[#ffce3b] absolute -top-8 left-1/2 transform -translate-x-1/2" />
                 <Avatar className="w-20 h-20 border-4 border-[#ffce3b]">
@@ -236,10 +289,15 @@ export default function Leaderboard() {
                 <p className="text-lg font-bold text-[#ffce3b]">{topThree[0].points}</p>
                 <p className="text-xs text-gray-500">ID: {topThree[0].username}</p>
               </div>
-            </div>
+            </motion.div>
 
             {/* 3rd Place */}
-            <div className="flex flex-col items-center">
+            <motion.div
+              className="flex flex-col items-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
               <div className="relative mb-3">
                 <Avatar className="w-16 h-16 border-4 border-orange-400">
                   <AvatarImage src={topThree[2].avatar} alt={topThree[2].name} />
@@ -255,80 +313,110 @@ export default function Leaderboard() {
                 <p className="text-sm font-semibold text-gray-900">{topThree[2].points}</p>
                 <p className="text-xs text-gray-500">ID: {topThree[2].username}</p>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
-      </div>
-
-      {/* Scrollable Rankings */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 pb-[100px] space-y-2">
-        {otherPlayers.map((player, index) => (
-          <Card key={player.id} className="bg-gradient-to-r from-yellow-200 to-yellow-300 border-0 shadow-lg">
-            <CardContent className="p-0">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="text-black font-bold text-lg w-6">
-                    {player.position}
-                  </div>
-                  <Avatar className="w-10 h-10">
-                    <AvatarImage src={player.avatar} alt={player.name} />
-                    <AvatarFallback className="bg-gray-600 text-white font-bold">
-                      {player.name.charAt(0)}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="text-black font-semibold text-sm">{player.name}</p>
-                    <p className="text-black/70 text-xs">ID: {player.username}</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <span className="text-black font-bold">{player.points}</span>
-                  <Coins className="w-4 h-4 text-black" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {/* Current User Position - Fixed at Bottom */}
-      <motion.div
-       className="fixed bottom-18 left-0 right-0  bg-gray-50/95 backdrop-blur-md border-t border-gray-200/50 z-40 p-4"
-       initial={{ opacity: 0, y: 100 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.8 }}
-      >
-        <Card className="bg-white border border-[#ffce3b] shadow-xl">
-          <CardContent className="p-1">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="text-[#ffce3b] font-bold text-lg">
-                  148
-                </div>
-                <Avatar className="w-10 h-10">
-                  <AvatarImage src={getRandomAvatar("current-user")} alt="You" />
-                  <AvatarFallback className="bg-[#ffce3b] text-black font-bold">
-                    T
-                  </AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="text-gray-900 font-semibold text-sm">Arjun</p>
-                  <p className="text-gray-500 text-xs">That's you!</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-2">
-                <span className="text-[#ffce3b] font-bold">2450</span>
-                <Coins className="w-4 h-4 text-[#ffce3b]" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </motion.div>
 
+      {/* Main Content Area - Scrollable */}
+      <motion.div
+        className="pt-[200px] pb-[140px] min-h-screen"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+      >
+        <div className="px-3 max-w-sm mx-auto space-y-2">
+          {otherPlayers.map((player, index) => (
+            <motion.div
+              key={player.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 + (index * 0.1) }}
+              whileHover={{ scale: 1.02 }}
+            >
+              <Card className="bg-gradient-to-r from-yellow-200 to-yellow-300 border-0 shadow-md">
+                <CardContent className="p-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="text-black font-bold text-base w-5 text-center flex-shrink-0">
+                        {player.position}
+                      </div>
+                      <Avatar className="w-9 h-9 flex-shrink-0">
+                        <AvatarImage src={player.avatar} alt={player.name} />
+                        <AvatarFallback className="bg-gray-600 text-white font-bold text-sm">
+                          {player.name.charAt(0)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-black font-semibold text-sm truncate">{player.name}</p>
+                        <p className="text-black/70 text-xs truncate">ID: {player.username}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-1 flex-shrink-0">
+                      <span className="text-black font-bold text-sm">{player.points}</span>
+                      <Coins className="w-3 h-3 text-black" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+
+        {/* Current User Position - Fixed at Bottom */}
+        <motion.div
+         className="fixed bottom-[70px] left-0 right-0 bg-gray-50/95 backdrop-blur-md border-t border-gray-200/50 z-40 px-3 py-3"
+         initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.8 }}
+        >
+          <div className="max-w-sm mx-auto">
+            <Card className="bg-white border border-[#ffce3b] shadow-xl">
+              <CardContent className="p-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="text-[#ffce3b] font-bold text-base w-5 text-center flex-shrink-0">
+                      148
+                    </div>
+                    <Avatar className="w-9 h-9 flex-shrink-0">
+                      <AvatarImage src={getRandomAvatar("current-user")} alt="You" />
+                      <AvatarFallback className="bg-[#ffce3b] text-black font-bold text-sm">
+                        A
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-gray-900 font-semibold text-sm">Arjun</p>
+                      <p className="text-gray-500 text-xs">That's you!</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-1 flex-shrink-0">
+                    <span className="text-[#ffce3b] font-bold text-sm">2450</span>
+                    <Coins className="w-3 h-3 text-[#ffce3b]" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </motion.div>
+
       {/* Class Selection Modal */}
-      {showClassSelector && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-60 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-sm relative">
+      <AnimatePresence>
+        {showClassSelector && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-60 flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowClassSelector(false)}
+          >
+            <motion.div
+              className="bg-white rounded-2xl p-6 w-full max-w-sm relative"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-xl font-bold text-gray-900">Select Your Class</h3>
               <Button
@@ -343,7 +431,7 @@ export default function Leaderboard() {
             
             <div className="grid grid-cols-4 gap-3">
               {classes.map((classNum) => (
-                <button
+                <motion.button
                   key={classNum}
                   onClick={() => {
                     setSelectedClass(classNum);
@@ -357,9 +445,11 @@ export default function Leaderboard() {
                     }
                     transition-all duration-200
                   `}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   {classNum}
-                </button>
+                </motion.button>
               ))}
             </div>
             
@@ -369,9 +459,10 @@ export default function Leaderboard() {
                 Currently: Class {selectedClass}
               </Badge>
             </div>
-          </div>
-        </div>
-      )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Fixed Bottom Navigation */}
       <motion.div
@@ -385,9 +476,9 @@ export default function Leaderboard() {
             className="flex flex-col items-center space-y-1"
             whileTap={{ scale: 0.95 }}
           >
-            <Home className="w-5 h-5 text-gray-400" />
-            <a href="/dashboard" className="text-gray-400 text-xs hover:text-[#ffce3b] transition-colors">
-              Dashboard
+            <a href="/dashboard" className="flex flex-col items-center space-y-1">
+              <Home className="w-5 h-5 text-gray-400" />
+              <span className="text-gray-400 text-xs">Dashboard</span>
             </a>
           </motion.div>
           
@@ -395,8 +486,10 @@ export default function Leaderboard() {
             className="flex flex-col items-center space-y-1"
             whileTap={{ scale: 0.95 }}
           >
-            <BookOpen className="w-5 h-5 text-[#ffce3b]" />
-            <span className="text-[#ffce3b] text-xs font-medium">Chapters</span>
+            <a href="/chapters" className="flex flex-col items-center space-y-1">
+              <BookOpen className="w-5 h-5 text-gray-400" />
+              <span className="text-gray-400 text-xs">Chapters</span>
+            </a>
           </motion.div>
           
           <motion.button
@@ -419,17 +512,17 @@ export default function Leaderboard() {
             className="flex flex-col items-center space-y-1"
             whileTap={{ scale: 0.95 }}
           >
-            <a href="/leaderboard">
-              <Award className="w-5 h-5 text-gray-400" />
-              <span className="text-gray-400 text-xs">Leaderboard</span>
+            <a href="/leaderboard" className="flex flex-col items-center space-y-1">
+              <Award className="w-5 h-5 text-[#ffce3b]" />
+              <span className="text-[#ffce3b] text-xs font-medium">Leaderboard</span>
             </a>
           </motion.div>
-          
+
           <motion.div
             className="flex flex-col items-center space-y-1"
             whileTap={{ scale: 0.95 }}
           >
-            <a href='/profile'>
+            <a href="/profile" className="flex flex-col items-center space-y-1">
               <User className="w-5 h-5 text-gray-400" />
               <span className="text-gray-400 text-xs">Profile</span>
             </a>
