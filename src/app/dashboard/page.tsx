@@ -31,7 +31,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gray-50 relative overflow-hidden">
       {/* Background Pattern */}
-      <div 
+      <div
         className="absolute inset-0 opacity-5"
         style={{
           backgroundImage: 'url(/bg.png)',
@@ -240,9 +240,11 @@ export default function Dashboard() {
                       The human brain contains approximately 86 billion neurons.
                     </p>
                   </div>
+                  <a href='/chapters'>
                   <Badge className="bg-[#ffce3b] text-white ml-3 px-3 py-1 text-xs">
                     Mini Quiz
                   </Badge>
+                  </a>
                 </div>
               </CardContent>
             </Card>
@@ -267,9 +269,6 @@ export default function Dashboard() {
                 <CardContent className="p-4 text-center">
                   <div className="w-12 h-12 bg-[#ffce3b] rounded-full flex items-center justify-center mx-auto mb-2 relative">
                     <Brain className="w-6 h-6 text-white" />
-                    <div className="absolute -top-1 -right-1 w-6 h-6 bg-black rounded text-white text-xs flex items-center justify-center font-bold">
-                      📚
-                    </div>
                   </div>
                   <p className="text-xs text-gray-600 font-medium">30%</p>
                 </CardContent>
@@ -295,7 +294,7 @@ export default function Dashboard() {
               transition={{ duration: 0.2 }}
             >
               <Card className="bg-[#ffce3b] border-[#ffce3b] shadow-sm">
-                <CardContent className="p-3">
+                <CardContent className="p-12">
                   <p className="text-xs text-white font-semibold text-center leading-tight">
                     Keep up the work, Arjun
                   </p>
