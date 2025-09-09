@@ -7,286 +7,516 @@ import { useState, useEffect } from 'react';
 import { 
   ArrowLeft,
   Star,
-  Rocket,
   Lock,
   Play,
   Crown,
-  Loader2
+  Loader2,
+  Trophy,
+  X
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ScienceWorld() {
   const router = useRouter();
   const [loadingChapter, setLoadingChapter] = useState<number | null>(null);
+  const [selectedPlanet, setSelectedPlanet] = useState<any>(null);
 
-  // Chapter data
-  const chapters = [
+  // Planet chapters data - Following real solar system order and distances
+  const planets = [
     {
       id: 1,
+      name: "Mercury",
       title: "Solar System",
-      emoji: "🌟",
-      color: "bg-blue-400",
-      bgGradient: "from-yellow-300 via-yellow-400 to-yellow-500",
-      isUnlocked: true,
-      stars: 3,
+      description: "Explore the mysteries of our solar system and learn about planets, stars, and cosmic phenomena",
+      level: 5,
       progress: 100,
-      gameUrl: "https://game-ashen-eight.vercel.app/science/solar-game"
+      stars: 3,
+      isUnlocked: true,
+      planetUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNjlwNTJqd2E5MW02a2hxMmEzbG5kdzJjdWd1dHpncmlldXIyYXQ0bSZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/lIeUAWuLK7cv6/giphy.gif",
+      gameUrl: "https://game-ashen-eight.vercel.app/science/solar-game",
+      position: { top: '50%', left: '35%' },
+      size: 'w-12 h-12 md:w-14 md:h-14',
+      orbitRadius: '80px'
     },
     {
       id: 2,
+      name: "Venus",
       title: "Temperature",
-      emoji: "🔥",
-      color: "bg-orange-400",
-      bgGradient: "from-orange-300 via-orange-400 to-orange-500",
-      isUnlocked: true,
-      stars: 2,
+      description: "Understand heat, cold, and temperature changes in our environment and daily life",
+      level: 3,
       progress: 85,
-      gameUrl: "https://game-ashen-eight.vercel.app/science/temperature-game"
+      stars: 2,
+      isUnlocked: true,
+      planetUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWIwZnhycGFrdGx3d2Z4ZnF2dHJtcHUybTZndDN3a2VuZGM1NnA1ZSZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/aOYcDWZtQ7ZCVFU8Qf/giphy.gif",
+      gameUrl: "https://game-ashen-eight.vercel.app/science/temperature-game",
+      position: { top: '35%', left: '30%' },
+      size: 'w-14 h-14 md:w-16 md:h-16',
+      orbitRadius: '110px'
     },
     {
       id: 3,
+      name: "Earth",
       title: "Ingredients",
-      emoji: "🧪",
-      color: "bg-green-400",
-      bgGradient: "from-green-300 via-green-400 to-green-500",
-      isUnlocked: true,
-      stars: 3,
+      description: "Discover the building blocks of matter and learn about different materials around us",
+      level: 7,
       progress: 75,
-      gameUrl: "https://game-ashen-eight.vercel.app/science/chef-game"
+      stars: 3,
+      isUnlocked: true,
+      planetUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXN3ZXNpYmowNHJscGx2OHA5dDd6Z2x3c3RvZmE1OTF2bzYzOHRzNyZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/yo1whaKkz38ME/giphy.gif",
+      gameUrl: "https://game-ashen-eight.vercel.app/science/chef-game",
+      position: { top: '25%', left: '50%' },
+      size: 'w-16 h-16 md:w-18 md:h-18',
+      orbitRadius: '140px'
     },
     {
       id: 4,
+      name: "Mars",
       title: "Materials",
-      emoji: "⚗️",
-      color: "bg-purple-400",
-      bgGradient: "from-purple-300 via-purple-400 to-purple-500",
-      isUnlocked: true,
-      stars: 1,
+      description: "Explore different types of materials, their properties, and how they're used in our world",
+      level: 2,
       progress: 60,
-      gameUrl: "https://game-ashen-eight.vercel.app/science/material-game"
+      stars: 1,
+      isUnlocked: true,
+      planetUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNXE1ejZpNWN2eXdxcWgxcWpqaG5vZ2Y5dDFvNDI3MnNza2F3eWJ5aCZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/JRZwMhzk7WolG/giphy.gif",
+      gameUrl: "https://game-ashen-eight.vercel.app/science/material-game",
+      position: { top: '30%', left: '70%' },
+      size: 'w-14 h-14 md:w-16 md:h-16',
+      orbitRadius: '170px'
     },
     {
       id: 5,
+      name: "Jupiter",
       title: "Water Cycle",
-      emoji: "💧",
-      color: "bg-cyan-400",
-      bgGradient: "from-cyan-300 via-cyan-400 to-cyan-500",
-      isUnlocked: true,
-      stars: 2,
+      description: "Learn about the amazing journey of water through evaporation, condensation, and precipitation",
+      level: 1,
       progress: 40,
-      gameUrl: "https://game-ashen-eight.vercel.app/science/water-cycle-game"
+      stars: 2,
+      isUnlocked: true,
+      planetUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYnZkdTllZnQzd2Izc201MzUxNzd5aXE5bWhjYjJ4OTczd3BseXkxOCZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/e6l0YRVArTH8I/giphy.gif",
+      gameUrl: "https://game-ashen-eight.vercel.app/science/water-cycle-game",
+      position: { top: '65%', left: '75%' },
+      size: 'w-22 h-22 md:w-26 md:h-26',
+      orbitRadius: '220px'
     },
     {
       id: 6,
+      name: "Saturn",
       title: "Future World",
-      emoji: "🚀",
-      color: "bg-yellow-400",
-      bgGradient: "from-yellow-300 via-yellow-400 to-yellow-500",
-      isUnlocked: false,
-      stars: 0,
+      description: "Discover amazing future technologies and innovations in science",
+      level: 0,
       progress: 0,
-      gameUrl: null
+      stars: 0,
+      isUnlocked: false,
+      planetUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWx4Zm92dTZqZGdqZnE1dmdjZ3dvd20wOWJmemxibHlvdXh6ejJ3cyZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/IqC4IsUmtbpqn2on8W/giphy.gif",
+      gameUrl: null,
+      position: { top: '75%', left: '45%' },
+      size: 'w-20 h-20 md:w-24 md:h-24',
+      orbitRadius: '270px'
+    },
+    {
+      id: 7,
+      name: "Uranus",
+      title: "Advanced Physics",
+      description: "Dive into the world of advanced physics and scientific principles",
+      level: 0,
+      progress: 0,
+      stars: 0,
+      isUnlocked: false,
+      planetUrl: "https://tenor.com/0ntE2FGypM.gif",
+      gameUrl: null,
+      position: { top: '70%', left: '20%' },
+      size: 'w-18 h-18 md:w-20 md:h-20',
+      orbitRadius: '320px'
+    },
+    {
+      id: 8,
+      name: "Neptune",
+      title: "Chemistry Lab",
+      description: "Explore chemical reactions and the fascinating world of chemistry",
+      level: 0,
+      progress: 0,
+      stars: 0,
+      isUnlocked: false,
+      planetUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcTY1YXZ3YnF6bXN6aHJzeGkwaTRoaGdpbW9odWM2a2kzNHcweWc3MSZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/SP2O2JBW2VojK/giphy.gif",
+      gameUrl: null,
+      position: { top: '45%', left: '15%' },
+      size: 'w-17 h-17 md:w-19 md:h-19',
+      orbitRadius: '370px'
     }
   ];
 
-  const handleChapterClick = async (chapter: any) => {
-    if (!chapter.isUnlocked || !chapter.gameUrl || loadingChapter) return;
-    setLoadingChapter(chapter.id);
+  const handlePlanetClick = (planet: any) => {
+    if (planet.isUnlocked) {
+      setSelectedPlanet(planet);
+    }
+  };
+
+  const handleStartChapter = async (planet: any) => {
+    if (!planet.gameUrl || loadingChapter) return;
+    setLoadingChapter(planet.id);
     setTimeout(() => {
       setLoadingChapter(null);
-      window.open(chapter.gameUrl, '_blank');
+      setSelectedPlanet(null);
+      window.open(planet.gameUrl, '_blank');
     }, 1500);
   };
 
-  // Floating background effect
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  // Floating stars effect
+  const [starOffset, setStarOffset] = useState({ x: 0, y: 0 });
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const { innerWidth, innerHeight } = window;
-      const x = (e.clientX / innerWidth - 0.5) * 20;
-      const y = (e.clientY / innerHeight - 0.5) * 20;
-      setOffset({ x, y });
+      const x = (e.clientX / innerWidth - 0.5) * 10;
+      const y = (e.clientY / innerHeight - 0.5) * 10;
+      setStarOffset({ x, y });
     };
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden">
-      {/* Subtle background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-white to-cyan-50 pointer-events-none" />
-
-      {/* Floating science symbols */}
+    <div className="min-h-screen bg-gradient-to-b from-black via-purple-900 to-black relative overflow-hidden">
+      {/* Starfield Background */}
       <motion.div
-        className="absolute inset-0 opacity-10"
-        animate={{ x: offset.x, y: offset.y }}
+        className="absolute inset-0"
+        animate={{ x: starOffset.x, y: starOffset.y }}
         transition={{ type: 'spring', stiffness: 20, damping: 15 }}
       >
-        {['🧬','🪐','🔬','⚗️','💡','🌡️','🌱'].map((symbol, i) => (
+        {[...Array(200)].map((_, i) => (
           <div
             key={i}
-            className="absolute text-3xl select-none"
+            className="absolute bg-white rounded-full animate-pulse"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              transform: `rotate(${Math.random() * 360}deg)`,
+              width: `${Math.random() * 3 + 1}px`,
+              height: `${Math.random() * 3 + 1}px`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${Math.random() * 2 + 1}s`,
             }}
-          >
-            {symbol}
-          </div>
+          />
         ))}
       </motion.div>
 
-      {/* Header */}
-      <div className="sticky top-0 bg-white/80 backdrop-blur-md border-b border-yellow-200 z-50 shadow-sm">
-        <div className="px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => router.push('/chapters')}
-              className="text-yellow-700 hover:cursor-pointer hover:bg-yellow-100 rounded-full"
-            >
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
-            <div className="flex items-center space-x-2">
-              <div className="text-2xl">🧪</div>
+      {/* Fixed Header */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 bg-black/80 backdrop-blur-md border-b border-purple-500/30 z-50"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <motion.div
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => router.push('/chapters')}
+                  className="text-white hover:bg-purple-800/50 rounded-full"
+                >
+                  <ArrowLeft className="w-5 h-5" />
+                </Button>
+              </motion.div>
               <div>
-                <h1 className="text-lg font-bold text-yellow-800">Science Galaxy</h1>
-                <p className="text-xs text-yellow-600">Explore the wonders of science!</p>
+                <motion.h1 
+                  className="text-xl font-bold text-white"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                >
+                  Science World
+                </motion.h1>
+                <motion.p 
+                  className="text-purple-300 text-sm"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                >
+                  Explore the science!
+                </motion.p>
               </div>
             </div>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Badge className="bg-yellow-100 text-yellow-800 font-bold rounded-full px-3">
-              <Star className="w-3 h-3 mr-1 fill-yellow-500 text-yellow-500" /> 200
-            </Badge>
-            <Badge className="bg-yellow-300 text-white rounded-full px-3">🔥 7</Badge>
+            <div className="flex items-center space-x-2">
+              <motion.div
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <Badge className="bg-yellow-500/20 text-yellow-300 border-yellow-500/30 font-bold rounded-full px-3">
+                  <Star className="w-3 h-3 mr-1 fill-yellow-300 text-yellow-300" /> 450
+                </Badge>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              >
+                <Badge className="bg-orange-500/20 text-orange-300 border-orange-500/30 rounded-full px-3">
+                  🔥 3
+                </Badge>
+              </motion.div>
+            </div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Chapters Grid */}
-      <div className="p-4 pb-24">
-        <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {chapters.map((chapter) => (
+      {/* Sun (Center Reference) */}
+      <motion.div
+        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ 
+          opacity: 1, 
+          scale: 1,
+          rotate: 360
+        }}
+        transition={{ 
+          opacity: { duration: 1, delay: 0.5 },
+          scale: { duration: 1, delay: 0.5 },
+          rotate: { duration: 20, repeat: Infinity, ease: "linear" }
+        }}
+      >
+        <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-4 border-yellow-400/50 shadow-lg shadow-yellow-400/30">
+          <img 
+            src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGpueWhzaGhuOHZ3czN1a2kxM2FkOG5icTdwenlldW5ndDBzMWdreCZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/YqL7wobl36TXvw4SxO/giphy.gif"
+            alt="Sun"
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="absolute inset-0 bg-yellow-400/20 rounded-full animate-ping"></div>
+      </motion.div>
+
+      {/* Planets */}
+      <div className="relative pt-20 pb-24 min-h-screen">
+        {/* Orbital Rings - Static for visual reference */}
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          {[80, 110, 140, 170, 220, 270, 320, 370].map((radius, index) => (
+            <motion.div
+              key={radius}
+              className="absolute border border-white/10 rounded-full"
+              style={{
+                width: `${radius * 2}px`,
+                height: `${radius * 2}px`,
+                left: `-${radius}px`,
+                top: `-${radius}px`,
+              }}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.8 + (index * 0.1) }}
+            />
+          ))}
+        </div>
+
+        {planets.map((planet, index) => (
+          <motion.div
+            key={planet.id}
+            className={`absolute ${planet.size} cursor-pointer z-20`}
+            style={{ 
+              top: planet.position.top, 
+              left: planet.position.left,
+              transform: 'translate(-50%, -50%)'
+            }}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.7 + (index * 0.2) }}
+            whileHover={{ scale: planet.isUnlocked ? 1.1 : 1 }}
+            whileTap={{ scale: planet.isUnlocked ? 0.95 : 1 }}
+            onClick={() => handlePlanetClick(planet)}
+          >
+            <div className={`relative w-full h-full rounded-full overflow-hidden border-2 ${
+              planet.isUnlocked 
+                ? 'border-white/50 shadow-xl shadow-white/20' 
+                : 'border-gray-600 opacity-60'
+            }`}>
+              <img 
+                src={planet.planetUrl}
+                alt={planet.name}
+                className="w-full h-full object-cover"
+              />
+              {!planet.isUnlocked && (
+                <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                  <Lock className="w-6 h-6 text-white/80" />
+                </div>
+              )}
+              {planet.isUnlocked && planet.progress === 100 && (
+                <div className="absolute -top-2 -right-2">
+                  <Crown className="w-6 h-6 text-yellow-400" />
+                </div>
+              )}
+            </div>
+            
+            {/* Planet Label */}
+            <motion.div
+              className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1 + (index * 0.1) }}
+            >
+              <p className="text-white text-xs font-medium">{planet.name}</p>
+              {planet.isUnlocked && (
+                <div className="flex justify-center space-x-1 mt-1">
+                  {[...Array(3)].map((_, starIndex) => (
+                    <Star
+                      key={starIndex}
+                      className={`w-3 h-3 ${
+                        starIndex < planet.stars
+                          ? 'text-yellow-400 fill-current'
+                          : 'text-gray-600'
+                      }`}
+                    />
+                  ))}
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        ))}
+      </div>
+      {/* Planet Detail Modal */}
+      <AnimatePresence>
+        {selectedPlanet && (
+          <motion.div
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-60 flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedPlanet(null)}
+          >
+            <motion.div
+              className="bg-gradient-to-b from-gray-900 to-black rounded-2xl p-6 w-full max-w-md relative border border-purple-500/30 shadow-2xl"
+              initial={{ scale: 0.8, opacity: 0, y: 50 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0, y: 50 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <motion.button
+                className="absolute top-4 right-4 text-gray-400 hover:text-white"
+                onClick={() => setSelectedPlanet(null)}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <X className="w-6 h-6" />
+              </motion.button>
+
+              {/* Planet Animation */}
               <motion.div
-                key={chapter.id}
+                className="flex justify-center mb-6"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              >
+                <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white/30 shadow-lg">
+                  <img 
+                    src={selectedPlanet.planetUrl}
+                    alt={selectedPlanet.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </motion.div>
+
+              {/* Planet Info */}
+              <motion.div
+                className="text-center mb-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: chapter.id * 0.1 }}
+                transition={{ delay: 0.2 }}
               >
-                <Card
-                  className={`
-                    ${chapter.isUnlocked ? 'cursor-pointer hover:scale-105' : 'opacity-60'} 
-                    transition-all duration-300 shadow-lg border border-yellow-200 overflow-hidden bg-white/90 backdrop-blur-sm
-                    ${chapter.isUnlocked ? 'transform hover:-translate-y-1 hover:shadow-yellow-300/30' : ''}
-                  `}
-                  onClick={() => handleChapterClick(chapter)}
-                >
-                  <CardContent className="p-0">
-                    <div className={`bg-gradient-to-r ${chapter.bgGradient} p-4 relative rounded-t-lg`}>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-3">
-                          <div className="text-3xl">{chapter.emoji}</div>
-                          <div>
-                            <h3 className="font-bold text-white text-lg">{chapter.title}</h3>
-                            <p className="text-white/80 text-sm">Chapter {chapter.id}</p>
-                          </div>
-                        </div>
-                        {chapter.progress === 100 && (
-                          <Crown className="w-6 h-6 text-yellow-300" />
-                        )}
-                      </div>
+                <h2 className="text-2xl font-bold text-white mb-2">{selectedPlanet.name}</h2>
+                <h3 className="text-xl text-purple-300 mb-3">{selectedPlanet.title}</h3>
+                <p className="text-gray-300 text-sm leading-relaxed mb-4">
+                  {selectedPlanet.description}
+                </p>
 
-                      {!chapter.isUnlocked && (
-                        <div className="absolute inset-0 bg-black/20 flex items-center justify-center rounded-t-lg">
-                          <Lock className="w-8 h-8 text-white/80" />
-                        </div>
-                      )}
+                {/* Progress Stats */}
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                  <div className="bg-purple-900/50 rounded-lg p-3">
+                    <div className="text-2xl font-bold text-white">{selectedPlanet.level}</div>
+                    <div className="text-xs text-purple-300">Level</div>
+                  </div>
+                  <div className="bg-purple-900/50 rounded-lg p-3">
+                    <div className="text-2xl font-bold text-white">{selectedPlanet.progress}%</div>
+                    <div className="text-xs text-purple-300">Progress</div>
+                  </div>
+                </div>
+
+                {/* Stars */}
+                {selectedPlanet.stars > 0 && (
+                  <div className="flex justify-center space-x-1 mb-6">
+                    {[...Array(3)].map((_, starIndex) => (
+                      <motion.div
+                        key={starIndex}
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.3 + (starIndex * 0.1) }}
+                      >
+                        <Star
+                          className={`w-6 h-6 ${
+                            starIndex < selectedPlanet.stars
+                              ? 'text-yellow-400 fill-current'
+                              : 'text-gray-600'
+                          }`}
+                        />
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Progress Bar */}
+                {selectedPlanet.progress > 0 && (
+                  <motion.div
+                    className="mb-6"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-sm text-gray-400">Chapter Progress</span>
+                      <span className="text-sm font-bold text-purple-300">{selectedPlanet.progress}%</span>
                     </div>
-
-                    <div className="p-4 bg-gradient-to-b from-white/60 to-yellow-50/60 backdrop-blur-sm rounded-b-lg">
-                      {/* Stars */}
-                      {chapter.isUnlocked && chapter.stars > 0 && (
-                        <div className="flex justify-center space-x-1 mb-3">
-                          {[...Array(3)].map((_, starIndex) => (
-                            <Star
-                              key={starIndex}
-                              className={`w-5 h-5 ${
-                                starIndex < chapter.stars
-                                  ? 'text-yellow-300 fill-current drop-shadow-md'
-                                  : 'text-gray-300'
-                              }`}
-                            />
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Progress Bar */}
-                      {chapter.isUnlocked && chapter.progress > 0 && (
-                        <div className="mb-4">
-                          <div className="flex justify-between items-center mb-1">
-                            <span className="text-xs text-gray-600">Progress</span>
-                            <span className="text-xs font-bold text-yellow-700">{chapter.progress}%</span>
-                          </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div
-                              className="bg-gradient-to-r from-yellow-300 to-yellow-400 h-2 rounded-full transition-all duration-500 shadow-md"
-                              style={{ width: `${chapter.progress}%` }}
-                            />
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Action Button */}
-                      {chapter.isUnlocked && chapter.gameUrl ? (
-                        <Button
-                          className="w-full hover:cursor-pointer bg-yellow-300 hover:bg-yellow-400 text-white font-bold py-2 rounded-full hover:shadow-lg transition-all duration-200"
-                          disabled={loadingChapter === chapter.id}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleChapterClick(chapter);
-                          }}
-                        >
-                          {loadingChapter === chapter.id ? (
-                            <>
-                              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                              Loading...
-                            </>
-                          ) : (
-                            <>
-                              <Play className="w-4 h-4 mr-2" />
-                              Play Now!
-                            </>
-                          )}
-                        </Button>
-                      ) : !chapter.isUnlocked ? (
-                        <div className="text-center py-2">
-                          <Badge className="bg-gray-400 text-white rounded-full">
-                            🔒 Coming Soon
-                          </Badge>
-                        </div>
-                      ) : null}
+                    <div className="w-full bg-gray-700 rounded-full h-3">
+                      <motion.div
+                        className="bg-gradient-to-r from-purple-500 to-pink-500 h-3 rounded-full"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${selectedPlanet.progress}%` }}
+                        transition={{ duration: 1, delay: 0.5 }}
+                      />
                     </div>
-                  </CardContent>
-                </Card>
+                  </motion.div>
+                )}
               </motion.div>
-            ))}
-          </div>
 
-          {/* Encouragement Section */}
-          <motion.div
-            className="mt-8 text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
+              {/* Action Button */}
+              {selectedPlanet.gameUrl && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  <Button
+                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3 rounded-full transition-all duration-300 shadow-lg"
+                    disabled={loadingChapter === selectedPlanet.id}
+                    onClick={() => handleStartChapter(selectedPlanet)}
+                  >
+                    {loadingChapter === selectedPlanet.id ? (
+                      <>
+                        <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                        Launching...
+                      </>
+                    ) : (
+                      <>
+                        <Play className="w-5 h-5 mr-2" />
+                        Start Mission
+                      </>
+                    )}
+                  </Button>
+                </motion.div>
+              )}
+            </motion.div>
           </motion.div>
-        </div>
-      </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
