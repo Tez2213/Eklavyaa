@@ -1,0 +1,395 @@
+'use client';
+
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { 
+  ArrowLeft,
+  Crown,
+  Trophy,
+  Medal,
+  Star,
+  Coins,
+  Home,
+  BookOpen,
+  Award,
+  User,
+  GraduationCap,
+  X
+} from 'lucide-react';
+
+export default function Leaderboard() {
+  const router = useRouter();
+  const [selectedClass, setSelectedClass] = useState(6);
+  const [showClassSelector, setShowClassSelector] = useState(false);
+  const classes = [6, 7, 8, 9, 10, 11, 12];
+
+  // Generate random avatars
+  const getRandomAvatar = (seed: string) => {
+    const randomNumber = Math.floor(Math.random() * 100) + 1;
+    return `https://avatar.iran.liara.run/public/${randomNumber}`;
+  };
+
+  // Sample leaderboard data
+  const topThree = [
+    {
+      id: 1,
+      name: "Alex Chen",
+      username: "alexc2024",
+      position: 1,
+      points: 3000,
+      avatar: getRandomAvatar("alex"),
+      badge: "diamond"
+    },
+    {
+      id: 2,
+      name: "Sarah Kim",
+      username: "sarahk_smart",
+      position: 2,
+      points: 1847,
+      avatar: getRandomAvatar("sarah"),
+      badge: "diamond"
+    },
+    {
+      id: 3,
+      name: "Mike Johnson",
+      username: "mike_genius",
+      position: 3,
+      points: 1147,
+      avatar: getRandomAvatar("mike"),
+      badge: "diamond"
+    }
+  ];
+
+  const otherPlayers = [
+    {
+      id: 4,
+      name: "Emma Wilson",
+      username: "emma_w_2024",
+      position: 4,
+      points: 500,
+      avatar: getRandomAvatar("emma"),
+      badge: "ruby"
+    },
+    {
+      id: 5,
+      name: "David Brown",
+      username: "david_scholar",
+      position: 5,
+      points: 300,
+      avatar: getRandomAvatar("david"),
+      badge: "ruby"
+    },
+    {
+      id: 6,
+      name: "Lisa Garcia",
+      username: "lisa_learns",
+      position: 6,
+      points: 120,
+      avatar: getRandomAvatar("lisa"),
+      badge: "sapphire"
+    },
+    {
+      id: 7,
+      name: "Tom Miller",
+      username: "tom_studies",
+      position: 7,
+      points: 110,
+      avatar: getRandomAvatar("tom"),
+      badge: "sapphire"
+    },
+    {
+      id: 8,
+      name: "Amy Davis",
+      username: "amy_bright",
+      position: 8,
+      points: 105,
+      avatar: getRandomAvatar("amy"),
+      badge: "sapphire"
+    }
+  ];
+
+  const getBadgeIcon = (badge: string) => {
+    switch (badge) {
+      case 'diamond':
+        return '';
+      case 'ruby':
+        return '';
+      case 'sapphire':
+        return '';
+      default:
+        return '';
+    }
+  };
+
+  const getPodiumHeight = (position: number) => {
+    switch (position) {
+      case 1:
+        return 'h-20';
+      case 2:
+        return 'h-16';
+      case 3:
+        return 'h-12';
+      default:
+        return 'h-12';
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col relative overflow-hidden">
+      {/* Background Pattern */}
+      <div 
+        className="absolute inset-0 opacity-5"
+        style={{
+          backgroundImage: 'url(/bg.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      />
+      {/* Header */}
+      <div className="sticky top-0 bg-gray-50/95 backdrop-blur-md border-b border-gray-200/50 z-50">
+        <div className="px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">Leaderboard</h1>
+              <p className="text-gray-600 text-sm">See who's leading the way!</p>
+            </div>
+            <div className="flex items-center space-x-3">
+              <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 px-3 py-1">
+                <Star className="w-3 h-3 mr-1 fill-yellow-500 text-yellow-500" />
+                7
+              </Badge>
+              <Badge className="bg-[#ffce3b] text-white px-3 py-1">
+                <Trophy className="w-3 h-3 mr-1" />
+                450
+              </Badge>
+              <Avatar className="w-8 h-8 bg-[#ffce3b]">
+                <AvatarFallback className="bg-[#ffce3b] text-white font-semibold text-sm">
+                  A
+                </AvatarFallback>
+              </Avatar>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Top 3 Podium - Sticky */}
+      <div className="sticky top-[89px] bg-gray-50/95 backdrop-blur-md z-40 border-b border-gray-200/50">
+        <div className="px-4 py-6">
+          <div className="flex items-end justify-center space-x-4">
+            {/* 2nd Place */}
+            <div className="flex flex-col items-center">
+              <div className="relative mb-3">
+                <Avatar className="w-16 h-16 border-4 border-gray-400">
+                  <AvatarImage src={topThree[1].avatar} alt={topThree[1].name} />
+                  <AvatarFallback className="bg-gray-400 text-white font-bold">
+                    {topThree[1].name.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
+              </div>
+              <div className={`bg-[#ffce3b] rounded-t-lg flex items-center justify-center ${getPodiumHeight(2)} w-16`}>
+                <span className="text-black font-bold text-2xl">2</span>
+              </div>
+              <div className="text-center mt-2">
+                <p className="text-sm font-semibold text-gray-900">{topThree[1].points}</p>
+                <p className="text-xs text-gray-500">ID: {topThree[1].username}</p>
+              </div>
+            </div>
+
+            {/* 1st Place */}
+            <div className="flex flex-col items-center">
+              <div className="relative mb-3">
+                <Crown className="w-6 h-6 text-[#ffce3b] absolute -top-8 left-1/2 transform -translate-x-1/2" />
+                <Avatar className="w-20 h-20 border-4 border-[#ffce3b]">
+                  <AvatarImage src={topThree[0].avatar} alt={topThree[0].name} />
+                  <AvatarFallback className="bg-[#ffce3b] text-black font-bold">
+                    {topThree[0].name.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
+              </div>
+              <div className={`bg-[#ffce3b] rounded-t-lg flex items-center justify-center ${getPodiumHeight(1)} w-20`}>
+                <span className="text-black font-bold text-3xl">1</span>
+              </div>
+              <div className="text-center mt-2">
+                <p className="text-lg font-bold text-[#ffce3b]">{topThree[0].points}</p>
+                <p className="text-xs text-gray-500">ID: {topThree[0].username}</p>
+              </div>
+            </div>
+
+            {/* 3rd Place */}
+            <div className="flex flex-col items-center">
+              <div className="relative mb-3">
+                <Avatar className="w-16 h-16 border-4 border-orange-400">
+                  <AvatarImage src={topThree[2].avatar} alt={topThree[2].name} />
+                  <AvatarFallback className="bg-orange-400 text-white font-bold">
+                    {topThree[2].name.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
+              </div>
+              <div className={`bg-[#ffce3b] rounded-t-lg flex items-center justify-center ${getPodiumHeight(3)} w-16`}>
+                <span className="text-black font-bold text-2xl">3</span>
+              </div>
+              <div className="text-center mt-2">
+                <p className="text-sm font-semibold text-gray-900">{topThree[2].points}</p>
+                <p className="text-xs text-gray-500">ID: {topThree[2].username}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Scrollable Rankings */}
+      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-2">
+        {otherPlayers.map((player, index) => (
+          <Card key={player.id} className="bg-[#ffce3b] border-0 shadow-lg">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="text-black font-bold text-lg w-6">
+                    {player.position}
+                  </div>
+                  <Avatar className="w-10 h-10">
+                    <AvatarImage src={player.avatar} alt={player.name} />
+                    <AvatarFallback className="bg-gray-600 text-white font-bold">
+                      {player.name.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <p className="text-black font-semibold text-sm">{player.name}</p>
+                    <p className="text-black/70 text-xs">ID: {player.username}</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <span className="text-black font-bold">{player.points}</span>
+                  <Coins className="w-4 h-4 text-black" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Current User Position - Fixed at Bottom */}
+      <div className="sticky bottom-[73px] bg-gray-50/95 backdrop-blur-md border-t border-gray-200/50 z-40 p-4">
+        <Card className="bg-white border border-[#ffce3b] shadow-xl">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="text-[#ffce3b] font-bold text-lg">
+                  148
+                </div>
+                <Avatar className="w-10 h-10">
+                  <AvatarImage src={getRandomAvatar("current-user")} alt="You" />
+                  <AvatarFallback className="bg-[#ffce3b] text-black font-bold">
+                    T
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <p className="text-gray-900 font-semibold text-sm">Tôi</p>
+                  <p className="text-gray-500 text-xs">That's you!</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-2">
+                <span className="text-[#ffce3b] font-bold">50</span>
+                <Coins className="w-4 h-4 text-[#ffce3b]" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Class Selection Modal */}
+      {showClassSelector && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-60 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl p-6 w-full max-w-sm relative">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold text-gray-900">Select Your Class</h3>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowClassSelector(false)}
+                className="h-8 w-8"
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
+            
+            <div className="grid grid-cols-4 gap-3">
+              {classes.map((classNum) => (
+                <button
+                  key={classNum}
+                  onClick={() => {
+                    setSelectedClass(classNum);
+                    setShowClassSelector(false);
+                  }}
+                  className={`
+                    aspect-square rounded-xl border-2 font-bold text-lg
+                    ${selectedClass === classNum 
+                      ? 'bg-[#ffce3b] border-[#ffce3b] text-white' 
+                      : 'bg-gray-50 border-gray-200 text-gray-700 hover:border-[#ffce3b] hover:bg-[#ffce3b]/10'
+                    }
+                    transition-all duration-200
+                  `}
+                >
+                  {classNum}
+                </button>
+              ))}
+            </div>
+            
+            <div className="mt-6 flex items-center justify-center">
+              <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 px-4 py-2">
+                <GraduationCap className="w-4 h-4 mr-2" />
+                Currently: Class {selectedClass}
+              </Badge>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Fixed Bottom Navigation */}
+      <div className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-md px-4 py-3 border-t border-gray-800 z-50">
+        <div className="flex items-center justify-around max-w-md mx-auto">
+          <div className="flex flex-col items-center space-y-1">
+            <Home className="w-5 h-5 text-gray-400" />
+            <a href="/dashboard" className="text-gray-400 text-xs hover:text-[#ffce3b] transition-colors">
+              Dashboard
+            </a>
+          </div>
+          
+          <div className="flex flex-col items-center space-y-1">
+            <BookOpen className="w-5 h-5 text-gray-400" />
+            <a href="/chapters" className="text-gray-400 text-xs hover:text-[#ffce3b] transition-colors">
+              Chapters
+            </a>
+          </div>
+          
+          <button
+            className="w-12 h-12 bg-[#ffce3b] rounded-full flex items-center justify-center relative"
+            onClick={() => setShowClassSelector(true)}
+          >
+            <span className="text-white font-bold text-lg">{selectedClass}</span>
+            <div className="absolute -top-1 -right-1 w-4 h-4 bg-white rounded-full flex items-center justify-center">
+              <span className="text-[#ffce3b] text-xs font-bold">•</span>
+            </div>
+          </button>
+          
+          <div className="flex flex-col items-center space-y-1">
+            <Award className="w-5 h-5 text-[#ffce3b]" />
+            <span className="text-[#ffce3b] text-xs font-medium">Leaderboard</span>
+          </div>
+          
+          <div className="flex flex-col items-center space-y-1">
+            <User className="w-5 h-5 text-gray-400" />
+            <a href="/profile" className="text-gray-400 text-xs hover:text-[#ffce3b] transition-colors">
+              Profile
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
