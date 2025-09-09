@@ -26,7 +26,10 @@ import {
 export default function Dashboard() {
   const [selectedClass, setSelectedClass] = useState(6);
   const [showClassSelector, setShowClassSelector] = useState(false);
+  const [showStreekSelection , setShowStreekSelection] = useState(false);
   const classes = [6, 7, 8, 9, 10, 11, 12];
+  const streek = [1,2,3,4,5,6,7];
+  const [showStarPopup, setShowStarPopup] = useState(false); 
 
   return (
     <div className="min-h-screen bg-gray-50 relative overflow-hidden">
@@ -52,12 +55,12 @@ export default function Dashboard() {
           <div className="flex items-center justify-between">
             <div>
               <motion.h1 
-                className="text-2xl font-bold text-gray-900"
+                className="text-2xl flex font-bold text-gray-900"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
-                Hello Arjun
+                Hello, <div className="text-amber-500" >&nbsp;Arjun</div>
               </motion.h1>
               <motion.p 
                 className="text-gray-600 text-sm"
@@ -70,16 +73,18 @@ export default function Dashboard() {
             </div>
             
             <div className="flex items-center space-x-3">
-              <motion.div
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
+          <motion.div
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <Badge
+                className="bg-yellow-100 text-yellow-800 border-yellow-200 px-3 py-1 cursor-pointer"
+                onClick={() => setShowStarPopup(true)}
               >
-                <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 px-3 py-1">
-                  <Star className="w-3 h-3 mr-1 fill-yellow-500 text-yellow-500" />
-                  7
-                </Badge>
-              </motion.div>
+                3 🔥
+              </Badge>
+            </motion.div>
               
               <motion.div
                 initial={{ opacity: 0, scale: 0 }}
@@ -99,10 +104,56 @@ export default function Dashboard() {
               >
                 <Avatar className="w-8 h-8 bg-[#ffce3b]">
                   <AvatarFallback className="bg-[#ffce3b] text-white font-semibold text-sm">
-                    A
+                    <img src={'https://avatar.iran.liara.run/public/8'} />
                   </AvatarFallback>
                 </Avatar>
               </motion.div>
+              {/* 🔥 Star Popup Modal */}
+<AnimatePresence>
+  {showStarPopup && (
+    <motion.div
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm z-60 flex items-center justify-center p-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={() => setShowStarPopup(false)}
+    >
+      <motion.div
+        className="bg-white rounded-2xl p-6 w-full max-w-sm relative mt-20"
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.8, opacity: 0 }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Modal Header with Close Button */}
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-xl font-bold text-gray-900">Your Stars</h3>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setShowStarPopup(false)}
+            className="h-8 w-8 rounded-full hover:bg-gray-100"
+          >
+            <X className="w-4 h-4" />
+          </Button>
+        </div>
+
+        {/* Stars Display */}
+        <div className="flex justify-center mb-4 space-x-2">
+          {[1, 2, 3].map((star) => (
+            <div className="w-8 h-8 fill-yellow-400 text-yellow-400">🔥</div>
+          ))}
+        </div>
+
+        {/* Message */}
+        <p className="text-center text-gray-700">
+          You’ve earned <span className="font-bold">3 Fire Streek</span> for your progress! 🎉
+        </p>
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
+
             </div>
           </div>
         </div>
@@ -118,6 +169,7 @@ export default function Dashboard() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
+       <a href='https://game-ashen-eight.vercel.app/maths/prime-guardians'>
           <Card className="bg-gradient-to-r from-[#ffce3b] to-[#ffde00] border-0 shadow-lg mb-6 overflow-hidden">
             <CardContent className="p-6 relative">
               <div className="flex items-center justify-between mb-4">
@@ -129,7 +181,8 @@ export default function Dashboard() {
                   whileHover={{ scale: 1.1, rotate: 90 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <ArrowRight className="w-6 h-6 text-black" />
+                  <ArrowRight  className="w-6 h-6 text-black" />
+                  
                 </motion.div>
               </div>
               
@@ -145,6 +198,7 @@ export default function Dashboard() {
               </div>
             </CardContent>
           </Card>
+        </a>
         </motion.div>
 
         {/* Weekly Goal Tracker */}
@@ -199,25 +253,7 @@ export default function Dashboard() {
           </div>
         </motion.div>
 
-        {/* Stats Section */}
-        <motion.div
-          className="mb-6"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-        >
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Stats</h3>
-          
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <Button className="w-full bg-[#ffce3b] hover:bg-[#ffde00] text-white py-4 rounded-2xl font-semibold text-base shadow-lg">
-              <Flame className="w-5 h-5 mr-2" />
-              Claim Streak Tracker
-            </Button>
-          </motion.div>
-        </motion.div>
+      
 
         {/* Friend Activity Feed */}
         <motion.div
@@ -294,10 +330,11 @@ export default function Dashboard() {
               transition={{ duration: 0.2 }}
             >
               <Card className="bg-[#ffce3b] border-[#ffce3b] shadow-sm">
-                <CardContent className="p-12">
-                  <p className="text-xs text-white font-semibold text-center leading-tight">
-                    Keep up the work, Arjun
-                  </p>
+                <CardContent className="p-4 text-center">
+                  <div className="w-12 h-8 bg-gray-300 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <Trophy className="w-6 h-6 text-gray-500" />
+                  </div>
+                  <p className="text-xs text-gray-500 font-medium">Keep it up Arjun</p>
                 </CardContent>
               </Card>
             </motion.div>
@@ -425,9 +462,9 @@ export default function Dashboard() {
             className="flex flex-col items-center space-y-1"
             whileTap={{ scale: 0.95 }}
           >
-            <a href="/profile">
-              <User className="w-5 h-5 text-gray-400" />
-              <span className="text-gray-400 text-xs">Profile</span>
+            <a href='/profile'>
+            <User className="w-5 h-5 text-gray-400" />
+            <span className="text-gray-400 text-xs">Profile</span>
             </a>
           </motion.div>
         </div>

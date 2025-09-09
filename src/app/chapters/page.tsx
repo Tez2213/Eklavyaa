@@ -121,7 +121,7 @@ export default function Chapters() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
-                Choose Your World
+                Your Worlds
               </motion.h1>
               <motion.p 
                 className="text-gray-600 text-sm"
@@ -140,8 +140,7 @@ export default function Chapters() {
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
                 <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 px-3 py-1">
-                  <Star className="w-3 h-3 mr-1 fill-yellow-500 text-yellow-500" />
-                  7
+                  🔥  3
                 </Badge>
               </motion.div>
               
@@ -163,7 +162,7 @@ export default function Chapters() {
               >
                 <Avatar className="w-8 h-8 bg-[#ffce3b]">
                   <AvatarFallback className="bg-[#ffce3b] text-white font-semibold text-sm">
-                    A
+                    <img src={'https://avatar.iran.liara.run/public/8'} />
                   </AvatarFallback>
                 </Avatar>
               </motion.div>
@@ -281,32 +280,6 @@ export default function Chapters() {
             );
           })}
         </div>
-
-        {/* Continue Journey Button */}
-        <motion.div
-          className="mb-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-        >
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <Button className="w-full bg-[#ffce3b] hover:bg-[#ffde00] text-white py-4 rounded-2xl font-bold text-lg shadow-xl relative overflow-hidden">
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                animate={{ x: [-100, 200] }}
-                transition={{ 
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-              <span className="relative z-10">⚡ Continue Journey</span>
-            </Button>
-          </motion.div>
-        </motion.div>
 
         {/* More Worlds Coming Soon */}
         <motion.div
@@ -474,7 +447,7 @@ export default function Chapters() {
             className="flex flex-col items-center space-y-1"
             whileTap={{ scale: 0.95 }}
           >
-            <a href="/profile">
+            <a href='/profile'>
               <User className="w-5 h-5 text-gray-400" />
               <span className="text-gray-400 text-xs">Profile</span>
             </a>
