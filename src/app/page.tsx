@@ -5,13 +5,12 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 export default function Home() {
-  // ------------------ PARALLAX BACKGROUND ------------------
   const [offset, setOffset] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const { innerWidth, innerHeight } = window;
-      const x = (e.clientX / innerWidth - 0.5) * 20; // adjust strength
+      const x = (e.clientX / innerWidth - 0.5) * 20; 
       const y = (e.clientY / innerHeight - 0.5) * 20;
       setOffset({ x, y });
     };
@@ -19,7 +18,6 @@ export default function Home() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // ------------------ TYPEWRITER EFFECT ------------------
   const fullText = "Education, the fun way.";
   const [displayedText, setDisplayedText] = useState("");
   useEffect(() => {
@@ -28,7 +26,7 @@ export default function Home() {
       setDisplayedText(fullText.slice(0, i + 1));
       i++;
       if (i === fullText.length) clearInterval(interval);
-    }, 80); // typing speed
+    }, 80); 
     return () => clearInterval(interval);
   }, []);
 
@@ -65,8 +63,6 @@ export default function Home() {
         transition={{ type: "spring", stiffness: 30, damping: 20 }}
       />
 
-      {/* Keep your book, globe, calculator, pencil, cap icons here exactly as before */}
-
       {/* Main Content */}
       <div className="flex flex-col items-center justify-center min-h-screen px-4 relative z-10">
         {/* Logo and Brand Section */}
@@ -100,7 +96,7 @@ export default function Home() {
                   ease: "linear",
                 }}
               />
-              {/* Logo Image */}
+
               <motion.div
                 animate={{
                   scale: [1, 1.05, 1],
@@ -124,7 +120,6 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* Brand Name Animation */}
           <motion.h1
             className="text-5xl md:text-6xl font-bold text-black mb-3 tracking-wide"
             initial={{ opacity: 0 }}
@@ -149,7 +144,6 @@ export default function Home() {
             ))}
           </motion.h1>
 
-          {/* Typewriter Tagline */}
           <motion.p
             className="text-xl text-black/90 font-medium tracking-wide min-h-[2rem]"
             initial={{ opacity: 0 }}
@@ -161,7 +155,7 @@ export default function Home() {
           </motion.p>
         </motion.div>
 
-        {/* Interactive Button with Magnetic Hover */}
+        {/* Button with Magnetic Hover */}
         <motion.div
           className="relative"
           onMouseMove={handleMouseMoveButton}
@@ -197,7 +191,6 @@ export default function Home() {
           </motion.button>
         </motion.div>
 
-        {/* Rising Bubbles */}
         <motion.div
           className="absolute bottom-0 left-1/2 transform -translate-x-1/2"
           initial={{ opacity: 0 }}
