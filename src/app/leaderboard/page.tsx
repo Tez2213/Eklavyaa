@@ -380,7 +380,7 @@ export default function Leaderboard() {
                       148
                     </div>
                     <Avatar className="w-9 h-9 flex-shrink-0">
-                      <AvatarImage src={getRandomAvatar("current-user")} alt="You" />
+                      <AvatarImage src={'/avatar.png'} alt="You" />
                       <AvatarFallback className="bg-[#ffce3b] text-black font-bold text-sm">
                         A
                       </AvatarFallback>

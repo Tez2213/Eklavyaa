@@ -33,7 +33,7 @@ export default function ScienceWorld() {
       progress: 100,
       stars: 3,
       isUnlocked: true,
-      planetUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNjlwNTJqd2E5MW02a2hxMmEzbG5kdzJjdWd1dHpncmlldXIyYXQ0bSZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/lIeUAWuLK7cv6/giphy.gif",
+      planetUrl: "/mecury.webp",
       gameUrl: "https://game-ashen-eight.vercel.app/science/solar-game",
       position: { top: '50%', left: '35%' },
       size: 'w-12 h-12 md:w-14 md:h-14',
@@ -48,7 +48,7 @@ export default function ScienceWorld() {
       progress: 85,
       stars: 2,
       isUnlocked: true,
-      planetUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWIwZnhycGFrdGx3d2Z4ZnF2dHJtcHUybTZndDN3a2VuZGM1NnA1ZSZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/aOYcDWZtQ7ZCVFU8Qf/giphy.gif",
+      planetUrl: "/venus.webp",
       gameUrl: "https://game-ashen-eight.vercel.app/science/temperature-game",
       position: { top: '35%', left: '30%' },
       size: 'w-14 h-14 md:w-16 md:h-16',
@@ -63,7 +63,7 @@ export default function ScienceWorld() {
       progress: 75,
       stars: 3,
       isUnlocked: true,
-      planetUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXN3ZXNpYmowNHJscGx2OHA5dDd6Z2x3c3RvZmE1OTF2bzYzOHRzNyZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/yo1whaKkz38ME/giphy.gif",
+      planetUrl: "/earth.webp",
       gameUrl: "https://game-ashen-eight.vercel.app/science/chef-game",
       position: { top: '25%', left: '50%' },
       size: 'w-16 h-16 md:w-18 md:h-18',
@@ -78,7 +78,7 @@ export default function ScienceWorld() {
       progress: 60,
       stars: 1,
       isUnlocked: true,
-      planetUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNXE1ejZpNWN2eXdxcWgxcWpqaG5vZ2Y5dDFvNDI3MnNza2F3eWJ5aCZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/JRZwMhzk7WolG/giphy.gif",
+      planetUrl: "/mars.webp",
       gameUrl: "https://game-ashen-eight.vercel.app/science/material-game",
       position: { top: '30%', left: '70%' },
       size: 'w-14 h-14 md:w-16 md:h-16',
@@ -93,7 +93,7 @@ export default function ScienceWorld() {
       progress: 40,
       stars: 2,
       isUnlocked: true,
-      planetUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYnZkdTllZnQzd2Izc201MzUxNzd5aXE5bWhjYjJ4OTczd3BseXkxOCZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/e6l0YRVArTH8I/giphy.gif",
+      planetUrl: "/jupiter.webp",
       gameUrl: "https://game-ashen-eight.vercel.app/science/water-cycle-game",
       position: { top: '65%', left: '75%' },
       size: 'w-22 h-22 md:w-26 md:h-26',
@@ -108,7 +108,7 @@ export default function ScienceWorld() {
       progress: 0,
       stars: 0,
       isUnlocked: false,
-      planetUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWx4Zm92dTZqZGdqZnE1dmdjZ3dvd20wOWJmemxibHlvdXh6ejJ3cyZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/IqC4IsUmtbpqn2on8W/giphy.gif",
+      planetUrl: "/saturn.webp",
       gameUrl: null,
       position: { top: '75%', left: '45%' },
       size: 'w-20 h-20 md:w-24 md:h-24',
@@ -123,7 +123,7 @@ export default function ScienceWorld() {
       progress: 0,
       stars: 0,
       isUnlocked: false,
-      planetUrl: "https://tenor.com/0ntE2FGypM.gif",
+      planetUrl: "/uranus.gif",
       gameUrl: null,
       position: { top: '70%', left: '20%' },
       size: 'w-18 h-18 md:w-20 md:h-20',
@@ -138,7 +138,7 @@ export default function ScienceWorld() {
       progress: 0,
       stars: 0,
       isUnlocked: false,
-      planetUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcTY1YXZ3YnF6bXN6aHJzeGkwaTRoaGdpbW9odWM2a2kzNHcweWc3MSZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/SP2O2JBW2VojK/giphy.gif",
+      planetUrl: "/neptune.webp",
       gameUrl: null,
       position: { top: '45%', left: '15%' },
       size: 'w-17 h-17 md:w-19 md:h-19',
@@ -281,7 +281,7 @@ export default function ScienceWorld() {
       >
         <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-4 border-yellow-400/50 shadow-lg shadow-yellow-400/30">
           <img 
-            src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGpueWhzaGhuOHZ3czN1a2kxM2FkOG5icTdwenlldW5ndDBzMWdreCZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/YqL7wobl36TXvw4SxO/giphy.gif"
+            src="/sun.webp"
             alt="Sun"
             className="w-full h-full object-cover"
           />
