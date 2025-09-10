@@ -48,19 +48,19 @@ export default function Profile() {
 
   // User data
   const userData = {
-    name: "Abhay Kumar",
-    username: "Abhay_learner",
-    email: "abhay@eklavyaa.com",
+    name: "Arjun Kumar",
+    username: "Arjun_learner",
+    email: "arjun@eklavyaa.com",
     phone: "+91 98765 43210",
     location: "Mumbai, India",
     joinedDate: "March 2024",
-    avatar: "https://avatar.iran.liara.run/public/8",
-    level: 15,
+    avatar: "/avatar.png",
+    level: 5,
     totalPoints: 450,
     streak: 3,
-    completedCourses: 12,
-    totalLessons: 145,
-    studyTime: 89, // hours
+    completedCourses: 6,
+    totalLessons: 10,
+    studyTime: 69, // hours
     rank: 148,
     nextLevelPoints: 500,
     progressToNext: 95 // percentage
