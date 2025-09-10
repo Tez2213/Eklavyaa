@@ -253,9 +253,11 @@ export default function Profile() {
               <div>
                 <h2 className="text-2xl font-bold text-gray-900">{userData.name}</h2>
                 <p className="text-gray-600">@{userData.username}</p>
-                <Badge className="mt-2 bg-[#ffce3b] text-white px-3 py-1">
-                  Level {userData.level}
-                </Badge>
+                <a href='/'>
+                  <Badge className="mt-2 bg-[#ffce3b] text-white px-3 py-1">
+                    Level {userData.level}
+                  </Badge>
+                </a>
               </div>
 
               {/* Stats Row */}
