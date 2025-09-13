@@ -180,8 +180,8 @@ export default function ScienceWorld() {
       {/* Starfield Background */}
       <motion.div
         className="absolute inset-0"
-        animate={{ x: starOffset.x, y: starOffset.y }}
-        transition={{ type: 'spring', stiffness: 20, damping: 15 }}
+        // animate={{ x: starOffset.x, y: starOffset.y }}
+        // transition={{ type: 'spring', stiffness: 20, damping: 15 }}
       >
         {[...Array(200)].map((_, i) => (
           <div
