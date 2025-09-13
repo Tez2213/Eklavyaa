@@ -3,9 +3,11 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import FeatureShowcase from '@/components/FeatureShowcase';
 
 export default function Home() {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [showFeatures, setShowFeatures] = useState(false);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -23,7 +25,6 @@ export default function Home() {
     { text: "Education, the fun way", lang: "English" },
     { text: "शिक्षा, मजेदार तरीके से", lang: "Hindi" },
     { text: "ଶିକ୍ଷା, ମଜାଦାର ଉପାୟରେ", lang: "Odia" },
-    { text: "التعليم بطريقة ممتعة", lang: "Arabic" },
     { text: "शिक्षा, मजेशीर पद्धतीने", lang: "Marathi" }
   ];
 
@@ -75,6 +76,19 @@ export default function Home() {
   const handleMouseLeaveButton = () => {
     setBtnPos({ x: 0, y: 0 });
   };
+
+  const handleGetStarted = () => {
+    setShowFeatures(true);
+  };
+
+  const handleFeatureComplete = () => {
+    window.location.href = '/login';
+  };
+
+  // Show feature showcase if user clicked get started
+  if (showFeatures) {
+    return <FeatureShowcase onGetStarted={handleFeatureComplete} />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-orange-100 relative overflow-hidden">
@@ -268,10 +282,9 @@ export default function Home() {
             whileTap={{ scale: 0.95 }}
             animate={{ x: btnPos.x, y: btnPos.y }}
             transition={{ type: "spring", stiffness: 150, damping: 15 }}
+            onClick={handleGetStarted}
           >
-            <a href="/login">
-              Get Started
-            </a>
+            Get Started
           </motion.button>
         </motion.div>
 
