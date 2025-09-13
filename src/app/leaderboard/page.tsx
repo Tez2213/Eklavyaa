@@ -223,9 +223,11 @@ export default function Leaderboard() {
             transition={{ duration: 0.5, delay: 0.5 }}
           >
             <Avatar className="w-8 h-8 bg-[#ffce3b]">
+              <a href='/profile'>
               <AvatarFallback className="bg-[#ffce3b] text-white font-semibold text-sm">
               <img src={'https://avatar.iran.liara.run/public/8'} />
               </AvatarFallback>
+              </a>
             </Avatar>
           </motion.div>
         </div>
@@ -235,7 +237,7 @@ export default function Leaderboard() {
 
       {/* Top 3 Podium - Fixed under header */}
       <motion.div
-        className="fixed top-[89px] left-0 right-0 bg-gray-50/95 backdrop-blur-md z-40 border-b border-gray-200/50"
+        className="fixed top-[86px] left-0 right-0 bg-gray-50/95 backdrop-blur-md z-40 border-b border-gray-200/50"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.3 }}
@@ -274,7 +276,7 @@ export default function Leaderboard() {
               transition={{ duration: 0.6, delay: 0.4 }}
             >
               <div className="relative mb-3">
-                <Crown className="w-6 h-6 text-[#ffce3b] absolute -top-8 left-1/2 transform -translate-x-1/2" />
+                <Crown className="w-6 h-6 text-[#ffce3b] absolute -top-7 left-1/2 transform -translate-x-1/2" />
                 <Avatar className="w-20 h-20 border-4 border-[#ffce3b]">
                   <AvatarImage src={topThree[0].avatar} alt={topThree[0].name} />
                   <AvatarFallback className="bg-[#ffce3b] text-black font-bold">
@@ -320,7 +322,7 @@ export default function Leaderboard() {
 
       {/* Main Content Area - Scrollable */}
       <motion.div
-        className="pt-[200px] pb-[140px] min-h-screen"
+        className="pt-[360px] pb-[180px] min-h-screen"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.4 }}
