@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 
 export default function Home() {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [currentScreen, setCurrentScreen] = useState(0);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -18,12 +19,22 @@ export default function Home() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const screenHeight = window.innerHeight;
+      const screen = Math.floor(scrollY / screenHeight);
+      setCurrentScreen(Math.min(screen, 2));
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   // Multilingual taglines
   const taglines = [
     { text: "Education, the fun way", lang: "English" },
     { text: "शिक्षा, मजेदार तरीके से", lang: "Hindi" },
     { text: "ଶିକ୍ଷା, ମଜାଦାର ଉପାୟରେ", lang: "Odia" },
-    { text: "التعليم بطريقة ممتعة", lang: "Arabic" },
     { text: "शिक्षा, मजेशीर पद्धतीने", lang: "Marathi" }
   ];
 
@@ -78,9 +89,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-orange-100 relative overflow-hidden">
-      {/* Minimal Background Elements */}
+      {/* Background Elements */}
       <div className="absolute inset-0">
-        {/* Simple floating elements */}
         {[...Array(3)].map((_, i) => (
           <motion.div
             key={i}
@@ -104,11 +114,11 @@ export default function Home() {
         ))}
       </div>
 
-      {/* Simple Gradient Overlays */}
+      {/* Gradient Overlays */}
       <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-yellow-200/20 to-transparent pointer-events-none" />
       <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-orange-200/20 to-transparent pointer-events-none" />
 
-      {/* Parallax Background Pattern */}
+      {/* Parallax Background */}
       <motion.div
         className="absolute inset-0 opacity-10"
         style={{
@@ -121,18 +131,18 @@ export default function Home() {
         transition={{ type: "spring", stiffness: 30, damping: 20 }}
       />
 
-      {/* Main Content */}
-      <div className="flex flex-col items-center justify-center min-h-screen px-4 relative z-10">
-        {/* Logo and Brand Section */}
+      {/* Screen 1: Application Introduction */}
+      {currentScreen === 0 && (
         <motion.div
-          className="text-center mb-8"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="flex flex-col items-center justify-center min-h-screen px-4 relative z-10"
+          initial={{ opacity: 0, x: 300 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -300 }}
+          transition={{ duration: 0.5 }}
         >
           {/* Logo Container */}
           <motion.div
-            className="mb-8 relative"
+            className="mb-6 relative"
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{
@@ -143,8 +153,7 @@ export default function Home() {
               damping: 15,
             }}
           >
-            <div className="w-40 h-40 sm:w-48 sm:h-48 mx-auto bg-yellow-100/50 backdrop-blur-sm rounded-full flex items-center justify-center shadow-xl border-4 border-yellow-300/40 relative">
-              {/* Single Rotating Ring */}
+            <div className="w-32 h-32 sm:w-40 sm:h-40 mx-auto bg-yellow-100/50 backdrop-blur-sm rounded-full flex items-center justify-center shadow-xl border-4 border-yellow-300/40 relative">
               <motion.div
                 className="absolute inset-2 border-3 border-transparent border-t-yellow-400 rounded-full"
                 animate={{ rotate: 360 }}
@@ -154,7 +163,6 @@ export default function Home() {
                   ease: "linear",
                 }}
               />
-
               <motion.div
                 animate={{
                   scale: [1, 1.05, 1],
@@ -169,17 +177,17 @@ export default function Home() {
                 <Image
                   src="/logo.png"
                   alt="Eklavyaa Logo"
-                  width={120}
-                  height={120}
+                  width={100}
+                  height={100}
                   className="object-contain drop-shadow-lg"
                 />
               </motion.div>
             </div>
           </motion.div>
 
-          {/* Enhanced Brand Name */}
+          {/* Brand Name */}
           <motion.h1
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-800 mb-6 tracking-wide relative"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 mb-4 tracking-wide relative font-bricolage"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -200,8 +208,6 @@ export default function Home() {
                 {letter}
               </motion.span>
             ))}
-            
-            {/* Simple underline */}
             <motion.div
               className="absolute -bottom-2 left-0 h-1 bg-yellow-400 rounded-full"
               initial={{ width: 0 }}
@@ -210,8 +216,8 @@ export default function Home() {
             />
           </motion.h1>
 
-          {/* Multilingual Tagline with Language Indicator */}
-          <div className="relative">
+          {/* Multilingual Tagline */}
+          <div className="relative text-center mb-8">
             <motion.div
               className="flex items-center justify-center gap-3 mb-4"
               initial={{ opacity: 0 }}
@@ -219,7 +225,7 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 1.5 }}
             >
               <motion.span
-                className="text-sm font-medium text-yellow-700 bg-yellow-100 px-3 py-1 rounded-full border border-yellow-300"
+                className="text-sm font-medium text-yellow-700 bg-yellow-100 px-3 py-1 rounded-full border border-yellow-300 font-bricolage"
                 key={taglines[currentTaglineIndex].lang}
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
@@ -230,7 +236,7 @@ export default function Home() {
             </motion.div>
             
             <motion.p
-              className="text-xl sm:text-2xl text-gray-700 font-medium tracking-wide min-h-[3rem] flex items-center justify-center relative"
+              className="text-xl sm:text-2xl text-gray-700 font-medium tracking-wide min-h-[3rem] flex items-center justify-center relative font-bricolage"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.8 }}
@@ -247,59 +253,171 @@ export default function Home() {
               </span>
             </motion.p>
           </div>
-        </motion.div>
 
-        {/* Clean Button with Magnetic Hover */}
-        <motion.div
-          className="relative"
-          onMouseMove={handleMouseMoveButton}
-          onMouseLeave={handleMouseLeaveButton}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 2 }}
-        >
-          <motion.button
-            className="relative bg-yellow-400 hover:bg-yellow-500 text-gray-800 px-8 py-4 sm:px-12 sm:py-5 rounded-full font-bold text-lg sm:text-xl shadow-lg border-2 border-yellow-300 transition-colors duration-300"
-            whileHover={{
-              scale: 1.05,
-              boxShadow: "0 10px 25px rgba(251, 191, 36, 0.3)",
-              y: -2,
-            }}
-            whileTap={{ scale: 0.95 }}
-            animate={{ x: btnPos.x, y: btnPos.y }}
-            transition={{ type: "spring", stiffness: 150, damping: 15 }}
+          {/* Introduction Text */}
+          <motion.div
+            className="text-center max-w-2xl"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 2 }}
           >
-            <a href="/login">
-              Get Started
-            </a>
-          </motion.button>
+            <p className="text-lg sm:text-xl text-gray-600 font-bricolage leading-relaxed mb-3">
+              Interactive learning platform for modern education
+            </p>
+            <p className="text-base sm:text-lg text-gray-500 font-bricolage">
+              Technology-driven, gamified, and engaging
+            </p>
+          </motion.div>
         </motion.div>
+      )}
 
-        {/* Simple Floating Animation */}
+      {/* Screen 2: STEM Learning */}
+      {currentScreen === 1 && (
         <motion.div
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 2.5 }}
+          className="flex flex-col items-center justify-center min-h-screen px-4 relative z-10"
+          initial={{ opacity: 0, x: 300 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -300 }}
+          transition={{ duration: 0.5 }}
         >
-          {[0, 1, 2].map((index) => (
-            <motion.div
-              key={index}
-              className="w-3 h-3 bg-yellow-400 rounded-full mb-3 mx-auto"
-              initial={{ y: 0, opacity: 1 }}
-              animate={{
-                y: [-60, -80],
-                opacity: [0, 1, 0],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                delay: index * 0.5,
-                ease: "easeOut",
-              }}
-            />
-          ))}
+          {/* Logo and Brand - Smaller */}
+          <motion.div className="text-center mb-8">
+            <div className="w-20 h-20 mx-auto bg-yellow-100/50 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg border-2 border-yellow-300/40 relative mb-3">
+              <Image
+                src="/logo.png"
+                alt="Eklavyaa Logo"
+                width={900}
+                height={900}
+                className="object-contain drop-shadow-lg"
+              />
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 font-bricolage">Eklavyaa</h2>
+          </motion.div>
+
+          <motion.div
+            className="text-center mb-8"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-4 font-bricolage">
+              STEM Education
+            </h3>
+            <p className="text-lg sm:text-xl text-gray-600 font-bricolage max-w-2xl">
+              NCERT-Based • Grades 6-12 • Interactive Learning
+            </p>
+          </motion.div>
+
+          {/* Key Features */}
+          <motion.div
+            className="mt-8 text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1.2 }}
+          >
+            <div className="flex flex-wrap justify-center gap-4">
+              <div className="bg-white/70 backdrop-blur-sm px-4 py-2 rounded-full border border-yellow-200 shadow-sm">
+                <span className="text-sm font-medium text-gray-700 font-bricolage">Gamified Learning</span>
+              </div>
+              <div className="bg-white/70 backdrop-blur-sm px-4 py-2 rounded-full border border-yellow-200 shadow-sm">
+                <span className="text-sm font-medium text-gray-700 font-bricolage">Real-time Progress</span>
+              </div>
+              <div className="bg-white/70 backdrop-blur-sm px-4 py-2 rounded-full border border-yellow-200 shadow-sm">
+                <span className="text-sm font-medium text-gray-700 font-bricolage">Achievement System</span>
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
+      )}
+
+      {/* Screen 3: Interactive Experience */}
+      {currentScreen === 2 && (
+        <motion.div
+          className="flex flex-col items-center justify-center min-h-screen px-4 relative z-10"
+          initial={{ opacity: 0, x: 300 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -300 }}
+          transition={{ duration: 0.5 }}
+        >
+          {/* Logo and Brand - Smaller */}
+          <motion.div className="text-center mb-8">
+            <div className="w-20 h-20 mx-auto bg-yellow-100/50 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg border-2 border-yellow-300/40 relative mb-3">
+              <Image
+                src="/logo.png"
+                alt="Eklavyaa Logo"
+                width={90}
+                height={90}
+                className="object-contain drop-shadow-lg"
+              />
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 font-bricolage">Eklavyaa</h2>
+          </motion.div>
+
+          <motion.div
+            className="text-center mb-8"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-4 font-bricolage">
+              Interactive Learning with Hologram
+            </h3>
+            <p className="text-lg sm:text-xl text-gray-600 font-bricolage max-w-2xl">
+              3D Visuals • Immersive Experience • Enhanced Understanding
+            </p>
+          </motion.div>
+        </motion.div>
+      )}
+
+      {/* Navigation and Controls */}
+      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+        <div className="flex items-center gap-4 bg-white/90 backdrop-blur-sm rounded-full px-6 py-3 shadow-lg border border-yellow-200">
+          {/* Previous Button */}
+          <motion.button
+            onClick={() => setCurrentScreen(Math.max(0, currentScreen - 1))}
+            disabled={currentScreen === 0}
+            className={`px-4 py-2 rounded-full font-medium font-bricolage transition-all duration-300 ${
+              currentScreen === 0
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                : 'bg-yellow-400 hover:bg-yellow-500 text-gray-800 shadow-md hover:shadow-lg'
+            }`}
+            whileHover={currentScreen > 0 ? { scale: 1.05 } : {}}
+            whileTap={currentScreen > 0 ? { scale: 0.95 } : {}}
+          >
+            Previous
+          </motion.button>
+
+          {/* Screen Indicators */}
+          <div className="flex gap-2">
+            {[0, 1, 2].map((screen) => (
+              <motion.div
+                key={screen}
+                className={`w-3 h-3 rounded-full cursor-pointer transition-all duration-300 ${
+                  currentScreen === screen ? 'bg-yellow-400' : 'bg-gray-300'
+                }`}
+                onClick={() => setCurrentScreen(screen)}
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.9 }}
+              />
+            ))}
+          </div>
+
+          {/* Next/Get Started Button */}
+          <motion.button
+            onClick={() => {
+              if (currentScreen < 2) {
+                setCurrentScreen(currentScreen + 1);
+              } else {
+                window.location.href = '/login';
+              }
+            }}
+            className="px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-gray-800 rounded-full font-medium font-bricolage shadow-md hover:shadow-lg transition-all duration-300"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {currentScreen === 2 ? 'Go' : 'Next'}
+          </motion.button>
+        </div>
       </div>
     </div>
   );

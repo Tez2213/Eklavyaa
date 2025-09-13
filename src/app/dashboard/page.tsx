@@ -21,6 +21,7 @@ import {
   Flame,
   X,
   GraduationCap,
+  Bot,
 } from "lucide-react";
 
 export default function Dashboard() {
@@ -32,7 +33,7 @@ export default function Dashboard() {
   const [showStarPopup, setShowStarPopup] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-50 relative overflow-hidden">
+    <div className="min-h-screen bg-gray-50 relative overflow-hidden font-bricolage">
       {/* Background Pattern */}
       <div
         className="absolute inset-0 opacity-5"
@@ -275,6 +276,37 @@ export default function Dashboard() {
           </div>
         </motion.div>
 
+        {/* Hologram Magic Button */}
+        <motion.div
+          className="mb-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <div className="w-full">
+            <motion.button
+              onClick={() => window.location.href = '/hologram_setup'}
+              className="relative w-full h-16 bg-black text-white font-bold text-xl rounded-xl overflow-hidden"
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2 }}
+            >
+              {/* Animated Rainbow Border */}
+              <div className="absolute inset-0 p-1">
+                <div 
+                  className="absolute inset-0 rounded-xl animate-spin"
+                  style={{
+                    background: 'conic-gradient(from 0deg, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff, #ff00ff, #ff0080, #ff0000)',
+                    animation: 'spin 3s linear infinite'
+                  }}
+                />
+                <div className="relative w-full h-full bg-black rounded-lg flex items-center justify-center font-semibold font-bricolage">
+                  Hologram Magic 🪄
+                </div>
+              </div>
+            </motion.button>
+          </div>
+        </motion.div>
+
         {/* Friend Activity Feed */}
         <motion.div
           className="mb-6"
@@ -513,8 +545,8 @@ export default function Dashboard() {
             whileTap={{ scale: 0.95 }}
           >
             <a href="/profile" className="flex flex-col items-center space-y-1">
-              <User className="w-5 h-5 text-gray-400" />
-              <span className="text-gray-400 text-xs">Profile</span>
+              <Bot className="w-5 h-5 text-gray-400" />
+              <span className="text-gray-400 text-xs">Chat Bot</span>
             </a>
           </motion.div>
         </div>
