@@ -10,11 +10,8 @@ import BottomNav from "@/components/ui/BottomNav";
 import { useState } from "react";
 import {
   Star,
-  Target,
-  Zap,
   Trophy,
   ArrowRight,
-  Brain,
   X,
   GraduationCap,
 } from "lucide-react";
