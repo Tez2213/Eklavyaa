@@ -12,7 +12,17 @@ import Link from 'next/link';
 import { 
   Star, 
   Trophy, 
-  ArrowRight,
+  ArrowRight, 
+  Home, 
+  BookOpen, 
+  Award, 
+  User,
+  GraduationCap,
+  X,
+  Building,
+  Book,
+  Palette,
+  Lock,
   Atom,
   TestTube,
   Rocket,
@@ -21,49 +31,47 @@ import {
   Triangle,
   Ruler,
   Square,
-  Lock,
-  Building,
-  Book,
-  Palette,
-  GraduationCap,
-  X
+  Microscope,
+  Zap,
+  Brain,
+  Compass
 } from 'lucide-react';
 
-export default function Chapters() {
-  const [selectedClass, setSelectedClass] = useState(6);
+export default function Class8Chapters() {
+  const [selectedClass, setSelectedClass] = useState(8);
   const [showClassSelector, setShowClassSelector] = useState(false);
   const classes = [6, 7, 8, 9, 10, 11, 12];
 
-  // Sample data for worlds
+  // Sample data for class 8 worlds with blue theme
   const activeWorlds = [
     {
       id: 1,
-      title: 'Science World',
-      level: 5,
-      progress: 40,
-      stars: 3,
-      bgColor: 'bg-blue-500',
-      bgGradient: 'from-blue-500 to-blue-600',
+      title: 'Science Wonder',
+      level: 12,
+      progress: 55,
+      stars: 8,
+      bgColor: 'bg-blue-600',
+      bgGradient: 'from-blue-600 to-blue-800',
       icons: [
-        { icon: Atom, color: 'text-blue-200' },
-        { icon: TestTube, color: 'text-green-200' },
-        { icon: Rocket, color: 'text-red-200' },
-        { icon: Beaker, color: 'text-blue-200' }
+        { icon: Microscope, color: 'text-blue-200' },
+        { icon: Atom, color: 'text-cyan-200' },
+        { icon: Zap, color: 'text-indigo-200' },
+        { icon: Brain, color: 'text-sky-200' }
       ]
     },
     {
       id: 2,
-      title: 'Math World',
-      level: 8,
-      progress: 65,
-      stars: 6,
-      bgColor: 'bg-orange-400',
-      bgGradient: 'from-orange-400 to-yellow-500',
+      title: 'Maths Wonder',
+      level: 15,
+      progress: 72,
+      stars: 11,
+      bgColor: 'bg-indigo-600',
+      bgGradient: 'from-indigo-600 to-purple-700',
       icons: [
-        { icon: Calculator, color: 'text-red-400' },
-        { icon: Triangle, color: 'text-orange-300' },
-        { icon: Ruler, color: 'text-yellow-300' },
-        { icon: Square, color: 'text-blue-300' }
+        { icon: Compass, color: 'text-indigo-200' },
+        { icon: Triangle, color: 'text-purple-200' },
+        { icon: Calculator, color: 'text-blue-200' },
+        { icon: Square, color: 'text-cyan-200' }
       ]
     }
   ];
@@ -71,26 +79,26 @@ export default function Chapters() {
   const comingSoonWorlds = [
     {
       id: 3,
-      title: 'History',
+      title: 'History Wonder',
       subtitle: 'Coming Soon',
       bgColor: 'bg-gray-200'
     },
     {
       id: 4,
-      title: 'English',
+      title: 'English Wonder',
       subtitle: 'Coming Soon',
       bgColor: 'bg-gray-200'
     },
     {
       id: 5,
-      title: 'Art',
+      title: 'Art Wonder',
       subtitle: 'Coming Soon',
       bgColor: 'bg-gray-200'
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 relative overflow-hidden">
+    <div className="min-h-screen bg-blue-50 relative overflow-hidden">
       {/* Background Pattern */}
       <div 
         className="absolute inset-0 opacity-5"
@@ -118,7 +126,7 @@ export default function Chapters() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
-                Class 6 Worlds   
+                Class 8 Worlds   
               </motion.h1>
               <motion.p 
                 className="text-gray-600 text-sm"
@@ -126,7 +134,7 @@ export default function Chapters() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                Ready to explore and learn?
+                Advanced learning awaits you!
               </motion.p>
             </div>
             
@@ -176,10 +184,10 @@ export default function Chapters() {
           {activeWorlds.map((world, index) => {
             // Determine the link for each world
             let worldLink = '';
-            if (world.title === 'Science World') {
-              worldLink = '/chapters/science-world';
-            } else if (world.title === 'Math World') {
-              worldLink = '/chapters/maths-world';
+            if (world.title === 'Science Wonder') {
+              worldLink = '/chapters/class-8/science-wonder';
+            } else if (world.title === 'Maths Wonder') {
+              worldLink = '/chapters/class-8/maths-wonder';
             }
 
             const cardContent = (
@@ -189,7 +197,7 @@ export default function Chapters() {
                   <div className={`absolute inset-0 bg-gradient-to-br ${world.bgGradient} opacity-90`} />
                   
                   {/* Decorative Circle */}
-                  <div className="absolute top-4 right-4 w-16 h-16 bg-yellow-400 rounded-full opacity-80" />
+                  <div className="absolute top-4 right-4 w-16 h-16 bg-cyan-400 rounded-full opacity-80" />
                   
                   <div className="relative z-10">
                     {/* Header */}
@@ -233,7 +241,7 @@ export default function Chapters() {
                     <div className="mb-4">
                       <Progress value={world.progress} className="h-3 bg-black/20">
                         <div 
-                          className="h-full bg-black rounded-full transition-all duration-1000" 
+                          className="h-full bg-white rounded-full transition-all duration-1000" 
                           style={{ width: `${world.progress}%` }} 
                         />
                       </Progress>
@@ -243,9 +251,12 @@ export default function Chapters() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-1">
                         <div className="flex items-center space-x-1">
-                          {[...Array(world.stars)].map((_, starIndex) => (
-                            <Star key={starIndex} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                          {[...Array(Math.min(world.stars, 5))].map((_, starIndex) => (
+                            <Star key={starIndex} className="w-4 h-4 fill-cyan-400 text-cyan-400" />
                           ))}
+                          {world.stars > 5 && (
+                            <span className="text-cyan-400 font-bold ml-1">+{world.stars - 5}</span>
+                          )}
                         </div>
                         <span className="text-white font-medium ml-2">{world.stars}</span>
                       </div>
@@ -284,7 +295,7 @@ export default function Chapters() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.7 }}
         >
-          <h3 className="text-xl font-bold text-gray-900 mb-6">More Worlds Coming Soon</h3>
+          <h3 className="text-xl font-bold text-blue-900 mb-6">More Wonders Coming Soon</h3>
           
           <div className="space-y-4">
             {comingSoonWorlds.map((world, index) => (
@@ -294,24 +305,24 @@ export default function Chapters() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
               >
-                <Card className="bg-gray-100 border-gray-200 shadow-sm relative overflow-hidden">
+                <Card className="bg-blue-100 border-blue-200 shadow-sm relative overflow-hidden">
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
-                        <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
-                          {world.id === 3 && <Building className="w-6 h-6 text-gray-500" />}
-                          {world.id === 4 && <Book className="w-6 h-6 text-gray-500" />}
-                          {world.id === 5 && <Palette className="w-6 h-6 text-gray-500" />}
+                        <div className="w-12 h-12 bg-blue-300 rounded-full flex items-center justify-center">
+                          {world.id === 3 && <Building className="w-6 h-6 text-blue-600" />}
+                          {world.id === 4 && <Book className="w-6 h-6 text-blue-600" />}
+                          {world.id === 5 && <Palette className="w-6 h-6 text-blue-600" />}
                         </div>
                         <div>
-                          <h4 className="font-semibold text-gray-900">{world.title}</h4>
-                          <p className="text-gray-500 text-sm">{world.subtitle}</p>
+                          <h4 className="font-semibold text-blue-900">{world.title}</h4>
+                          <p className="text-blue-600 text-sm">{world.subtitle}</p>
                         </div>
                       </div>
                       
                       <div className="flex items-center space-x-2">
-                        <Lock className="w-5 h-5 text-gray-400" />
-                        <Badge className="bg-[#ffce3b] text-white">
+                        <Lock className="w-5 h-5 text-blue-400" />
+                        <Badge className="bg-blue-600 text-white">
                           🔒
                         </Badge>
                       </div>
@@ -364,8 +375,8 @@ export default function Chapters() {
                     className={`
                       aspect-square rounded-xl border-2 font-bold text-lg
                       ${selectedClass === classNum 
-                        ? 'bg-[#ffce3b] border-[#ffce3b] text-white' 
-                        : 'bg-gray-50 border-gray-200 text-gray-700 hover:border-[#ffce3b] hover:bg-[#ffce3b]/10'
+                        ? 'bg-blue-600 border-blue-600 text-white' 
+                        : 'bg-gray-50 border-gray-200 text-gray-700 hover:border-blue-600 hover:bg-blue-600/10'
                       }
                       transition-all duration-200
                     `}
@@ -378,7 +389,7 @@ export default function Chapters() {
               </div>
               
               <div className="mt-6 flex items-center justify-center">
-                <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 px-4 py-2">
+                <Badge className="bg-blue-100 text-blue-800 border-blue-200 px-4 py-2">
                   <GraduationCap className="w-4 h-4 mr-2" />
                   Currently: Class {selectedClass}
                 </Badge>
@@ -388,7 +399,7 @@ export default function Chapters() {
         )}
       </AnimatePresence>
 
-      <BottomNav currentPage="chapters" currentClass={6} />
+      <BottomNav currentPage="chapters" currentClass={8} />
     </div>
   );
 }
