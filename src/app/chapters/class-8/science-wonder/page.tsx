@@ -11,16 +11,8 @@ import {
   Play,
   Crown,
   Loader2,
-  Trophy,
   X,
-  Leaf,
-  TreePine,
-  Flower,
-  Wheat,
-  Droplets,
-  Sun,
-  Cloud,
-  Sprout
+  Leaf
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';

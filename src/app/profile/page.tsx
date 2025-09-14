@@ -35,12 +35,6 @@ export default function Profile() {
   const [showClassSelector, setShowClassSelector] = useState(false);
   const classes = [6, 7, 8, 9, 10, 11, 12];
 
-  // Generate random avatar
-  const getRandomAvatar = () => {
-    const randomNumber = Math.floor(Math.random() * 100) + 1;
-    return `https://avatar.iran.liara.run/public/${randomNumber}`;
-  };
-
   // User data
   const userData = {
     name: "Arjun Kumar",
@@ -49,7 +43,7 @@ export default function Profile() {
     phone: "+91 98765 43210",
     location: "Mumbai, India",
     joinedDate: "March 2024",
-    avatar: "/admin.gif",
+    avatar: "/avatar.png",
     level: 5,
     totalPoints: 450,
     streak: 3,

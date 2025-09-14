@@ -317,7 +317,7 @@ export default function Dashboard() {
     {/* Friend's Avatar */}
     <Avatar className="w-8 h-8">
       <AvatarFallback className="bg-blue-500 text-white">
-        <img src={'https://avatar.iran.liara.run/public/8'} />
+        <img src={'https://avatar.iran.liara.run/public/9'} />
         </AvatarFallback> {/* Replace with actual avatar */}
     </Avatar>
     {/* Friend's Name */}
