@@ -19,6 +19,7 @@ import {
 export default function HologramSetup() {
   const [selectedLanguage, setSelectedLanguage] = useState<'english' | 'hindi'>('english');
   const [showStarPopup, setShowStarPopup] = useState(false);
+  const [showTutorialPopup , setShowTutorialPopup] = useState(false);
   const content = {
     english: {
       title: "Hologram Setup Process",
@@ -318,8 +319,95 @@ export default function HologramSetup() {
               </motion.div>
             ))}
           </div>
+          {/* === Tutorial Section === */}
+<motion.div
+  className="mt-10 flex justify-center"
+  initial={{ opacity: 0, y: 30 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6, delay: 0.3 }}
+>
+  <div className="bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 p-[1px] rounded-2xl shadow-lg">
+    <div className="bg-white rounded-2xl p-6 text-center max-w-lg">
+      <h2 className="text-2xl font-bold text-gray-900 mb-2">
+         How to Make a Hologram?
+      </h2>
+      <p className="text-gray-600 mb-4">
+        Learn how to create your own hologram projector and set it up for the best
+        experience. Watch this short tutorial video.
+      </p>
+      <Button
+        onClick={() => setShowTutorialPopup(true)} // ✅ new state for video
+        className="px-6 py-3 bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-500 text-white font-bold rounded-full shadow-lg hover:scale-105 transition-transform"
+      >
+         Watch Tutorial
+      </Button>
+    </div>
+  </div>
+</motion.div>
+
+{/* === Tutorial Video Modal === */}
+<AnimatePresence>
+  {showTutorialPopup && (
+    <motion.div
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm z-60 flex items-center justify-center p-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={() => setShowTutorialPopup(false)}
+    >
+      <motion.div
+        className="bg-white rounded-2xl p-4 w-full max-w-2xl relative"
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.8, opacity: 0 }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header with Close */}
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-xl font-bold text-gray-900">Hologram Tutorial</h3>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setShowTutorialPopup(false)}
+            className="h-8 w-8 rounded-full hover:bg-gray-100"
+          >
+            <X className="w-4 h-4" />
+          </Button>
+        </div>
+
+        {/* YouTube Iframe */}
+        <div className="aspect-video w-full rounded-xl overflow-hidden shadow-lg relative">
+          {/* Loader Overlay */}
+          <div
+            id="video-loader"
+            className="absolute inset-0 flex items-center justify-center bg-white z-10"
+          >
+            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-yellow-500 border-solid"></div>
+          </div>
+
+          <iframe
+            className="w-full h-full"
+            src={`https://www.youtube.com/embed/7YWTtCsvgvg?autoplay=1&mute=1`}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+            onLoad={() => {
+              const loader = document.getElementById("video-loader");
+              if (loader) loader.style.display = "none";
+            }}
+          ></iframe>
+        </div>
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
+
+
         </div>
       </div>
+      
 
       <BottomNav />
     </div>

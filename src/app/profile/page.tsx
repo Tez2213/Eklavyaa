@@ -209,7 +209,7 @@ export default function Profile() {
           >
             <Avatar className="w-8 h-8 bg-[#ffce3b]">
               <AvatarFallback className="bg-[#ffce3b] text-white font-semibold text-sm">
-            <img src={'/admin.gif'} />
+            <img src={'/avatar.png'} />
               </AvatarFallback>
             </Avatar>
           </motion.div>
