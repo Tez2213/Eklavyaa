@@ -99,7 +99,7 @@ export default function Dashboard() {
                 <Avatar className="w-8 h-8 bg-[#ffce3b]">
                   <a href="/profile" >
                   <AvatarFallback className="bg-[#ffce3b] text-white font-semibold text-sm">
-                    <img src={"/admin.gif"} />
+                    <img src={"/avatar.png"} />
                   </AvatarFallback>
                   </a>
                 </Avatar>
