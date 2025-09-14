@@ -5,7 +5,7 @@ import ChatbaseWidget from "./ChatbaseWidget";
 
 export default function ChatbotWrapper() {
   const pathname = usePathname();
-  const excludedPaths = ["/login", "/signin", "/"];
+  const excludedPaths = ["/login", "/signup", "/signin", "/"];
   const showChatbot = !excludedPaths.includes(pathname);
 
   if (!showChatbot) return null;
