@@ -220,7 +220,7 @@ export default function Leaderboard() {
             <Avatar className="w-8 h-8 bg-[#ffce3b]">
               <a href='/profile'>
               <AvatarFallback className="bg-[#ffce3b] text-white font-semibold text-sm">
-              <img src={'https://avatar.iran.liara.run/public/8'} />
+              <img src={'/admin.gif'} />
               </AvatarFallback>
               </a>
             </Avatar>
@@ -377,7 +377,7 @@ export default function Leaderboard() {
                       148
                     </div>
                     <Avatar className="w-9 h-9 flex-shrink-0">
-                      <AvatarImage src={'/avatar.png'} alt="You" />
+                      <AvatarImage src={'/admin.gif'} alt="You" />
                       <AvatarFallback className="bg-[#ffce3b] text-black font-bold text-sm">
                         A
                       </AvatarFallback>

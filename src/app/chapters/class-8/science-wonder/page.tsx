@@ -41,7 +41,7 @@ export default function ScienceWonder() {
       progress: 0,
       stars: 0,
       isUnlocked: true,
-      icon: Sprout,
+      icon: '/sprout.gif',
       gameUrl: "https://game-ashen-eight.vercel.app/science/seed-game",
       position: { top: '20%', left: '20%' },
       bgColor: 'from-green-400 to-green-600'
@@ -55,7 +55,7 @@ export default function ScienceWonder() {
       progress: 0,
       stars: 0,
       isUnlocked: false,
-      icon: TreePine,
+      icon: '/treepine.gif',
       gameUrl: null,
       position: { top: '35%', left: '40%' },
       bgColor: 'from-amber-600 to-yellow-700'
@@ -69,7 +69,7 @@ export default function ScienceWonder() {
       progress: 0,
       stars: 0,
       isUnlocked: false,
-      icon: Droplets,
+      icon: '/droplet.gif',
       gameUrl: null,
       position: { top: '25%', left: '60%' },
       bgColor: 'from-blue-400 to-blue-600'
@@ -83,7 +83,7 @@ export default function ScienceWonder() {
       progress: 0,
       stars: 0,
       isUnlocked: false,
-      icon: Leaf,
+      icon: '/leaf.gif',
       gameUrl: null,
       position: { top: '50%', left: '75%' },
       bgColor: 'from-green-500 to-emerald-600'
@@ -97,7 +97,7 @@ export default function ScienceWonder() {
       progress: 0,
       stars: 0,
       isUnlocked: false,
-      icon: Wheat,
+      icon: '/wheat.gif',
       gameUrl: null,
       position: { top: '70%', left: '60%' },
       bgColor: 'from-yellow-500 to-orange-500'
@@ -111,7 +111,7 @@ export default function ScienceWonder() {
       progress: 0,
       stars: 0,
       isUnlocked: false,
-      icon: Flower,
+      icon: '/flower.gif',
       gameUrl: null,
       position: { top: '75%', left: '35%' },
       bgColor: 'from-pink-400 to-rose-500'
@@ -125,7 +125,7 @@ export default function ScienceWonder() {
       progress: 0,
       stars: 0,
       isUnlocked: false,
-      icon: Cloud,
+      icon: '/cloud.gif',
       gameUrl: null,
       position: { top: '60%', left: '15%' },
       bgColor: 'from-gray-400 to-slate-500'
@@ -139,7 +139,7 @@ export default function ScienceWonder() {
       progress: 0,
       stars: 0,
       isUnlocked: false,
-      icon: Sun,
+      icon: '/sun.gif',
       gameUrl: null,
       position: { top: '40%', left: '25%' },
       bgColor: 'from-orange-400 to-red-500'
@@ -320,7 +320,7 @@ export default function ScienceWonder() {
         </div>
 
         {chapters.map((chapter, index) => {
-          const IconComponent = chapter.icon;
+         
           return (
             <motion.div
               key={chapter.id}
@@ -343,7 +343,7 @@ export default function ScienceWonder() {
                   : 'border-gray-400 opacity-50'
               }`}>
                 <div className={`w-full h-full bg-gradient-to-br ${chapter.bgColor} flex items-center justify-center`}>
-                  <IconComponent className="w-8 h-8 text-white" />
+                  <img src={chapter.icon} />
                 </div>
                 {!chapter.isUnlocked && (
                   <div className="absolute inset-0 bg-black/60 flex items-center justify-center">

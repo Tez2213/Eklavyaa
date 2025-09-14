@@ -166,9 +166,11 @@ export default function Class8Chapters() {
                 transition={{ duration: 0.5, delay: 0.5 }}
               >
                 <Avatar className="w-8 h-8 bg-[#ffce3b]">
+                  <a href="/profile">
                   <AvatarFallback className="bg-[#ffce3b] text-white font-semibold text-sm">
                     <img src={'https://avatar.iran.liara.run/public/8'} />
                   </AvatarFallback>
+                  </a>
                 </Avatar>
               </motion.div>
             </div>

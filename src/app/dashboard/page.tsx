@@ -99,7 +99,7 @@ export default function Dashboard() {
                 <Avatar className="w-8 h-8 bg-[#ffce3b]">
                   <a href="/profile" >
                   <AvatarFallback className="bg-[#ffce3b] text-white font-semibold text-sm">
-                    <img src={"/avatar.png"} />
+                    <img src={"/admin.gif"} />
                   </AvatarFallback>
                   </a>
                 </Avatar>
@@ -228,7 +228,7 @@ export default function Dashboard() {
               <Card className="bg-white border-gray-200 shadow-sm">
                 <CardContent className="p-6 text-center">
                   <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <Target className="w-6 h-6 text-yellow-600" />
+                    <img className="h-12" src={'/target.gif'} />
                   </div>
                   <h4 className="font-semibold text-gray-900 mb-2">Accuracy</h4>
                   <p className="text-2xl font-bold text-gray-900 mb-2">87%</p>
@@ -251,7 +251,7 @@ export default function Dashboard() {
               <Card className="bg-white border-gray-200 shadow-sm">
                 <CardContent className="p-6 text-center">
                   <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <Zap className="w-6 h-6 text-yellow-600" />
+                    <img className="h-12" src={'/shock.gif'} />
                   </div>
                   <h4 className="font-semibold text-gray-900 mb-2">Speed</h4>
                   <p className="text-2xl font-bold text-gray-900 mb-2">87%</p>
@@ -293,7 +293,8 @@ export default function Dashboard() {
                   }}
                 />
                 <div className="relative w-full h-full bg-black rounded-lg flex items-center justify-center font-semibold font-bricolage">
-                  Hologram Magic 🪄
+                  <span>Hologram Magic </span>
+                  <span><img className="h-9" src={'/magic.gif'} /></span>
                 </div>
               </div>
             </motion.button>
@@ -359,7 +360,7 @@ export default function Dashboard() {
               <Card className="bg-white border-gray-200 shadow-sm">
                 <CardContent className="p-4 text-center">
                   <div className="w-12 h-12 bg-[#ffce3b] rounded-full flex items-center justify-center mx-auto mb-2 relative">
-                    <Brain className="w-6 h-6 text-white" />
+                    <img className="h-12" src={'/brain.gif'} />
                   </div>
                   <p className="text-xs text-gray-600 font-medium">30%</p>
                 </CardContent>
@@ -373,7 +374,7 @@ export default function Dashboard() {
               <Card className="bg-gray-100 border-gray-200 shadow-sm opacity-60">
                 <CardContent className="p-4 text-center">
                   <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center mx-auto mb-2">
-                    <Trophy className="w-6 h-6 text-gray-500" />
+                    <img className="h-12" src={'/trophy.gif'} />
                   </div>
                   <p className="text-xs text-gray-500 font-medium">70%</p>
                 </CardContent>
@@ -387,7 +388,7 @@ export default function Dashboard() {
               <Card className="bg-[#ffce3b] border-[#ffce3b] shadow-sm">
                 <CardContent className="p-4 text-center">
                   <div className="w-12 h-8 bg-gray-300 rounded-full flex items-center justify-center mx-auto mb-2">
-                    <Trophy className="w-6 h-6 text-gray-500" />
+                    <img className="h-12" src={'/trophy1.gif'} />
                   </div>
                   <p className="text-xs text-gray-500 font-medium">
                     Keep it up Arjun

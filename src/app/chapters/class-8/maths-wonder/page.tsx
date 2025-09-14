@@ -33,7 +33,7 @@ export default function MathsWonder() {
       isUnlocked: true,
       emoji: "",
       landmarkUrl: "/math1.webp",
-      gameUrl: "https://game-ashen-eight.vercel.app/maths/basic-algebra",
+      gameUrl: "https://sih-games-8.vercel.app/maths/square-game",
       position: { top: '15%', left: '15%' },
       size: 'w-16 h-16 md:w-20 md:h-20',
       region: 'Foundation Valley',
