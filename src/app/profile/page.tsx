@@ -49,7 +49,7 @@ export default function Profile() {
     phone: "+91 98765 43210",
     location: "Mumbai, India",
     joinedDate: "March 2024",
-    avatar: "/avatar.png",
+    avatar: "/admin.gif",
     level: 5,
     totalPoints: 450,
     streak: 3,
@@ -209,7 +209,7 @@ export default function Profile() {
           >
             <Avatar className="w-8 h-8 bg-[#ffce3b]">
               <AvatarFallback className="bg-[#ffce3b] text-white font-semibold text-sm">
-            <img src={'https://avatar.iran.liara.run/public/8'} />
+            <img src={'/admin.gif'} />
               </AvatarFallback>
             </Avatar>
           </motion.div>

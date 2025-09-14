@@ -196,7 +196,7 @@ export default function BottomNav({ currentPage = "", currentClass = 6 }: Bottom
           >
             <a href="/chat-bot" className="flex flex-col items-center space-y-1">
               <Bot className={`w-5 h-5 ${currentPage === 'chatbot' ? 'text-[#ffce3b]' : 'text-gray-400'}`} />
-              <span className={`text-xs ${currentPage === 'chatbot' ? 'text-[#ffce3b] font-medium' : 'text-gray-400'}`}>Chat Bot</span>
+              <span className={`text-xs ${currentPage === 'chatbot' ? 'text-[#ffce3b] font-medium' : 'text-gray-400'}`}>Dronacharaya</span>
             </a>
           </motion.div>
         </div>
