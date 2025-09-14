@@ -4,13 +4,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import BottomNav from "@/components/ui/BottomNav";
 import { useState } from "react";
 import {
   Trophy,
-  Home,
-  BookOpen,
-  Award,
-  Bot,
   Languages,
   Scissors,
   Ruler,
@@ -22,12 +19,6 @@ import {
 export default function HologramSetup() {
   const [selectedLanguage, setSelectedLanguage] = useState<'english' | 'hindi'>('english');
   const [showStarPopup, setShowStarPopup] = useState(false);
-  const [selectedClass, setSelectedClass] = useState(6);
-  const [showClassSelector, setShowClassSelector] = useState(false);
-  const [showStreekSelection, setShowStreekSelection] = useState(false);
-  const classes = [6, 7, 8, 9, 10, 11, 12];
-  const streek = [1, 2, 3, 4, 5, 6, 7];
-
   const content = {
     english: {
       title: "Hologram Setup Process",
@@ -330,84 +321,7 @@ export default function HologramSetup() {
         </div>
       </div>
 
-      {/* Fixed Bottom Navigation */}
-      <motion.div
-        className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-md px-4 py-3 border-t border-gray-800 z-50"
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.8 }}
-      >
-        <div className="flex items-center justify-around max-w-md mx-auto">
-          <motion.div
-            className="flex flex-col items-center space-y-1"
-            whileTap={{ scale: 0.95 }}
-          >
-            <a
-              href="/dashboard"
-              className="flex flex-col items-center space-y-1"
-            >
-              <Home className="w-5 h-5 text-gray-400" />
-              <span className="text-gray-400 text-xs">
-                Dashboard
-              </span>
-            </a>
-          </motion.div>
-
-          <motion.div
-            className="flex flex-col items-center space-y-1"
-            whileTap={{ scale: 0.95 }}
-          >
-            <a
-              href="/chapters"
-              className="flex flex-col items-center space-y-1"
-            >
-              <BookOpen className="w-5 h-5 text-gray-400" />
-              <span className="text-gray-400 text-xs">Chapters</span>
-            </a>
-          </motion.div>
-
-          <motion.button
-            className="w-12 h-12 bg-[#ffce3b] rounded-full flex items-center justify-center relative"
-            whileTap={{ scale: 0.95 }}
-            whileHover={{ scale: 1.1 }}
-            onClick={() => setShowClassSelector(true)}
-          >
-            <span className="text-white font-bold text-lg">
-              {selectedClass}
-            </span>
-            <motion.div
-              className="absolute -top-1 -right-1 w-4 h-4 bg-white rounded-full flex items-center justify-center"
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              <span className="text-[#ffce3b] text-xs font-bold">•</span>
-            </motion.div>
-          </motion.button>
-
-          <motion.div
-            className="flex flex-col items-center space-y-1"
-            whileTap={{ scale: 0.95 }}
-          >
-            <a
-              href="/leaderboard"
-              className="flex flex-col items-center space-y-1"
-            >
-              <Award className="w-5 h-5 text-gray-400" />
-              <span className="text-gray-400 text-xs">Leaderboard</span>
-            </a>
-          </motion.div>
-
-          <motion.div
-            className="flex flex-col items-center space-y-1"
-            whileTap={{ scale: 0.95 }}
-          >
-            <a href="/profile" className="flex flex-col items-center space-y-1">
-              <Bot className="w-5 h-5 text-gray-400" />
-              <span className="text-gray-400 text-xs">Chat Bot</span>
-            </a>
-          </motion.div>
-        </div>
-      </motion.div>
+      <BottomNav />
     </div>
   );
 }
