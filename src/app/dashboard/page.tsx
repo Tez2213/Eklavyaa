@@ -293,7 +293,7 @@ export default function Dashboard() {
                   }}
                 />
                 <div className="relative w-full h-full bg-black rounded-lg flex items-center justify-center font-semibold font-bricolage">
-                  Hologram Magic🪄
+                  Hologram Magic 🪄
                 </div>
               </div>
             </motion.button>
