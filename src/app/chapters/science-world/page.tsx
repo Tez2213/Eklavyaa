@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
+import { useGameTracker } from '@/hooks/useGameTracker';
 import { 
   ArrowLeft,
   Star,
@@ -19,6 +20,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ScienceWorld() {
   const router = useRouter();
+  const { trackAndOpenGame, isTracking } = useGameTracker();
   const [loadingChapter, setLoadingChapter] = useState<number | null>(null);
   const [selectedPlanet, setSelectedPlanet] = useState<any>(null);
 
@@ -155,10 +157,11 @@ export default function ScienceWorld() {
   const handleStartChapter = async (planet: any) => {
     if (!planet.gameUrl || loadingChapter) return;
     setLoadingChapter(planet.id);
-    setTimeout(() => {
+    setTimeout(async () => {
       setLoadingChapter(null);
       setSelectedPlanet(null);
-      window.open(planet.gameUrl, '_blank');
+      // Track game click and award points
+      await trackAndOpenGame(planet.title, planet.gameUrl, 1);
     }, 1500);
   };
 

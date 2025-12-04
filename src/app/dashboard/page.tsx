@@ -7,20 +7,53 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import BottomNav from "@/components/ui/BottomNav";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { getUserGameStats } from "@/lib/leaderboard";
 import {
   Star,
   Trophy,
   ArrowRight,
   X,
   GraduationCap,
+  Loader2,
 } from "lucide-react";
 
 export default function Dashboard() {
+  const { user, profile, loading } = useAuth();
   const [selectedClass, setSelectedClass] = useState(6);
   const [showClassSelector, setShowClassSelector] = useState(false);
   const classes = [6, 7, 8, 9, 10, 11, 12];
   const [showStarPopup, setShowStarPopup] = useState(false);
+  const [userStats, setUserStats] = useState<any>(null);
+
+  useEffect(() => {
+    if (profile) {
+      setSelectedClass(profile.class_level);
+    }
+  }, [profile]);
+
+  useEffect(() => {
+    if (user) {
+      fetchUserStats();
+    }
+  }, [user]);
+
+  const fetchUserStats = async () => {
+    if (!user) return;
+    const { data } = await getUserGameStats(user.id);
+    if (data) {
+      setUserStats(data);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-[#ffce3b]" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 relative overflow-hidden font-bricolage">
@@ -51,7 +84,7 @@ export default function Dashboard() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
-                Hello, <div className="text-amber-500">&nbsp;Arjun</div>
+                Hello, <div className="text-amber-500">&nbsp;{profile?.full_name || 'Student'}</div>
               </motion.h1>
               <motion.p
                 className="text-gray-600 text-sm"
@@ -73,7 +106,7 @@ export default function Dashboard() {
                   className="bg-yellow-100 text-yellow-800 border-yellow-200 px-3 py-1 cursor-pointer"
                   onClick={() => setShowStarPopup(true)}
                 >
-                  🔥 3
+                  🔥 {userStats?.streak || 0}
                 </Badge>
               </motion.div>
 
@@ -84,7 +117,7 @@ export default function Dashboard() {
               >
                 <Badge className="bg-[#ffce3b] text-white px-3 py-1">
                   <Trophy className="w-3 h-3 mr-1" />
-                  450
+                  {userStats?.points || 0}
                 </Badge>
               </motion.div>
 
@@ -96,7 +129,7 @@ export default function Dashboard() {
                 <Avatar className="w-8 h-8 bg-[#ffce3b]">
                   <a href="/profile" >
                   <AvatarFallback className="bg-[#ffce3b] text-white font-semibold text-sm">
-                    <img src={"/avatar.png"} />
+                    <img src={profile?.avatar_url || "/avatar.png"} alt="Avatar" />
                   </AvatarFallback>
                   </a>
                 </Avatar>

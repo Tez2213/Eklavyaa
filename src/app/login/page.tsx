@@ -3,12 +3,25 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
+  const { signIn, user, loading } = useAuth();
+  const router = useRouter();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (!loading && user) {
+      router.push('/dashboard');
+    }
+  }, [user, loading, router]);
 
   // Multilingual taglines
   const taglines = [
@@ -28,6 +41,30 @@ export default function Login() {
       ...formData,
       [e.target.name]: e.target.value
     });
+    setError('');
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setIsSubmitting(true);
+
+    try {
+      const { data, error } = await signIn(formData.email, formData.password);
+      
+      if (error) {
+        setError(error.message || 'Invalid email or password');
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (data) {
+        router.push('/dashboard');
+      }
+    } catch (err: any) {
+      setError('An unexpected error occurred. Please try again.');
+      setIsSubmitting(false);
+    }
   };
 
   // Typewriter effect for taglines
@@ -210,8 +247,19 @@ export default function Login() {
             Welcome Back
           </motion.h2>
 
+          {/* Error Message */}
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm"
+            >
+              {error}
+            </motion.div>
+          )}
+
           {/* Form Fields */}
-          <div className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email Field */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -225,6 +273,7 @@ export default function Login() {
                 value={formData.email}
                 onChange={handleInputChange}
                 placeholder="Enter your email"
+                required
                 className="w-full px-4 py-3 sm:py-4 rounded-xl border-2 border-yellow-200 bg-white/70 text-gray-800 placeholder-gray-500 focus:outline-none focus:border-yellow-400 focus:bg-white transition-all duration-300 text-base"
                 whileFocus={{ 
                   scale: 1.02,
@@ -246,6 +295,8 @@ export default function Login() {
                 value={formData.password}
                 onChange={handleInputChange}
                 placeholder="Enter your password"
+                required
+                minLength={6}
                 className="w-full px-4 py-3 sm:py-4 rounded-xl border-2 border-yellow-200 bg-white/70 text-gray-800 placeholder-gray-500 focus:outline-none focus:border-yellow-400 focus:bg-white transition-all duration-300 text-base"
                 whileFocus={{ 
                   scale: 1.02,
@@ -253,30 +304,30 @@ export default function Login() {
                 }}
               />
             </motion.div>
-          </div>
 
-          {/* Login Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.3 }}
-            className="mt-8"
-          >
-            <motion.button
-              type="submit"
-              className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-800 py-3 sm:py-4 rounded-xl font-bold text-lg shadow-lg border-2 border-yellow-300 transition-colors duration-300"
-              whileHover={{ 
-                scale: 1.02,
-                boxShadow: "0 8px 20px rgba(251, 191, 36, 0.3)",
-                y: -2
-              }}
-              whileTap={{ scale: 0.98 }}
+              {/* Login Button */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.3 }}
             >
-              <a href="/dashboard" className="block w-full h-full">
-                Sign In
-              </a>
-            </motion.button>
-          </motion.div>
+              <motion.button
+                type="submit"
+                disabled={isSubmitting}
+                className={`w-full bg-yellow-400 hover:bg-yellow-500 text-gray-800 py-3 sm:py-4 rounded-xl font-bold text-lg shadow-lg border-2 border-yellow-300 transition-colors duration-300 ${
+                  isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+                whileHover={!isSubmitting ? { 
+                  scale: 1.02,
+                  boxShadow: "0 8px 20px rgba(251, 191, 36, 0.3)",
+                  y: -2
+                } : {}}
+                whileTap={!isSubmitting ? { scale: 0.98 } : {}}
+              >
+                {isSubmitting ? 'Signing In...' : 'Sign In'}
+              </motion.button>
+            </motion.div>
+          </form>
 
           {/* Sign Up Link */}
           <motion.p 
