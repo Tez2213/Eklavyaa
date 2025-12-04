@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 import ChatbotWrapper from "@/components/ChatbotWrapper";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 
 const geistSans = Geist({
@@ -43,8 +44,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${bricolageGrotesque.variable} antialiased`}
       >
-        {children}
-        <ChatbotWrapper />
+        <AuthProvider>
+          {children}
+          <ChatbotWrapper />
+        </AuthProvider>
       </body>
     </html>
   );

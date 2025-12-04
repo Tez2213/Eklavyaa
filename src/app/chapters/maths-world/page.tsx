@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
+import { useGameTracker } from '@/hooks/useGameTracker';
 import { 
   ArrowLeft,
   Star,
@@ -19,6 +20,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export default function MathWorld() {
   const router = useRouter();
+  const { trackAndOpenGame, isTracking } = useGameTracker();
   const [loadingChapter, setLoadingChapter] = useState<number | null>(null);
   const [selectedLandmark, setSelectedLandmark] = useState<any>(null);
 
@@ -131,10 +133,11 @@ export default function MathWorld() {
   const handleStartChapter = async (landmark: any) => {
     if (!landmark.gameUrl || loadingChapter) return;
     setLoadingChapter(landmark.id);
-    setTimeout(() => {
+    setTimeout(async () => {
       setLoadingChapter(null);
       setSelectedLandmark(null);
-      window.open(landmark.gameUrl, '_blank');
+      // Track game click and award points
+      await trackAndOpenGame(landmark.title, landmark.gameUrl, 1);
     }, 1500);
   };
 

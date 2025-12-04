@@ -3,9 +3,13 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
 
 export default function SignUp() {
-  const [userType, setUserType] = useState('student');
+  const { signUp, user, loading } = useAuth();
+  const router = useRouter();
+  const [userType, setUserType] = useState<'student' | 'tutor'>('student');
   const [formData, setFormData] = useState({
     name: '',
     username: '',
@@ -14,6 +18,15 @@ export default function SignUp() {
     confirmPassword: '',
     phone: ''
   });
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (!loading && user) {
+      router.push('/dashboard');
+    }
+  }, [user, loading, router]);
 
   // Multilingual taglines
   const taglines = [
@@ -33,6 +46,55 @@ export default function SignUp() {
       ...formData,
       [e.target.name]: e.target.value
     });
+    setError('');
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    // Validation
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
+
+    if (!formData.username || !formData.name || !formData.email) {
+      setError('Please fill in all required fields');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const { data, error } = await signUp(formData.email, formData.password, {
+        full_name: formData.name,
+        username: formData.username,
+        user_type: userType,
+        class_level: 6,
+        phone: formData.phone,
+        avatar_url: '/avatar.png',
+      });
+
+      if (error) {
+        setError(error.message || 'Failed to create account');
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (data) {
+        // Success! Redirect to dashboard
+        router.push('/dashboard');
+      }
+    } catch (err: any) {
+      setError('An unexpected error occurred. Please try again.');
+      setIsSubmitting(false);
+    }
   };
 
   // Typewriter effect for taglines
@@ -215,6 +277,17 @@ export default function SignUp() {
             Join Eklavyaa
           </motion.h2>
 
+          {/* Error Message */}
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm"
+            >
+              {error}
+            </motion.div>
+          )}
+
           {/* User Type Selection */}
           <motion.div 
             className="mb-6"
@@ -254,15 +327,15 @@ export default function SignUp() {
           </motion.div>
 
           {/* Form Fields */}
-          <div className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             {[
-              { field: 'name', label: 'Full Name', type: 'text', placeholder: 'Enter your full name' },
-              { field: 'username', label: 'Username', type: 'text', placeholder: 'Choose a username' },
-              { field: 'email', label: 'Email', type: 'email', placeholder: 'Enter your email' },
-              { field: 'phone', label: 'Phone', type: 'tel', placeholder: 'Enter phone number' },
-              { field: 'password', label: 'Password', type: 'password', placeholder: 'Create a password' },
-              { field: 'confirmPassword', label: 'Confirm Password', type: 'password', placeholder: 'Confirm your password' }
-            ].map(({ field, label, type, placeholder }, idx) => (
+              { field: 'name', label: 'Full Name', type: 'text', placeholder: 'Enter your full name', required: true },
+              { field: 'username', label: 'Username', type: 'text', placeholder: 'Choose a username', required: true },
+              { field: 'email', label: 'Email', type: 'email', placeholder: 'Enter your email', required: true },
+              { field: 'phone', label: 'Phone', type: 'tel', placeholder: 'Enter phone number', required: false },
+              { field: 'password', label: 'Password', type: 'password', placeholder: 'Create a password', required: true },
+              { field: 'confirmPassword', label: 'Confirm Password', type: 'password', placeholder: 'Confirm your password', required: true }
+            ].map(({ field, label, type, placeholder, required }, idx) => (
               <motion.div 
                 key={field} 
                 initial={{ opacity: 0, x: -20 }} 
@@ -276,6 +349,8 @@ export default function SignUp() {
                   value={formData[field as keyof typeof formData]}
                   onChange={handleInputChange}
                   placeholder={placeholder}
+                  required={required}
+                  minLength={field === 'password' || field === 'confirmPassword' ? 6 : undefined}
                   className="w-full px-4 py-2.5 sm:py-3 rounded-lg border-2 border-yellow-200 bg-white/70 text-gray-800 placeholder-gray-500 focus:outline-none focus:border-yellow-400 focus:bg-white transition-all duration-300 text-sm"
                   whileFocus={{ 
                     scale: 1.01,
@@ -284,30 +359,30 @@ export default function SignUp() {
                 />
               </motion.div>
             ))}
-          </div>
 
-          {/* Sign Up Button */}
-          <motion.div 
-            className="mt-8"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.8 }}
-          >
-            <motion.button 
-              type="submit" 
-              className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-800 py-3 sm:py-4 rounded-lg font-bold text-lg shadow-lg border-2 border-yellow-300 transition-colors duration-300" 
-              whileHover={{ 
-                scale: 1.02, 
-                boxShadow: "0 8px 20px rgba(251, 191, 36, 0.3)",
-                y: -2
-              }} 
-              whileTap={{ scale: 0.98 }}
+            {/* Sign Up Button */}
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.8 }}
             >
-              <a href="/dashboard" className="block w-full h-full">
-                Create Account
-              </a>
-            </motion.button>
-          </motion.div>
+              <motion.button 
+                type="submit"
+                disabled={isSubmitting}
+                className={`w-full bg-yellow-400 hover:bg-yellow-500 text-gray-800 py-3 sm:py-4 rounded-lg font-bold text-lg shadow-lg border-2 border-yellow-300 transition-colors duration-300 ${
+                  isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+                whileHover={!isSubmitting ? { 
+                  scale: 1.02, 
+                  boxShadow: "0 8px 20px rgba(251, 191, 36, 0.3)",
+                  y: -2
+                } : {}}
+                whileTap={!isSubmitting ? { scale: 0.98 } : {}}
+              >
+                {isSubmitting ? 'Creating Account...' : 'Create Account'}
+              </motion.button>
+            </motion.div>
+          </form>
 
           {/* Login Link */}
           <motion.p 

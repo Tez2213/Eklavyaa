@@ -6,8 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
 import BottomNav from "@/components/ui/BottomNav";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
+import { getUserGameStats } from '@/lib/leaderboard';
 import { 
   ArrowLeft,
   Edit,
@@ -26,33 +28,64 @@ import {
   MapPin,
   Coins,
   GraduationCap,
-  X
+  X,
+  Loader2
 } from 'lucide-react';
 
 export default function Profile() {
+  const { user, profile, loading } = useAuth();
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedClass, setSelectedClass] = useState(6);
   const [showClassSelector, setShowClassSelector] = useState(false);
+  const [userStats, setUserStats] = useState<any>(null);
   const classes = [6, 7, 8, 9, 10, 11, 12];
 
-  // User data
+  useEffect(() => {
+    if (profile) {
+      setSelectedClass(profile.class_level);
+    }
+  }, [profile]);
+
+  useEffect(() => {
+    if (user) {
+      fetchUserStats();
+    }
+  }, [user]);
+
+  const fetchUserStats = async () => {
+    if (!user) return;
+    const { data } = await getUserGameStats(user.id);
+    if (data) {
+      setUserStats(data);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-[#ffce3b]" />
+      </div>
+    );
+  }
+
+  // User data from real database
   const userData = {
-    name: "Arjun Kumar",
-    username: "Arjun_learner",
-    email: "arjun@eklavyaa.com",
-    phone: "+91 98765 43210",
-    location: "Mumbai, India",
-    joinedDate: "March 2024",
-    avatar: "/avatar.png",
-    level: 5,
-    totalPoints: 450,
-    streak: 3,
-    completedCourses: 6,
-    totalLessons: 10,
-    studyTime: 69, // hours
-    rank: 148,
-    nextLevelPoints: 500,
-    progressToNext: 95 // percentage
+    name: profile?.full_name || "Student",
+    username: profile?.username || "user",
+    email: profile?.email || "",
+    phone: profile?.phone || "Not set",
+    location: "India",
+    joinedDate: profile?.created_at ? new Date(profile.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : "Recently",
+    avatar: profile?.avatar_url || "/avatar.png",
+    level: Math.floor((userStats?.points || 0) / 100) + 1,
+    totalPoints: userStats?.points || 0,
+    streak: userStats?.streak || 0,
+    completedCourses: 0,
+    totalLessons: userStats?.games_played || 0,
+    studyTime: Math.floor((userStats?.games_played || 0) * 0.5), // estimate
+    rank: 0,
+    nextLevelPoints: (Math.floor((userStats?.points || 0) / 100) + 1) * 100,
+    progressToNext: ((userStats?.points || 0) % 100)
   };
 
   // Achievements data
