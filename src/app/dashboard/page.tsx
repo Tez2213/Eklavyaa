@@ -149,57 +149,8 @@ export default function Dashboard() {
                   </a>
                 </Avatar>
               </motion.div>
-              {/* 🔥 Star Popup Modal */}
-              <AnimatePresence>
-                {showStarPopup && (
-                  <motion.div
-                    className="fixed inset-0 bg-black/50 backdrop-blur-sm z-60 flex items-center justify-center p-4"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    onClick={() => setShowStarPopup(false)}
-                  >
-                    <motion.div
-                      className="bg-white rounded-2xl p-6 w-full max-w-sm relative mt-20"
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0.8, opacity: 0 }}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      {/* Modal Header with Close Button */}
-                      <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-xl font-bold text-gray-900">
-                          Your Stars
-                        </h3>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => setShowStarPopup(false)}
-                          className="h-8 w-8 rounded-full hover:bg-gray-100"
-                        >
-                          <X className="w-4 h-4" />
-                        </Button>
-                      </div>
 
-                      {/* Stars Display */}
-                      <div className="flex justify-center mb-4 space-x-2">
-                        {[1, 2, 3].map((star) => (
-                          <div className="w-8 h-8 fill-yellow-400 text-yellow-400">
-                            🔥
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* Message */}
-                      <p className="text-center text-gray-700">
-                        You’ve earned{" "}
-                        <span className="font-bold">3 Fire Streek</span> for
-                        your progress! 🎉
-                      </p>
-                    </motion.div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+          
             </div>
           </div>
         </div>
