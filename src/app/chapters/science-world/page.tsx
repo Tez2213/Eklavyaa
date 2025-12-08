@@ -65,7 +65,7 @@ export default function ScienceWorld() {
       title: "Temperature",
       description: "Understand heat, cold, and temperature changes in our environment and daily life",
       level: 3,
-      progress: 85,
+      progress: 100,
       stars: 2,
       isUnlocked: true,
       planetUrl: "/venus.webp",
@@ -80,7 +80,7 @@ export default function ScienceWorld() {
       title: "Ingredients",
       description: "Discover the building blocks of matter and learn about different materials around us",
       level: 7,
-      progress: 75,
+      progress: 100,
       stars: 3,
       isUnlocked: true,
       planetUrl: "/earth.webp",
@@ -95,7 +95,7 @@ export default function ScienceWorld() {
       title: "Materials",
       description: "Explore different types of materials, their properties, and how they're used in our world",
       level: 2,
-      progress: 60,
+      progress: 100,
       stars: 1,
       isUnlocked: true,
       planetUrl: "/mars.webp",
@@ -110,7 +110,7 @@ export default function ScienceWorld() {
       title: "Water Cycle",
       description: "Learn about the amazing journey of water through evaporation, condensation, and precipitation",
       level: 1,
-      progress: 40,
+      progress: 100,
       stars: 2,
       isUnlocked: true,
       planetUrl: "/jupiter.webp",
@@ -173,13 +173,23 @@ export default function ScienceWorld() {
   };
 
   const handleStartChapter = async (planet: any) => {
-    if (!planet.gameUrl || loadingChapter) return;
+    if (loadingChapter) return;
     setLoadingChapter(planet.id);
-    setTimeout(async () => {
+    setTimeout(() => {
       setLoadingChapter(null);
       setSelectedPlanet(null);
-      // Track game click and award points
-      await trackAndOpenGame(planet.title, planet.gameUrl, 1);
+      
+      // Map chapter titles to roadmap slugs
+      const chapterMap: any = {
+        'Solar System': 'solar-system',
+        'Temperature': 'temperature',
+        'Ingredients': 'ingredients',
+        'Materials': 'materials',
+        'Water Cycle': 'water-cycle',
+      };
+      
+      const chapterSlug = chapterMap[planet.title] || planet.title.toLowerCase().replace(/\s+/g, '-');
+      router.push(`/roadmap/science-world/${chapterSlug}`);
     }, 1500);
   };
 

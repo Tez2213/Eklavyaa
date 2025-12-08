@@ -66,7 +66,7 @@ export default function MathWorld() {
       title: "Pythagorean Quest",
       description: "Explore the mystical Pythagorean Mountains where triangles hold the secrets of geometry and ancient mathematical wisdom",
       level: 3,
-      progress: 85,
+      progress: 100,
       stars: 2,
       isUnlocked: true,
       emoji: "",
@@ -82,7 +82,7 @@ export default function MathWorld() {
       title: "Number Mystics",
       description: "Journey through the Enchanted Number Forest where magical trees grow with mathematical patterns and numerical mysteries",
       level: 7,
-      progress: 75,
+      progress: 100,
       stars: 3,
       isUnlocked: true,
       emoji: "",
@@ -98,7 +98,7 @@ export default function MathWorld() {
       title: "Nature's Mirror",
       description: "Discover the mathematical patterns in nature at the Crystal Lake where fractals and golden ratios reflect in perfect harmony",
       level: 2,
-      progress: 60,
+      progress: 100,
       stars: 1,
       isUnlocked: true,
       emoji: "",
@@ -114,7 +114,7 @@ export default function MathWorld() {
       title: "Deep Sea Diver",
       description: "Dive into the Mathematical Ocean depths where underwater calculations and pressure equations challenge brave explorers",
       level: 1,
-      progress: 40,
+      progress: 100,
       stars: 2,
       isUnlocked: true,
       emoji: "",
@@ -149,13 +149,14 @@ export default function MathWorld() {
   };
 
   const handleStartChapter = async (landmark: any) => {
-    if (!landmark.gameUrl || loadingChapter) return;
+    if (loadingChapter) return;
     setLoadingChapter(landmark.id);
-    setTimeout(async () => {
+    setTimeout(() => {
       setLoadingChapter(null);
       setSelectedLandmark(null);
-      // Track game click and award points
-      await trackAndOpenGame(landmark.title, landmark.gameUrl, 1);
+      // Navigate to learning roadmap instead of direct game
+      const chapterSlug = landmark.title.toLowerCase().replace(/\s+/g, '-');
+      router.push(`/roadmap/maths-wonder/${chapterSlug}`);
     }, 1500);
   };
 
