@@ -29,10 +29,27 @@ export default function Dashboard() {
   const [showStarPopup, setShowStarPopup] = useState(false);
   const [userStats, setUserStats] = useState<any>(null);
   const [randomFriend, setRandomFriend] = useState<any>(null);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [onboardingStep, setOnboardingStep] = useState(0);
+
+  const onboardingSteps = [
+    { target: "streak-badge", title: "Streak Counter", description: "Maintain your daily learning streak! Come back every day to keep your fire burning." },
+    { target: "points-badge", title: "Points & Leaderboard", description: "Earn points by completing tasks and climb the leaderboard. Tap to see where you rank!" },
+    { target: "profile-avatar", title: "Your Profile", description: "Customize your avatar and track your achievements here." },
+    { target: "continue-card", title: "Continue Learning", description: "Pick up right where you left off. Your learning journey is saved automatically." },
+    { target: "weekly-goals", title: "Weekly Goals", description: "Track your accuracy and speed. Earn stars by improving your performance!" }
+  ];
 
   useEffect(() => {
     if (profile) {
       setSelectedClass(profile.class_level);
+    }
+  }, [profile]);
+
+  useEffect(() => {
+    const hasSeenOnboarding = localStorage.getItem('hasSeenOnboarding');
+    if (!hasSeenOnboarding && profile) {
+      setTimeout(() => setShowOnboarding(true), 1000);
     }
   }, [profile]);
 
@@ -57,6 +74,23 @@ export default function Dashboard() {
     if (data) {
       setRandomFriend(data);
     }
+  };
+
+  const handleNextStep = () => {
+    if (onboardingStep < onboardingSteps.length - 1) {
+      setOnboardingStep(onboardingStep + 1);
+    } else {
+      completeOnboarding();
+    }
+  };
+
+  const handleSkipOnboarding = () => {
+    completeOnboarding();
+  };
+
+  const completeOnboarding = () => {
+    setShowOnboarding(false);
+    localStorage.setItem('hasSeenOnboarding', 'true');
   };
 
   if (loading) {
@@ -110,6 +144,7 @@ export default function Dashboard() {
 
             <div className="flex items-center space-x-3">
               <motion.div
+                id="streak-badge"
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
@@ -123,6 +158,7 @@ export default function Dashboard() {
               </motion.div>
 
               <motion.div
+                id="points-badge"
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
@@ -137,6 +173,7 @@ export default function Dashboard() {
               </motion.div>
 
               <motion.div
+                id="profile-avatar"
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.5 }}
@@ -162,6 +199,7 @@ export default function Dashboard() {
 
         {/* Continue Your Journey Card */}
         <motion.div
+          id="continue-card"
           className="mb-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -207,6 +245,7 @@ export default function Dashboard() {
 
         {/* Weekly Goal Tracker */}
         <motion.div
+          id="weekly-goals"
           className="mb-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -267,6 +306,7 @@ export default function Dashboard() {
 
         {/* Hologram Magic Button */}
         <motion.div
+          id="hologram-button"
           className="mb-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -298,6 +338,7 @@ export default function Dashboard() {
 
         {/* Friend Activity Feed */}
         <motion.div
+          id="friend-activity"
           className="mb-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -338,6 +379,7 @@ export default function Dashboard() {
 
         {/* Unlockable Badges */}
         <motion.div
+          id="badges-section"
           className="mb-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -461,6 +503,82 @@ export default function Dashboard() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Onboarding Tour */}
+      {showOnboarding && (
+        <>
+          <div className="fixed inset-0 bg-black/70 z-[100]" />
+          <div
+            className="fixed z-[101] pointer-events-none transition-all duration-300"
+            style={{
+              ...((() => {
+                const el = document.getElementById(onboardingSteps[onboardingStep].target);
+                if (el) {
+                  const rect = el.getBoundingClientRect();
+                  return {
+                    top: `${rect.top - 8}px`,
+                    left: `${rect.left - 8}px`,
+                    width: `${rect.width + 16}px`,
+                    height: `${rect.height + 16}px`,
+                    boxShadow: '0 0 0 4px #ffce3b, 0 0 0 9999px rgba(0, 0, 0, 0.7)',
+                    borderRadius: '12px',
+                  };
+                }
+                return {};
+              })())
+            }}
+          />
+          <div
+            className="fixed z-[102] transition-all duration-300"
+            style={{
+              ...((() => {
+                const el = document.getElementById(onboardingSteps[onboardingStep].target);
+                if (el) {
+                  const rect = el.getBoundingClientRect();
+                  return {
+                    top: `${rect.bottom + 16}px`,
+                    left: `${Math.max(16, Math.min(window.innerWidth - 336, rect.left))}px`,
+                  };
+                }
+                return { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' };
+              })())
+            }}
+          >
+            <Card className="bg-white border-0 shadow-2xl w-80">
+              <CardContent className="p-6">
+                <div className="mb-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-lg font-bold text-gray-900">
+                      {onboardingSteps[onboardingStep].title}
+                    </h4>
+                    <Badge className="bg-[#ffce3b] text-white">
+                      {onboardingStep + 1}/{onboardingSteps.length}
+                    </Badge>
+                  </div>
+                  <p className="text-gray-600 text-sm">
+                    {onboardingSteps[onboardingStep].description}
+                  </p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <Button
+                    variant="ghost"
+                    onClick={handleSkipOnboarding}
+                    className="text-gray-500 hover:text-gray-700"
+                  >
+                    Skip Tour
+                  </Button>
+                  <Button
+                    onClick={handleNextStep}
+                    className="bg-[#ffce3b] hover:bg-[#ffde00] text-white"
+                  >
+                    {onboardingStep < onboardingSteps.length - 1 ? 'Next' : 'Finish'}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </>
+      )}
 
       <BottomNav currentPage="dashboard" />
     </div>
