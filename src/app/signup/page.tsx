@@ -9,7 +9,6 @@ import { useRouter } from 'next/navigation';
 export default function SignUp() {
   const { signUp, user, loading } = useAuth();
   const router = useRouter();
-  const [userType, setUserType] = useState<'student' | 'tutor'>('student');
   const [formData, setFormData] = useState({
     name: '',
     username: '',
@@ -75,7 +74,7 @@ export default function SignUp() {
       const { data, error } = await signUp(formData.email, formData.password, {
         full_name: formData.name,
         username: formData.username,
-        user_type: userType,
+        user_type: 'student',
         class_level: 6,
         phone: formData.phone,
         avatar_url: '/avatar.png',
@@ -288,44 +287,6 @@ export default function SignUp() {
             </motion.div>
           )}
 
-          {/* User Type Selection */}
-          <motion.div 
-            className="mb-6"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1 }}
-          >
-            <p className="text-sm font-medium text-gray-700 mb-3 text-center">I am a:</p>
-            <div className="grid grid-cols-2 gap-3">
-              <motion.button 
-                type="button" 
-                onClick={() => setUserType('student')} 
-                className={`py-2.5 px-4 rounded-lg text-sm font-medium transition-all duration-300 ${
-                  userType === 'student' 
-                    ? 'bg-yellow-400 text-gray-800 shadow-md border-2 border-yellow-400' 
-                    : 'bg-white/70 text-gray-700 border-2 border-yellow-200 hover:border-yellow-300'
-                }`} 
-                whileHover={{ scale: 1.02 }} 
-                whileTap={{ scale: 0.98 }}
-              >
-                Student
-              </motion.button>
-              <motion.button 
-                type="button" 
-                onClick={() => setUserType('tutor')} 
-                className={`py-2.5 px-4 rounded-lg text-sm font-medium transition-all duration-300 ${
-                  userType === 'tutor' 
-                    ? 'bg-yellow-400 text-gray-800 shadow-md border-2 border-yellow-400' 
-                    : 'bg-white/70 text-gray-700 border-2 border-yellow-200 hover:border-yellow-300'
-                }`} 
-                whileHover={{ scale: 1.02 }} 
-                whileTap={{ scale: 0.98 }}
-              >
-                Tutor
-              </motion.button>
-            </div>
-          </motion.div>
-
           {/* Form Fields */}
           <form onSubmit={handleSubmit} className="space-y-4">
             {[
@@ -340,7 +301,7 @@ export default function SignUp() {
                 key={field} 
                 initial={{ opacity: 0, x: -20 }} 
                 animate={{ opacity: 1, x: 0 }} 
-                transition={{ duration: 0.4, delay: 1.2 + idx * 0.1 }}
+                transition={{ duration: 0.4, delay: 1.0 + idx * 0.1 }}
               >
                 <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
                 <motion.input
@@ -364,7 +325,7 @@ export default function SignUp() {
             <motion.div 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.8 }}
+              transition={{ duration: 0.6, delay: 1.6 }}
             >
               <motion.button 
                 type="submit"
