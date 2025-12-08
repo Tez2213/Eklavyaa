@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Your Eklavyaa Account</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Arial', 'Helvetica', sans-serif; background-color: #f9fafb;">
+    <table role="presentation" style="width: 100%; border-collapse: collapse; background-color: #f9fafb;">
+        <tr>
+            <td style="padding: 40px 20px;">
+                <table role="presentation" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); overflow: hidden;">
+                    
+                    <!-- Header with yellow gradient -->
+                    <tr>
+                        <td style="background: linear-gradient(135deg, #ffce3b 0%, #ffde00 100%); padding: 40px 30px; text-align: center;">
+                            <h1 style="margin: 0; color: #ffffff; font-size: 32px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.1);">
+                                🎓 Eklavyaa
+                            </h1>
+                            <p style="margin: 10px 0 0 0; color: #ffffff; font-size: 16px; opacity: 0.95;">
+                                Your Learning Journey Begins Here
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- Main Content -->
+                    <tr>
+                        <td style="padding: 40px 30px;">
+                            <h2 style="margin: 0 0 20px 0; color: #1f2937; font-size: 24px; font-weight: bold;">
+                                Welcome, {{ .UserMetaData.full_name }}! 👋
+                            </h2>
+                            
+                            <p style="margin: 0 0 20px 0; color: #4b5563; font-size: 16px; line-height: 1.6;">
+                                We're excited to have you join the <strong style="color: #ffce3b;">Eklavyaa</strong> learning community! You're just one step away from unlocking a world of interactive science and math adventures.
+                            </p>
+
+                            <!-- User Info Card -->
+                            <table role="presentation" style="width: 100%; background-color: #fffbeb; border-radius: 12px; padding: 20px; margin: 20px 0; border-left: 4px solid #ffce3b;">
+                                <tr>
+                                    <td>
+                                        <p style="margin: 0 0 8px 0; color: #78716c; font-size: 14px;">Account Details:</p>
+                                        <p style="margin: 0 0 8px 0; color: #1f2937; font-size: 16px;">
+                                            <strong>📧 Email:</strong> {{ .Email }}
+                                        </p>
+                                        <p style="margin: 0 0 8px 0; color: #1f2937; font-size: 16px;">
+                                            <strong>👤 Username:</strong> {{ .UserMetaData.username }}
+                                        </p>
+                                        <p style="margin: 0; color: #1f2937; font-size: 16px;">
+                                            <strong>🎓 Class:</strong> {{ .UserMetaData.class_level }}
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p style="margin: 0 0 30px 0; color: #4b5563; font-size: 16px; line-height: 1.6;">
+                                Click the button below to confirm your email address and start your learning adventure:
+                            </p>
+
+                            <!-- Confirmation Button -->
+                            <table role="presentation" style="width: 100%;">
+                                <tr>
+                                    <td style="text-align: center; padding: 0 0 30px 0;">
+                                        <a href="{{ .ConfirmationURL }}" style="display: inline-block; padding: 16px 40px; background: linear-gradient(135deg, #ffce3b 0%, #ffde00 100%); color: #000000; text-decoration: none; border-radius: 50px; font-size: 18px; font-weight: bold; box-shadow: 0 4px 12px rgba(255, 206, 59, 0.4); transition: transform 0.2s;">
+                                            ✨ Confirm Your Email
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Features Section -->
+                            <div style="background-color: #f9fafb; border-radius: 12px; padding: 20px; margin: 20px 0;">
+                                <h3 style="margin: 0 0 15px 0; color: #1f2937; font-size: 18px; font-weight: bold;">
+                                    What's waiting for you:
+                                </h3>
+                                <table role="presentation" style="width: 100%;">
+                                    <tr>
+                                        <td style="padding: 8px 0;">
+                                            <span style="color: #ffce3b; font-size: 20px; margin-right: 10px;">🌟</span>
+                                            <span style="color: #4b5563; font-size: 15px;">Interactive Science & Math Games</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;">
+                                            <span style="color: #ffce3b; font-size: 20px; margin-right: 10px;">🏆</span>
+                                            <span style="color: #4b5563; font-size: 15px;">Compete on the Leaderboard</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;">
+                                            <span style="color: #ffce3b; font-size: 20px; margin-right: 10px;">🔥</span>
+                                            <span style="color: #4b5563; font-size: 15px;">Build Your Learning Streak</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;">
+                                            <span style="color: #ffce3b; font-size: 20px; margin-right: 10px;">🎯</span>
+                                            <span style="color: #4b5563; font-size: 15px;">Earn Points & Unlock Achievements</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <!-- Alternative Link -->
+                            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
+                                <p style="margin: 0 0 10px 0; color: #6b7280; font-size: 14px; line-height: 1.6;">
+                                    <strong>Button not working?</strong> Copy and paste this link into your browser:
+                                </p>
+                                <p style="margin: 0; word-break: break-all;">
+                                    <a href="{{ .ConfirmationURL }}" style="color: #ffce3b; font-size: 13px; text-decoration: underline;">
+                                        {{ .ConfirmationURL }}
+                                    </a>
+                                </p>
+                            </div>
+
+                            <!-- Security Notice -->
+                            <div style="margin-top: 20px; padding: 15px; background-color: #fef3c7; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                <p style="margin: 0; color: #92400e; font-size: 13px; line-height: 1.5;">
+                                    ⚠️ <strong>Security Tip:</strong> This link will expire in 24 hours. If you didn't create an Eklavyaa account, you can safely ignore this email.
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #f9fafb; padding: 30px; text-align: center; border-top: 1px solid #e5e7eb;">
+                            <p style="margin: 0 0 10px 0; color: #6b7280; font-size: 14px;">
+                                Happy Learning! 🚀
+                            </p>
+                            <p style="margin: 0 0 15px 0; color: #9ca3af; font-size: 12px;">
+                                © 2025 Eklavyaa. All rights reserved.
+                            </p>
+                            <div style="margin-top: 15px;">
+                                <a href="#" style="color: #ffce3b; text-decoration: none; font-size: 12px; margin: 0 10px;">About Us</a>
+                                <span style="color: #d1d5db;">|</span>
+                                <a href="#" style="color: #ffce3b; text-decoration: none; font-size: 12px; margin: 0 10px;">Support</a>
+                                <span style="color: #d1d5db;">|</span>
+                                <a href="#" style="color: #ffce3b; text-decoration: none; font-size: 12px; margin: 0 10px;">Privacy</a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- Additional spacing -->
+                <p style="text-align: center; margin-top: 20px; color: #9ca3af; font-size: 12px;">
+                    This email was sent to {{ .Email }}
+                </p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -9,7 +9,8 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import BottomNav from "@/components/ui/BottomNav";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { getUserGameStats } from "@/lib/leaderboard";
+import { getUserGameStats, getRandomUser } from "@/lib/leaderboard";
+import { useRouter } from "next/navigation";
 import {
   Star,
   Trophy,
@@ -21,11 +22,13 @@ import {
 
 export default function Dashboard() {
   const { user, profile, loading } = useAuth();
+  const router = useRouter();
   const [selectedClass, setSelectedClass] = useState(6);
   const [showClassSelector, setShowClassSelector] = useState(false);
   const classes = [6, 7, 8, 9, 10, 11, 12];
   const [showStarPopup, setShowStarPopup] = useState(false);
   const [userStats, setUserStats] = useState<any>(null);
+  const [randomFriend, setRandomFriend] = useState<any>(null);
 
   useEffect(() => {
     if (profile) {
@@ -36,6 +39,7 @@ export default function Dashboard() {
   useEffect(() => {
     if (user) {
       fetchUserStats();
+      fetchRandomFriend();
     }
   }, [user]);
 
@@ -44,6 +48,14 @@ export default function Dashboard() {
     const { data } = await getUserGameStats(user.id);
     if (data) {
       setUserStats(data);
+    }
+  };
+
+  const fetchRandomFriend = async () => {
+    if (!user) return;
+    const { data } = await getRandomUser(user.id);
+    if (data) {
+      setRandomFriend(data);
     }
   };
 
@@ -84,7 +96,7 @@ export default function Dashboard() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
-                Hello, <div className="text-amber-500">&nbsp;{profile?.full_name || 'Student'}</div>
+                Hello, <div className="text-amber-500">&nbsp;{profile?.username || 'Student'}</div>
               </motion.h1>
               <motion.p
                 className="text-gray-600 text-sm"
@@ -115,7 +127,10 @@ export default function Dashboard() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
-                <Badge className="bg-[#ffce3b] text-white px-3 py-1">
+                <Badge 
+                  className="bg-[#ffce3b] text-white px-3 py-1 cursor-pointer hover:bg-[#ffde00] transition-colors"
+                  onClick={() => router.push('/leaderboard')}
+                >
                   <Trophy className="w-3 h-3 mr-1" />
                   {userStats?.points || 0}
                 </Badge>
@@ -256,7 +271,7 @@ export default function Dashboard() {
               transition={{ duration: 0.2 }}
             >
               <Card className="bg-white border-gray-200 shadow-sm">
-                <CardContent className="p-6 text-center">
+                <CardContent className="p-5 text-center">
                   <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-3">
                     <img className="h-12" src={'/target.gif'} />
                   </div>
@@ -279,7 +294,7 @@ export default function Dashboard() {
               transition={{ duration: 0.2 }}
             >
               <Card className="bg-white border-gray-200 shadow-sm">
-                <CardContent className="p-6 text-center">
+                <CardContent className="p-5 text-center">
                   <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-3">
                     <img className="h-12" src={'/shock.gif'} />
                   </div>
@@ -355,7 +370,7 @@ export default function Dashboard() {
     </Avatar>
     {/* Friend's Name */}
     <div>
-      <p className="text-sm font-semibold text-gray-900">Rohan Sharma</p>
+      <p className="text-sm font-semibold text-gray-900">{randomFriend?.full_name || 'Loading...'}</p>
       {/* Activity Text */}
       <p className="text-xs text-gray-500">completed a quiz on Algebra.</p>
     </div>
@@ -420,7 +435,7 @@ export default function Dashboard() {
                     <img className="h-12" src={'/trophy1.gif'} />
                   </div>
                   <p className="text-xs text-gray-500 font-medium">
-                    Keep it up Arjun
+                    Keep it up {profile?.full_name}
                   </p>
                 </CardContent>
               </Card>

@@ -172,3 +172,33 @@ export async function getWeeklyTopPerformers(classLevel?: number, limit: number 
     return { data: null, error };
   }
 }
+
+/**
+ * Get a random user from the leaderboard (excluding current user)
+ */
+export async function getRandomUser(excludeUserId?: string) {
+  try {
+    let query = supabase
+      .from('leaderboard')
+      .select('*');
+
+    if (excludeUserId) {
+      query = query.neq('user_id', excludeUserId);
+    }
+
+    const { data, error } = await query;
+
+    if (error) throw error;
+    
+    if (!data || data.length === 0) {
+      return { data: null, error: null };
+    }
+
+    // Get a random user from the results
+    const randomIndex = Math.floor(Math.random() * data.length);
+    return { data: data[randomIndex], error: null };
+  } catch (error: any) {
+    console.error('Error fetching random user:', error);
+    return { data: null, error };
+  }
+}

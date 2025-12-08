@@ -5,6 +5,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 import { useGameTracker } from '@/hooks/useGameTracker';
+import { useAuth } from '@/contexts/AuthContext';
+import { getUserGameStats } from '@/lib/leaderboard';
 import { 
   ArrowLeft,
   Star,
@@ -20,9 +22,25 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export default function MathWorld() {
   const router = useRouter();
+  const { user, profile } = useAuth();
   const { trackAndOpenGame, isTracking } = useGameTracker();
   const [loadingChapter, setLoadingChapter] = useState<number | null>(null);
   const [selectedLandmark, setSelectedLandmark] = useState<any>(null);
+  const [userStats, setUserStats] = useState<any>(null);
+
+  useEffect(() => {
+    if (user) {
+      fetchUserStats();
+    }
+  }, [user]);
+
+  const fetchUserStats = async () => {
+    if (!user) return;
+    const { data } = await getUserGameStats(user.id);
+    if (data) {
+      setUserStats(data);
+    }
+  };
 
   // Mathematical landmarks on our world map
   const mathLandmarks = [
@@ -263,8 +281,11 @@ export default function MathWorld() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
-                <Badge className="bg-yellow-100 text-yellow-800 border-yellow-300 font-bold rounded-full px-3">
-                  <Star className="w-3 h-3 mr-1 fill-yellow-500 text-yellow-500" /> 280
+                <Badge 
+                  className="bg-yellow-100 text-yellow-800 border-yellow-300 font-bold rounded-full px-3 cursor-pointer hover:bg-yellow-200 transition-colors"
+                  onClick={() => router.push('/leaderboard')}
+                >
+                  <Star className="w-3 h-3 mr-1 fill-yellow-500 text-yellow-500" /> {userStats?.points || 0}
                 </Badge>
               </motion.div>
               <motion.div
@@ -273,7 +294,7 @@ export default function MathWorld() {
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
                 <Badge className="bg-emerald-100 text-emerald-700 border-emerald-300 rounded-full px-3">
-                  🧮 5
+                  🧮 {userStats?.streak || 0}
                 </Badge>
               </motion.div>
             </div>

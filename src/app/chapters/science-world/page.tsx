@@ -5,6 +5,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 import { useGameTracker } from '@/hooks/useGameTracker';
+import { useAuth } from '@/contexts/AuthContext';
+import { getUserGameStats } from '@/lib/leaderboard';
 import { 
   ArrowLeft,
   Star,
@@ -20,9 +22,25 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ScienceWorld() {
   const router = useRouter();
+  const { user, profile } = useAuth();
   const { trackAndOpenGame, isTracking } = useGameTracker();
   const [loadingChapter, setLoadingChapter] = useState<number | null>(null);
   const [selectedPlanet, setSelectedPlanet] = useState<any>(null);
+  const [userStats, setUserStats] = useState<any>(null);
+
+  useEffect(() => {
+    if (user) {
+      fetchUserStats();
+    }
+  }, [user]);
+
+  const fetchUserStats = async () => {
+    if (!user) return;
+    const { data } = await getUserGameStats(user.id);
+    if (data) {
+      setUserStats(data);
+    }
+  };
 
   // Planet chapters data - Following real solar system order and distances
   const planets = [
@@ -249,8 +267,11 @@ export default function ScienceWorld() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
-                <Badge className="bg-yellow-500/20 text-yellow-300 border-yellow-500/30 font-bold rounded-full px-3">
-                  <Star className="w-3 h-3 mr-1 fill-yellow-300 text-yellow-300" /> 450
+                <Badge 
+                  className="bg-yellow-500/20 text-yellow-300 border-yellow-500/30 font-bold rounded-full px-3 cursor-pointer hover:bg-yellow-500/30 transition-colors"
+                  onClick={() => router.push('/leaderboard')}
+                >
+                  <Star className="w-3 h-3 mr-1 fill-yellow-300 text-yellow-300" /> {userStats?.points || 0}
                 </Badge>
               </motion.div>
               <motion.div
@@ -259,7 +280,7 @@ export default function ScienceWorld() {
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
                 <Badge className="bg-orange-500/20 text-orange-300 border-orange-500/30 rounded-full px-3">
-                  🔥 3
+                  🔥 {userStats?.streak || 0}
                 </Badge>
               </motion.div>
             </div>

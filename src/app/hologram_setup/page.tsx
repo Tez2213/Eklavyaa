@@ -5,7 +5,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import BottomNav from "@/components/ui/BottomNav";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { getUserGameStats } from "@/lib/leaderboard";
+import { useRouter } from "next/navigation";
 import {
   Trophy,
   Languages,
@@ -17,106 +20,59 @@ import {
 } from "lucide-react";
 
 export default function HologramSetup() {
-  const [selectedLanguage, setSelectedLanguage] = useState<'english' | 'hindi'>('english');
+  const { user, profile } = useAuth();
+  const router = useRouter();
+  const [selectedLanguage, setSelectedLanguage] = useState<'english' | 'hindi' | 'odia'>('english');
   const [showStarPopup, setShowStarPopup] = useState(false);
-  const [showTutorialPopup , setShowTutorialPopup] = useState(false);
+  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
+  const [userStats, setUserStats] = useState<any>(null);
+
+  useEffect(() => {
+    if (user) {
+      fetchUserStats();
+    }
+  }, [user]);
+
+  const fetchUserStats = async () => {
+    if (!user) return;
+    const { data } = await getUserGameStats(user.id);
+    if (data) {
+      setUserStats(data);
+    }
+  };
+  
   const content = {
     english: {
-      title: "Hologram Setup Process",
+      title: "Hologram Setup",
+      description: "Watch this tutorial to learn how to create your own hologram projector",
+      stepsTitle: "How to Make Your Hologram",
       steps: [
-        {
-          number: "01",
-          title: "Collect Materials",
-          icon: <Package className="w-6 h-6" />,
-          items: [
-            "Transparent plastic sheet (OHP sheet, CD cover)",
-            "Ruler and marker/pen for measurements",
-            "Sharp scissors or cutter",
-            "Clear tape or glue"
-          ]
-        },
-        {
-          number: "02", 
-          title: "Draw the Shape",
-          icon: <Ruler className="w-6 h-6" />,
-          items: [
-            "Draw trapezoid: Top = 1cm, Bottom = 6cm, Height = 3.5cm",
-            "Use ruler for accurate measurements",
-            "Create 4 identical trapezoids",
-            "Mark cutting lines clearly"
-          ]
-        },
-        {
-          number: "03",
-          title: "Cut & Assemble", 
-          icon: <Scissors className="w-6 h-6" />,
-          items: [
-            "Cut along marked lines with precision",
-            "Test fit pieces before joining",
-            "Apply tape/glue to edges",
-            "Form pyramid with open top"
-          ]
-        },
-        {
-          number: "04",
-          title: "Activate Hologram",
-          icon: <Smartphone className="w-6 h-6" />,
-          items: [
-            "Place pyramid inverted on phone screen",
-            "Play hologram video from YouTube", 
-            "View from sides for 3D effect",
-            "Adjust lighting for best visibility ✨"
-          ]
-        }
+        "Cut a transparent plastic sheet (CD case/OHP sheet) into 4 trapezoids: Top=1cm, Bottom=6cm, Height=3.5cm",
+        "Join all 4 pieces with tape/glue to form a pyramid with an open top",
+        "Place the pyramid upside down on your phone screen",
+        "Play the hologram video and view from the sides to see the 3D effect ✨"
       ]
     },
     hindi: {
-      title: "होलोग्राम सेटअप प्रक्रिया",
+      title: "होलोग्राम सेटअप",
+      description: "अपना होलोग्राम प्रोजेक्टर बनाने का तरीका जानने के लिए यह ट्यूटोरियल देखें",
+      stepsTitle: "अपना होलोग्राम कैसे बनाएं",
       steps: [
-        {
-          number: "01",
-          title: "सामग्री इकट्ठा करें",
-          icon: <Package className="w-6 h-6" />,
-          items: [
-            "पारदर्शी प्लास्टिक शीट (OHP शीट, CD कवर)",
-            "माप के लिए रूलर और मार्कर/पेन",
-            "तेज कैंची या कटर",
-            "साफ टेप या गोंद"
-          ]
-        },
-        {
-          number: "02",
-          title: "आकार बनाएं",
-          icon: <Ruler className="w-6 h-6" />,
-          items: [
-            "समलम्ब: ऊपर = 1सेमी, नीचे = 6सेमी, ऊंचाई = 3.5सेमी",
-            "सटीक माप के लिए रूलर का उपयोग करें",
-            "4 समान समलम्ब चतुर्भुज बनाएं",
-            "काटने की रेखाओं को चिह्नित करें"
-          ]
-        },
-        {
-          number: "03",
-          title: "काटें और जोड़ें",
-          icon: <Scissors className="w-6 h-6" />,
-          items: [
-            "चिह्नित रेखाओं के साथ सटीकता से काटें",
-            "जोड़ने से पहले टुकड़ों को फिट करें",
-            "किनारों पर टेप/गोंद लगाएं",
-            "खुले शीर्ष के साथ पिरामिड बनाएं"
-          ]
-        },
-        {
-          number: "04",
-          title: "होलोग्राम सक्रिय करें",
-          icon: <Smartphone className="w-6 h-6" />,
-          items: [
-            "पिरामिड को फोन स्क्रीन पर उल्टा रखें",
-            "YouTube से होलोग्राम वीडियो चलाएं",
-            "3D प्रभाव के लिए किनारों से देखें",
-            "बेहतर दिखावट के लिए रोशनी समायोजित करें ✨"
-          ]
-        }
+        "पारदर्शी प्लास्टिक शीट (CD केस/OHP शीट) को 4 समलम्ब में काटें: ऊपर=1सेमी, नीचे=6सेमी, ऊंचाई=3.5सेमी",
+        "सभी 4 टुकड़ों को टेप/गोंद से जोड़कर खुले शीर्ष के साथ पिरामिड बनाएं",
+        "पिरामिड को अपने फोन स्क्रीन पर उल्टा रखें",
+        "होलोग्राम वीडियो चलाएं और 3D प्रभाव देखने के लिए किनारों से देखें ✨"
+      ]
+    },
+    odia: {
+      title: "ହୋଲୋଗ୍ରାମ ସେଟଅପ୍",
+      description: "ଆପଣଙ୍କର ନିଜସ୍ୱ ହୋଲୋଗ୍ରାମ ପ୍ରୋଜେକ୍ଟର ତିଆରି କରିବାକୁ ଏହି ଟ୍ୟୁଟୋରିଆଲ୍ ଦେଖନ୍ତୁ",
+      stepsTitle: "ଆପଣଙ୍କର ହୋଲୋଗ୍ରାମ କିପରି ତିଆରି କରିବେ",
+      steps: [
+        "ସ୍ୱଚ୍ଛ ପ୍ଲାଷ୍ଟିକ ସିଟ୍ (CD କେସ/OHP ସିଟ୍) କୁ 4 ଟି ଟ୍ରାପେଜଏଡରେ କାଟନ୍ତୁ: ଉପର=1ସେମି, ତଳ=6ସେମି, ଉଚ୍ଚତା=3.5ସେମି",
+        "ସମସ୍ତ 4 ଖଣ୍ଡକୁ ଟେପ୍/ଗ୍ଲୁ ଦ୍ୱାରା ଯୋଡି ଖୋଲା ଉପର ସହିତ ପିରାମିଡ୍ ତିଆରି କରନ୍ତୁ",
+        "ପିରାମିଡକୁ ଆପଣଙ୍କ ଫୋନ୍ ସ୍କ୍ରିନରେ ଓଲଟା ରଖନ୍ତୁ",
+        "ହୋଲୋଗ୍ରାମ ଭିଡିଓ ଚଲାନ୍ତୁ ଏବଂ 3D ପ୍ରଭାବ ଦେଖିବାକୁ ପାର୍ଶ୍ୱରୁ ଦେଖନ୍ତୁ ✨"
       ]
     }
   };
@@ -149,7 +105,7 @@ export default function HologramSetup() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                Setup Process
+                Tutorial
               </motion.p>
             </div>
 
@@ -163,7 +119,7 @@ export default function HologramSetup() {
                   className="bg-yellow-100 text-yellow-800 border-yellow-200 px-3 py-1 cursor-pointer"
                   onClick={() => setShowStarPopup(true)}
                 >
-                  🔥 3
+                  🔥 {userStats?.streak || 0}
                 </Badge>
               </motion.div>
 
@@ -172,9 +128,12 @@ export default function HologramSetup() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
-                <Badge className="bg-[#ffce3b] text-white px-3 py-1">
+                <Badge 
+                  className="bg-[#ffce3b] text-white px-3 py-1 cursor-pointer hover:bg-[#ffde00] transition-colors"
+                  onClick={() => router.push('/leaderboard')}
+                >
                   <Trophy className="w-3 h-3 mr-1" />
-                  450
+                  {userStats?.points || 0}
                 </Badge>
               </motion.div>
 
@@ -186,7 +145,7 @@ export default function HologramSetup() {
                 <Avatar className="w-8 h-8 bg-[#ffce3b]">
                   <a href="/profile" >
                   <AvatarFallback className="bg-[#ffce3b] text-white font-semibold text-sm">
-                    <img src={"/avatar.png"} />
+                    <img src={profile?.avatar_url || "/avatar.png"} alt="Avatar" />
                   </AvatarFallback>
                   </a>
                 </Avatar>
@@ -225,7 +184,7 @@ export default function HologramSetup() {
 
                       {/* Stars Display */}
                       <div className="flex justify-center mb-4 space-x-2">
-                        {[1, 2, 3].map((star) => (
+                        {Array.from({ length: userStats?.streak || 0 }, (_, i) => i + 1).slice(0, 10).map((star) => (
                           <div key={star} className="w-8 h-8 fill-yellow-400 text-yellow-400">
                             🔥
                           </div>
@@ -235,7 +194,7 @@ export default function HologramSetup() {
                       {/* Message */}
                       <p className="text-center text-gray-700">
                         You've earned{" "}
-                        <span className="font-bold">3 Fire Streek</span> for
+                        <span className="font-bold">{userStats?.streak || 0} Fire Streak</span> for
                         your progress! 🎉
                       </p>
                     </motion.div>
@@ -247,164 +206,124 @@ export default function HologramSetup() {
         </div>
       </motion.div>
 
-      {/* Language Toggle Button - Outside Header */}
+      {/* Language Dropdown - Outside Header */}
       <motion.div
         className="fixed top-20 right-4 z-40"
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Button
-          onClick={() => setSelectedLanguage(selectedLanguage === 'english' ? 'hindi' : 'english')}
-          className="bg-yellow-100 text-yellow-800 border-yellow-300 hover:bg-yellow-200 px-3 py-2 rounded-full shadow-lg"
-          variant="outline"
-        >
-          <Languages className="w-4 h-4 mr-2" />
-          {selectedLanguage === 'english' ? 'हिं' : 'EN'}
-        </Button>
+        <div className="relative">
+          <Button
+            onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
+            className="bg-yellow-100 text-yellow-800 border-yellow-300 hover:bg-yellow-200 px-4 py-2 rounded-full shadow-lg flex items-center gap-2"
+            variant="outline"
+          >
+            <Languages className="w-4 h-4" />
+            {selectedLanguage === 'english' ? 'EN' : selectedLanguage === 'hindi' ? 'हिं' : 'ଓଡ଼ି'}
+          </Button>
+          
+          <AnimatePresence>
+            {showLanguageDropdown && (
+              <motion.div
+                className="absolute top-12 right-0 bg-white rounded-xl shadow-lg border border-yellow-200 overflow-hidden min-w-[120px]"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+              >
+                <button
+                  onClick={() => {
+                    setSelectedLanguage('english');
+                    setShowLanguageDropdown(false);
+                  }}
+                  className={`w-full px-4 py-3 text-left hover:bg-yellow-50 transition-colors ${
+                    selectedLanguage === 'english' ? 'bg-yellow-100 font-semibold text-yellow-800' : 'text-gray-700'
+                  }`}
+                >
+                  English
+                </button>
+                <button
+                  onClick={() => {
+                    setSelectedLanguage('hindi');
+                    setShowLanguageDropdown(false);
+                  }}
+                  className={`w-full px-4 py-3 text-left hover:bg-yellow-50 transition-colors ${
+                    selectedLanguage === 'hindi' ? 'bg-yellow-100 font-semibold text-yellow-800' : 'text-gray-700'
+                  }`}
+                >
+                  हिंदी
+                </button>
+                <button
+                  onClick={() => {
+                    setSelectedLanguage('odia');
+                    setShowLanguageDropdown(false);
+                  }}
+                  className={`w-full px-4 py-3 text-left hover:bg-yellow-50 transition-colors ${
+                    selectedLanguage === 'odia' ? 'bg-yellow-100 font-semibold text-yellow-800' : 'text-gray-700'
+                  }`}
+                >
+                  ଓଡ଼ିଆ
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </motion.div>
       
       {/* Main Content with 20px margin from header */}
-      <div className="relative z-10 pt-32 pb-32 px-4">
+      <div className="relative z-10 pt-24 pb-32 px-4">
         <div className="max-w-4xl mx-auto">
-          {/* Title */}
+          {/* Video Section at Top */}
           <motion.div
-            className="text-center mb-8"
+            className="mb-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              {currentContent.title}
-            </h1>
-          </motion.div>
+            <div className="bg-yellow-50/80 backdrop-blur-sm border border-yellow-200 rounded-2xl p-6 shadow-lg">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4 text-center">
+                {currentContent.title}
+              </h2>
+              <p className="text-gray-600 mb-6 text-center">
+                {currentContent.description}
+              </p>
+              
+              {/* YouTube Iframe */}
+              <div className="aspect-video w-full rounded-xl overflow-hidden shadow-lg relative mb-8">
+                <iframe
+                  className="w-full h-full"
+                  src={`https://www.youtube.com/embed/7YWTtCsvgvg`}
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                ></iframe>
+              </div>
 
-          {/* Steps Container */}
-          <div className="grid gap-6">
-            {currentContent.steps.map((step, index) => (
-              <motion.div
-                key={index}
-                className="bg-yellow-50/80 backdrop-blur-sm border border-yellow-200 rounded-2xl p-6 shadow-lg"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                {/* Step Header */}
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                    {step.number}
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-gray-900 mb-1">
-                      {step.title}
-                    </h3>
-                  </div>
-                  <div className="text-yellow-600">
-                    {step.icon}
-                  </div>
-                </div>
-                
-                {/* Items List */}
-                <div className="space-y-3 ml-16">
-                  {step.items.map((item, itemIndex) => (
+              {/* Steps Section */}
+              <div className="bg-white/60 rounded-xl p-6 border border-yellow-100">
+                <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center justify-center">
+                  <Smartphone className="w-5 h-5 mr-2 text-yellow-600" />
+                  {currentContent.stepsTitle}
+                </h3>
+                <div className="space-y-3">
+                  {currentContent.steps.map((step, index) => (
                     <div
-                      key={itemIndex}
-                      className="flex items-start gap-3 bg-white/60 rounded-xl p-3 border border-yellow-100"
+                      key={index}
+                      className="flex items-start gap-3 bg-yellow-50/50 rounded-lg p-3 border border-yellow-100"
                     >
-                      <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2 flex-shrink-0" />
-                      <span className="text-gray-700 leading-relaxed">{item}</span>
+                      <div className="w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                        {index + 1}
+                      </div>
+                      <span className="text-gray-700 leading-relaxed">{step}</span>
                     </div>
                   ))}
                 </div>
-              </motion.div>
-            ))}
-          </div>
-          {/* === Tutorial Section === */}
-<motion.div
-  className="mt-10 flex justify-center"
-  initial={{ opacity: 0, y: 30 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.6, delay: 0.3 }}
->
-  <div className="bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 p-[1px] rounded-2xl shadow-lg">
-    <div className="bg-white rounded-2xl p-6 text-center max-w-lg">
-      <h2 className="text-2xl font-bold text-gray-900 mb-2">
-         How to Make a Hologram?
-      </h2>
-      <p className="text-gray-600 mb-4">
-        Learn how to create your own hologram projector and set it up for the best
-        experience. Watch this short tutorial video.
-      </p>
-      <Button
-        onClick={() => setShowTutorialPopup(true)} // ✅ new state for video
-        className="px-6 py-3 bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-500 text-white font-bold rounded-full shadow-lg hover:scale-105 transition-transform"
-      >
-         Watch Tutorial
-      </Button>
-    </div>
-  </div>
-</motion.div>
-
-{/* === Tutorial Video Modal === */}
-<AnimatePresence>
-  {showTutorialPopup && (
-    <motion.div
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm z-60 flex items-center justify-center p-4"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={() => setShowTutorialPopup(false)}
-    >
-      <motion.div
-        className="bg-white rounded-2xl p-4 w-full max-w-2xl relative"
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.8, opacity: 0 }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Header with Close */}
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-bold text-gray-900">Hologram Tutorial</h3>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setShowTutorialPopup(false)}
-            className="h-8 w-8 rounded-full hover:bg-gray-100"
-          >
-            <X className="w-4 h-4" />
-          </Button>
-        </div>
-
-        {/* YouTube Iframe */}
-        <div className="aspect-video w-full rounded-xl overflow-hidden shadow-lg relative">
-          {/* Loader Overlay */}
-          <div
-            id="video-loader"
-            className="absolute inset-0 flex items-center justify-center bg-white z-10"
-          >
-            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-yellow-500 border-solid"></div>
-          </div>
-
-          <iframe
-            className="w-full h-full"
-            src={`https://www.youtube.com/embed/7YWTtCsvgvg?autoplay=1&mute=1`}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-            onLoad={() => {
-              const loader = document.getElementById("video-loader");
-              if (loader) loader.style.display = "none";
-            }}
-          ></iframe>
-        </div>
-      </motion.div>
-    </motion.div>
-  )}
-</AnimatePresence>
-
-
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
       
