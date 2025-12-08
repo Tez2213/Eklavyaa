@@ -29,11 +29,12 @@ import {
   Coins,
   GraduationCap,
   X,
-  Loader2
+  Loader2,
+  LogOut
 } from 'lucide-react';
 
 export default function Profile() {
-  const { user, profile, loading } = useAuth();
+  const { user, profile, loading, signOut } = useAuth();
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedClass, setSelectedClass] = useState(6);
   const [showClassSelector, setShowClassSelector] = useState(false);
@@ -291,14 +292,21 @@ export default function Profile() {
               </div>
 
               {/* User Info */}
-              <div>
+              <div className='flex flex-col justify-center items-center'>
                 <h2 className="text-2xl font-bold text-gray-900">{userData.name}</h2>
                 <p className="text-gray-600">@{userData.username}</p>
-                <a href='/'>
-                  <Badge className="mt-2 bg-[#ffce3b] text-white px-3 py-1">
+                <div className="flex items-center gap-2 mt-2">
+                  <Button
+                    onClick={signOut}
+                    variant="ghost"
+                    size="sm"
+                    className="border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
+                  >
+                    <Badge className="bg-[#ffce3b] text-white px-3 py-1">
                     Level {userData.level}
                   </Badge>
-                </a>
+                  </Button>
+                </div>
               </div>
 
               {/* Stats Row */}
