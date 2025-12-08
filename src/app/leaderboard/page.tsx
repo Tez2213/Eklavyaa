@@ -29,6 +29,17 @@ export default function Leaderboard() {
   const [loading, setLoading] = useState(true);
   const classes = [6, 7, 8, 9, 10, 11, 12];
 
+  // Function to generate random avatar for non-logged-in users
+  const getRandomAvatar = (userId: string) => {
+    if (user && userId === user.id) {
+      // Return the logged-in user's actual avatar
+      return profile?.avatar_url || '/avatar.png';
+    }
+    // Generate random avatar number (1-99) for other users
+    const randomNum = Math.floor(Math.random() * 99) + 1;
+    return `https://avatar.iran.liara.run/public/${randomNum}`;
+  };
+
   useEffect(() => {
     fetchLeaderboard();
   }, [selectedClass]);
@@ -117,8 +128,7 @@ export default function Leaderboard() {
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 px-3 py-1">
-              <Star className="w-3 h-3 mr-1 fill-yellow-500 text-yellow-500" />
-              {profile?.class_level || 6}
+              🔥 {userEntry?.streak || 0}
             </Badge>
           </motion.div>
           <motion.div
@@ -174,7 +184,7 @@ export default function Leaderboard() {
             >
               <div className="relative mb-3">
                 <Avatar className="w-16 h-16 border-4 border-gray-400">
-                  <AvatarImage src={topThree[1]?.avatar_url || `https://avatar.iran.liara.run/public/${topThree[1]?.id}`} alt={topThree[1]?.full_name} />
+                  <AvatarImage src={getRandomAvatar(topThree[1]?.user_id)} alt={topThree[1]?.full_name} />
                   <AvatarFallback className="bg-gray-400 text-white font-bold">
                     {topThree[1]?.full_name?.charAt(0) || '?'}
                   </AvatarFallback>
@@ -199,7 +209,7 @@ export default function Leaderboard() {
               <div className="relative mb-3">
                 <Crown className="w-6 h-6 text-[#ffce3b] absolute -top-7 left-1/2 transform -translate-x-1/2" />
                 <Avatar className="w-20 h-20 border-4 border-[#ffce3b]">
-                  <AvatarImage src={topThree[0]?.avatar_url || `https://avatar.iran.liara.run/public/${topThree[0]?.id}`} alt={topThree[0]?.full_name} />
+                  <AvatarImage src={getRandomAvatar(topThree[0]?.user_id)} alt={topThree[0]?.full_name} />
                   <AvatarFallback className="bg-[#ffce3b] text-black font-bold">
                     {topThree[0]?.full_name?.charAt(0) || '?'}
                   </AvatarFallback>
@@ -223,7 +233,7 @@ export default function Leaderboard() {
             >
               <div className="relative mb-3">
                 <Avatar className="w-16 h-16 border-4 border-orange-400">
-                  <AvatarImage src={topThree[2]?.avatar_url || `https://avatar.iran.liara.run/public/${topThree[2]?.id}`} alt={topThree[2]?.full_name} />
+                  <AvatarImage src={getRandomAvatar(topThree[2]?.user_id)} alt={topThree[2]?.full_name} />
                   <AvatarFallback className="bg-orange-400 text-white font-bold">
                     {topThree[2]?.full_name?.charAt(0) || '?'}
                   </AvatarFallback>
@@ -266,7 +276,7 @@ export default function Leaderboard() {
                         {index + 4}
                       </div>
                       <Avatar className="w-9 h-9 flex-shrink-0">
-                        <AvatarImage src={player.avatar_url || `https://avatar.iran.liara.run/public/${player.id}`} alt={player.full_name} />
+                        <AvatarImage src={getRandomAvatar(player.user_id)} alt={player.full_name} />
                         <AvatarFallback className="bg-gray-600 text-white font-bold text-sm">
                           {player.full_name.charAt(0)}
                         </AvatarFallback>
@@ -305,7 +315,7 @@ export default function Leaderboard() {
                       {userPosition || '?'}
                     </div>
                     <Avatar className="w-9 h-9 flex-shrink-0">
-                      <AvatarImage src={userEntry.avatar_url || '/avatar.png'} alt="You" />
+                      <AvatarImage src={profile?.avatar_url || '/avatar.png'} alt="You" />
                       <AvatarFallback className="bg-[#ffce3b] text-black font-bold text-sm">
                         {userEntry.full_name.charAt(0)}
                       </AvatarFallback>

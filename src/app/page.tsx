@@ -408,7 +408,7 @@ export default function Home() {
               if (currentScreen < 2) {
                 setCurrentScreen(currentScreen + 1);
               } else {
-                window.location.href = '/login';
+                window.location.href = '/signup';
               }
             }}
             className="px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-gray-800 rounded-full font-medium font-bricolage shadow-md hover:shadow-lg transition-all duration-300"

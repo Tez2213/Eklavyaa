@@ -9,7 +9,7 @@ import BottomNav from "@/components/ui/BottomNav";
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
-import { getUserGameStats } from '@/lib/leaderboard';
+import { getUserGameStats, getUserLeaderboardPosition, getUserGameHistory } from '@/lib/leaderboard';
 import { 
   ArrowLeft,
   Edit,
@@ -38,6 +38,8 @@ export default function Profile() {
   const [selectedClass, setSelectedClass] = useState(6);
   const [showClassSelector, setShowClassSelector] = useState(false);
   const [userStats, setUserStats] = useState<any>(null);
+  const [userRank, setUserRank] = useState<number>(0);
+  const [recentGames, setRecentGames] = useState<any[]>([]);
   const classes = [6, 7, 8, 9, 10, 11, 12];
 
   useEffect(() => {
@@ -49,6 +51,8 @@ export default function Profile() {
   useEffect(() => {
     if (user) {
       fetchUserStats();
+      fetchUserRank();
+      fetchRecentGames();
     }
   }, [user]);
 
@@ -57,6 +61,22 @@ export default function Profile() {
     const { data } = await getUserGameStats(user.id);
     if (data) {
       setUserStats(data);
+    }
+  };
+
+  const fetchUserRank = async () => {
+    if (!user || !profile) return;
+    const { data } = await getUserLeaderboardPosition(user.id, profile.class_level);
+    if (data) {
+      setUserRank(data.position);
+    }
+  };
+
+  const fetchRecentGames = async () => {
+    if (!user) return;
+    const { data } = await getUserGameHistory(user.id, 5);
+    if (data) {
+      setRecentGames(data);
     }
   };
 
@@ -83,90 +103,86 @@ export default function Profile() {
     completedCourses: 0,
     totalLessons: userStats?.games_played || 0,
     studyTime: Math.floor((userStats?.games_played || 0) * 0.5), // estimate
-    rank: 0,
+    rank: userRank,
     nextLevelPoints: (Math.floor((userStats?.points || 0) / 100) + 1) * 100,
     progressToNext: ((userStats?.points || 0) % 100)
   };
 
-  // Achievements data
+  // Achievements data based on real user stats
   const achievements = [
     {
       id: 1,
       title: "First Steps",
       description: "Complete your first lesson",
       icon: "🎯",
-      earned: true,
-      date: "March 15, 2024"
+      earned: (userStats?.games_played || 0) >= 1,
+      date: (userStats?.games_played || 0) >= 1 ? new Date(profile?.created_at || Date.now()).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : null
     },
     {
       id: 2,
       title: "Week Warrior",
       description: "7-day learning streak",
       icon: "🔥",
-      earned: true,
-      date: "April 2, 2024"
+      earned: (userStats?.streak || 0) >= 7,
+      date: (userStats?.streak || 0) >= 7 ? new Date(userStats?.last_game_played_at || Date.now()).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : null
     },
     {
       id: 3,
       title: "Science Explorer",
       description: "Complete Science World",
       icon: "🧪",
-      earned: true,
-      date: "May 10, 2024"
+      earned: (userStats?.games_played || 0) >= 5,
+      date: (userStats?.games_played || 0) >= 5 ? new Date(userStats?.last_game_played_at || Date.now()).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : null
     },
     {
       id: 4,
       title: "Math Master",
       description: "Complete Math World",
       icon: "📐",
-      earned: false,
-      date: null
+      earned: (userStats?.games_played || 0) >= 10,
+      date: (userStats?.games_played || 0) >= 10 ? new Date(userStats?.last_game_played_at || Date.now()).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : null
     },
     {
       id: 5,
       title: "Century Club",
-      description: "Complete 100 lessons",
+      description: "Earn 100 points",
       icon: "💯",
-      earned: true,
-      date: "June 20, 2024"
+      earned: (userStats?.points || 0) >= 100,
+      date: (userStats?.points || 0) >= 100 ? new Date(userStats?.updated_at || Date.now()).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : null
     },
     {
       id: 6,
       title: "Top Performer",
       description: "Reach top 100 leaderboard",
       icon: "👑",
-      earned: false,
-      date: null
+      earned: userRank > 0 && userRank <= 100,
+      date: (userRank > 0 && userRank <= 100) ? new Date(userStats?.updated_at || Date.now()).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : null
     }
   ];
 
-  // Recent activity
-  const recentActivity = [
-    {
-      id: 1,
-      type: "lesson",
-      title: "Prime Guardians - Level 3",
-      subject: "Math",
-      points: 50,
-      time: "2 hours ago"
-    },
-    {
-      id: 2,
-      type: "achievement",
-      title: "Earned 'Week Warrior' badge",
-      subject: "Achievement",
-      points: 100,
-      time: "1 day ago"
-    },
-    {
-      id: 3,
-      type: "lesson",
-      title: "Water Cycle Adventure",
-      subject: "Science",
-      points: 75,
-      time: "2 days ago"
-    }
-  ];
+  // Helper function to get time ago
+  const getTimeAgo = (dateString: string) => {
+    const now = new Date();
+    const past = new Date(dateString);
+    const diffMs = now.getTime() - past.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+    
+    if (diffMins < 60) return `${diffMins} minute${diffMins !== 1 ? 's' : ''} ago`;
+    if (diffHours < 24) return `${diffHours} hour${diffHours !== 1 ? 's' : ''} ago`;
+    return `${diffDays} day${diffDays !== 1 ? 's' : ''} ago`;
+  };
+
+  // Recent activity from real game history
+  const recentActivity = recentGames.map((game, index) => ({
+    id: index + 1,
+    type: "lesson",
+    title: game.game_name || "Game",
+    subject: game.game_name?.includes('Prime') || game.game_name?.includes('Math') || game.game_name?.includes('Pythagorean') ? "Math" : "Science",
+    points: game.points_earned || 1,
+    time: getTimeAgo(game.clicked_at)
+  }));
 
   return (
     <div className="min-h-screen bg-gray-50 relative overflow-hidden">
@@ -215,8 +231,8 @@ export default function Profile() {
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 px-3 py-1">
-              <Star className="w-3 h-3 mr-1 fill-yellow-500 text-yellow-500" />
-              3
+              🔥
+              {userStats?.streak || 0}
             </Badge>
           </motion.div>
           <motion.div
@@ -224,9 +240,12 @@ export default function Profile() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <Badge className="bg-[#ffce3b] text-white px-3 py-1">
+            <Badge 
+              className="bg-[#ffce3b] text-white px-3 py-1 cursor-pointer hover:bg-[#ffde00] transition-colors"
+              onClick={() => window.location.href = '/leaderboard'}
+            >
               <Trophy className="w-3 h-3 mr-1" />
-              450
+              {userStats?.points || 0}
             </Badge>
           </motion.div>
           <motion.div
@@ -236,7 +255,7 @@ export default function Profile() {
           >
             <Avatar className="w-8 h-8 bg-[#ffce3b]">
               <AvatarFallback className="bg-[#ffce3b] text-white font-semibold text-sm">
-            <img src={'/avatar.png'} />
+            <img src={profile?.avatar_url || '/avatar.png'} alt="Avatar" />
               </AvatarFallback>
             </Avatar>
           </motion.div>

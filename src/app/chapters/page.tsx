@@ -7,7 +7,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import BottomNav from "@/components/ui/BottomNav";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { getUserGameStats } from "@/lib/leaderboard";
+import { useRouter } from "next/navigation";
 import Link from 'next/link';
 import { 
   Star, 
@@ -30,9 +33,26 @@ import {
 } from 'lucide-react';
 
 export default function Chapters() {
+  const { user, profile } = useAuth();
+  const router = useRouter();
   const [selectedClass, setSelectedClass] = useState(6);
   const [showClassSelector, setShowClassSelector] = useState(false);
+  const [userStats, setUserStats] = useState<any>(null);
   const classes = [6, 7, 8, 9, 10, 11, 12];
+
+  useEffect(() => {
+    if (user) {
+      fetchUserStats();
+    }
+  }, [user]);
+
+  const fetchUserStats = async () => {
+    if (!user) return;
+    const { data } = await getUserGameStats(user.id);
+    if (data) {
+      setUserStats(data);
+    }
+  };
 
   // Sample data for worlds
   const activeWorlds = [
@@ -137,7 +157,7 @@ export default function Chapters() {
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
                 <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 px-3 py-1">
-                  🔥  3
+                  🔥  {userStats?.streak || 0}
                 </Badge>
               </motion.div>
               
@@ -146,9 +166,12 @@ export default function Chapters() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
-                <Badge className="bg-[#ffce3b] text-white px-3 py-1">
+                <Badge 
+                  className="bg-[#ffce3b] text-white px-3 py-1 cursor-pointer hover:bg-[#ffde00] transition-colors"
+                  onClick={() => router.push('/leaderboard')}
+                >
                   <Trophy className="w-3 h-3 mr-1" />
-                  450
+                  {userStats?.points || 0}
                 </Badge>
               </motion.div>
               
@@ -158,9 +181,11 @@ export default function Chapters() {
                 transition={{ duration: 0.5, delay: 0.5 }}
               >
                 <Avatar className="w-8 h-8 bg-[#ffce3b]">
+                  <a href="/profile">
                   <AvatarFallback className="bg-[#ffce3b] text-white font-semibold text-sm">
-                    <img src={"/avatar.png"} />
+                    <img src={profile?.avatar_url || "/avatar.png"} alt="Avatar" />
                   </AvatarFallback>
+                  </a>
                 </Avatar>
               </motion.div>
             </div>
