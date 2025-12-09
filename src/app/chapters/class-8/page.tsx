@@ -12,7 +12,8 @@ import Link from 'next/link';
 import { 
   Star, 
   Trophy, 
-  ArrowRight, 
+  ArrowRight,
+  ArrowLeft,
   GraduationCap,
   X,
   Building,
@@ -111,23 +112,34 @@ export default function Class8Chapters() {
       >
         <div className="px-4 py-4">
           <div className="flex items-center justify-between">
-            <div>
-              <motion.h1 
-                className="text-2xl font-bold text-gray-900"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-              >
-                Class 8 Worlds   
-              </motion.h1>
-              <motion.p 
-                className="text-gray-600 text-sm"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-              >
-                Advanced learning awaits you!
-              </motion.p>
+            <div className="flex items-center space-x-3">
+              <Link href="/dashboard">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-gray-700 hover:bg-gray-200 rounded-full"
+                >
+                  <ArrowLeft className="w-5 h-5" />
+                </Button>
+              </Link>
+              <div>
+                <motion.h1 
+                  className="text-2xl font-bold text-gray-900"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                >
+                  Class 8 Worlds   
+                </motion.h1>
+                <motion.p 
+                  className="text-gray-600 text-sm"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                >
+                  Advanced learning awaits you!
+                </motion.p>
+              </div>
             </div>
             
             <div className="flex items-center space-x-3">
