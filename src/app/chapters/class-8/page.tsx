@@ -191,30 +191,30 @@ export default function Class8Chapters() {
                   <div className={`absolute inset-0 bg-gradient-to-br ${world.bgGradient} opacity-90`} />
                   
                   {/* Decorative Circle */}
-                  <div className="absolute top-4 right-4 w-16 h-16 bg-cyan-400 rounded-full opacity-80" />
+                  <div className="absolute top-4 right-4 w-16 h-16 bg-white/20 rounded-full opacity-80" />
                   
                   <div className="relative z-10">
                     {/* Header */}
                     <div className="flex items-center justify-between mb-4">
                       <div>
-                        <h3 className="text-xl font-bold text-white mb-1">{world.title}</h3>
-                        <p className="text-white/80 font-medium">Level {world.level}</p>
+                        <h3 className="text-2xl font-bold text-white mb-1">{world.title}</h3>
+                        <p className="text-white/90 font-medium text-sm">Level {world.level}</p>
                       </div>
                       <motion.div
                         whileHover={{ scale: 1.1, rotate: 90 }}
                         transition={{ duration: 0.2 }}
-                        className="bg-white/20 rounded-full p-2"
+                        className="bg-white/20 rounded-full p-3"
                       >
-                        <ArrowRight className="w-5 h-5 text-white" />
+                        <ArrowRight className="w-6 h-6 text-white" />
                       </motion.div>
                     </div>
                     
                     {/* Subject Icons */}
-                    <div className="flex items-center space-x-4 mb-6">
+                    <div className="flex items-center space-x-6 mb-6">
                       {world.icons.map((IconData, iconIndex) => (
                         <motion.div
                           key={iconIndex}
-                          className="relative"
+                          className="relative bg-white/10 rounded-full p-3"
                           animate={{ 
                             y: [0, -8, 0],
                             rotate: [0, 5, -5, 0]
@@ -226,7 +226,7 @@ export default function Class8Chapters() {
                             delay: iconIndex * 0.5
                           }}
                         >
-                          <IconData.icon className={`w-8 h-8 ${IconData.color}`} />
+                          <IconData.icon className={`w-7 h-7 ${IconData.color}`} />
                         </motion.div>
                       ))}
                     </div>
