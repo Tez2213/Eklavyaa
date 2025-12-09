@@ -27,28 +27,28 @@ export default function ScienceWonder() {
     {
       id: 1,
       name: "Chapter 1",
-      title: "Seed Science",
-      description: "Discover the amazing world of seeds, germination, and how plants begin their life cycle",
+      title: "Force & Motion",
+      description: "Explore the laws of physics, forces, and how objects move in our world",
       level: 1,
       progress: 0,
       stars: 0,
       isUnlocked: true,
       icon: '/sprout.gif',
-      gameUrl: "https://game-ashen-eight.vercel.app/science/seed-game",
+      gameUrl: "https://sih-games-8.vercel.app/science/force-game",
       position: { top: '20%', left: '20%' },
       bgColor: 'from-green-400 to-green-600'
     },
     {
       id: 2,
       name: "Chapter 2",
-      title: "Soil Health",
-      description: "Learn about different types of soil and their importance for healthy plant growth",
-      level: 0,
+      title: "Metals & Materials",
+      description: "Discover the properties of metals and materials that shape our world",
+      level: 1,
       progress: 0,
       stars: 0,
-      isUnlocked: false,
+      isUnlocked: true,
       icon: '/treepine.gif',
-      gameUrl: null,
+      gameUrl: "https://sih-games-8.vercel.app/science/metal-game",
       position: { top: '35%', left: '40%' },
       bgColor: 'from-amber-600 to-yellow-700'
     },
@@ -145,12 +145,20 @@ export default function ScienceWonder() {
   };
 
   const handleStartChapter = async (chapter: any) => {
-    if (!chapter.gameUrl || loadingChapter) return;
+    if (loadingChapter) return;
     setLoadingChapter(chapter.id);
     setTimeout(() => {
       setLoadingChapter(null);
       setSelectedChapter(null);
-      window.open(chapter.gameUrl, '_blank');
+      
+      // Map chapter titles to roadmap slugs
+      const chapterMap: any = {
+        'Force & Motion': 'force-motion',
+        'Metals & Materials': 'metals-materials',
+      };
+      
+      const chapterSlug = chapterMap[chapter.title] || chapter.title.toLowerCase().replace(/\s+/g, '-');
+      router.push(`/roadmap/science-wonder/${chapterSlug}`);
     }, 1500);
   };
 
@@ -420,7 +428,7 @@ export default function ScienceWonder() {
                 }}
               >
                 <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${selectedChapter.bgColor} border-4 border-white/30 shadow-lg flex items-center justify-center`}>
-                  <selectedChapter.icon className="w-12 h-12 text-white" />
+                  <img src={selectedChapter.icon} alt={selectedChapter.title} className="w-12 h-12" />
                 </div>
               </motion.div>
 
@@ -496,7 +504,7 @@ export default function ScienceWonder() {
               </motion.div>
 
               {/* Action Button */}
-              {selectedChapter.gameUrl && (
+              {selectedChapter.isUnlocked && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}

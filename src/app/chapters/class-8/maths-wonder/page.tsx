@@ -42,15 +42,15 @@ export default function MathsWonder() {
     {
       id: 2,
       name: "Chapter 2", 
-      title: "Powers & Exponents",
-      description: "Discover the mighty power of exponents and learn to calculate squared, cubed, and higher powers in the Power Tower",
-      level: 0,
+      title: "Interest Calculator",
+      description: "Learn about simple and compound interest, understand how money grows over time with practical calculations",
+      level: 1,
       progress: 0,
       stars: 0,
-      isUnlocked: false,
+      isUnlocked: true,
       emoji: "",
       landmarkUrl: "/math2.webp",
-      gameUrl: null,
+      gameUrl: "https://sih-games-8.vercel.app/maths/interest-game",
       position: { top: '15%', left: '45%' },
       size: 'w-18 h-18 md:w-22 md:h-22',
       region: 'Power Heights',
@@ -167,12 +167,20 @@ export default function MathsWonder() {
   };
 
   const handleStartChapter = async (landmark: any) => {
-    if (!landmark.gameUrl || loadingChapter) return;
+    if (loadingChapter) return;
     setLoadingChapter(landmark.id);
     setTimeout(() => {
       setLoadingChapter(null);
       setSelectedLandmark(null);
-      window.open(landmark.gameUrl, '_blank');
+      
+      // Map chapter titles to roadmap slugs
+      const chapterMap: any = {
+        'Basic Algebra': 'basic-algebra',
+        'Interest Calculator': 'interest-calculator',
+      };
+      
+      const chapterSlug = chapterMap[landmark.title] || landmark.title.toLowerCase().replace(/\s+/g, '-');
+      router.push(`/roadmap/maths-wonder/${chapterSlug}`);
     }, 1500);
   };
 
@@ -578,14 +586,14 @@ export default function MathsWonder() {
               </motion.div>
 
               {/* Action Button */}
-              {selectedLandmark.gameUrl && (
+              {selectedLandmark.isUnlocked && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 }}
                 >
                   <Button
-                    className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white font-bold py-3 rounded-full transition-all duration-300 shadow-lg"
+                    className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold py-3 rounded-full transition-all duration-300 shadow-lg"
                     disabled={loadingChapter === selectedLandmark.id}
                     onClick={() => handleStartChapter(selectedLandmark)}
                   >
